@@ -1,5 +1,5 @@
 import React from "react";
-import { Login } from '../axiosRequests';
+import { Login } from '../axiosRequests.jsx';
 
 function Connexion() {
     const [email, setEmail] = React.useState("");
