@@ -12,6 +12,7 @@ function Connexion() {
     const [password, setPassword] = React.useState("");
 
     const loginHandler = () => {
+        console.log("password :",password);
         Login(email, password);
     }
 
@@ -19,13 +20,13 @@ function Connexion() {
         <div className={cn("flex flex-col gap-6")}>
             <Card>
                 <CardHeader>
-                    <CardTitle>Login to your account</CardTitle>
+                    <CardTitle>Connexion à votre compte</CardTitle>
                     <CardDescription>
-                        Enter your email below to login to your account
+                        entrez votre email ci-dessous pour accédez à votre compte
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form>
+                    <form onSubmit={loginHandler}>
                         <div className="flex flex-col gap-6">
                             <div className="grid gap-3">
                                 <Label htmlFor="email">Email</Label>
@@ -34,22 +35,24 @@ function Connexion() {
                                     type="email"
                                     placeholder="m@example.com"
                                     required
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <div className="grid gap-3">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
+                                    <Label htmlFor="password">Mot de passe</Label>
+                                </div>
+                                <Input id="password" type="password" onChange={(e) => setPassword(e.target.value)} required />
+                                <div className="flex items-center">
                                     <a
                                         href="#"
-                                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                                     >
-                                        Forgot your password?
+                                        Mot de passe oublié ?
                                     </a>
                                 </div>
-                                <Input id="password" type="password" required />
                             </div>
-                            <div className="flex flex-col gap-3">
-                                <Button type="submit" className="w-full">
+                            <div className="flex flex-col gap-3 ">
+                                <Button type="submit" className="w-full" style={{background: "black"}} onClick={loginHandler}>
                                     Login
                                 </Button>
                             </div>

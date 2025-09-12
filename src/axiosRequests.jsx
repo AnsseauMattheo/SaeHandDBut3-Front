@@ -1,8 +1,21 @@
 import axios from 'axios';
 
 export function Login(email, password) {
-    axios.post("http://localhost:8080/api/auth/login", email, password)
-    .then((response) => {
-        console.log(response)
-    })
+    console.log("Login called with:", email, password); // 🐞 Debug
+
+    axios.post('http://localhost:8080/auth/login', {
+        email,
+        password
+    },{
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+        .then((response) => {
+            console.log("response : ", response.data);
+        })
+        .catch((error) => {
+            console.error("Erreur lors de la requête : ", error);
+        });
 }
