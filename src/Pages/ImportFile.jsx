@@ -15,6 +15,8 @@ const ImportFile = () => {
         axios.post("http://localhost:8080/data/import", formData, {
             withCredentials: true,
             headers: { "Content-Type": "multipart/form-data" }
+        }).then((res) => {
+            console.log(res)
         })
     }
 
