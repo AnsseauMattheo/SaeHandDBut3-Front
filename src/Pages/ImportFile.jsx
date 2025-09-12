@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { Button } from "@/components/ui/button"
 
 const ImportFile = () => {
 
@@ -28,7 +29,7 @@ const ImportFile = () => {
             <h1>Importer un fichier</h1>
             <form onSubmit={handleSubmit} >
                 <input type="file" onChange={handleChangeFile} ></input>
-                <button type="submit"  >Envoyer</button>
+                <Button>Button</Button>
             </form>
         </>
     )
