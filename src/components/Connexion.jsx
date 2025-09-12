@@ -11,7 +11,8 @@ function Connexion() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
-    const loginHandler = () => {
+    const loginHandler = (e) => {
+        e.preventDefault()
         console.log("password :",password);
         Login(email, password);
     }
