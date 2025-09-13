@@ -18,6 +18,7 @@ function Connexion() {
     }
 
     return (
+        <>
         <div className={cn("flex flex-col gap-6")}>
             <Card>
                 <CardHeader>
@@ -34,7 +35,7 @@ function Connexion() {
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="m@example.com"
+                                    placeholder="mail@example.com"
                                     required
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
@@ -53,8 +54,8 @@ function Connexion() {
                                 </div>
                             </div>
                             <div className="flex flex-col gap-3 ">
-                                <Button type="submit" className="w-full" style={{background: "black"}} onClick={loginHandler}>
-                                    Login
+                                <Button type="submit" onClick={loginHandler}>
+                                    Connexion
                                 </Button>
                             </div>
                         </div>
@@ -62,6 +63,7 @@ function Connexion() {
                 </CardContent>
             </Card>
         </div>
+        </>
     )
 
 }
