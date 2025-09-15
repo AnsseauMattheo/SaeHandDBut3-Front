@@ -36,7 +36,7 @@ const AlertComponent = ({ alert, onRemove }) => {
   const IconComponent = config.icon;
 
   return (
-    <Alert className={`relative pr-12 transition-all duration-300 ease-in-out ${config.className}`}>
+    <Alert className={`relative flex pr-12 transition-all duration-300 ease-in-out ${config.className}`}>
       <div className="flex items-start gap-2">
         <IconComponent className="h-4 w-4 mt-0.5 flex-shrink-0" />
         <div className="flex-1">
