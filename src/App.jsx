@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react'
 import './App.css'
 import ImportFile from './components/ImportFile.jsx'
 import axios from "axios";
+import {Route, Routes} from "react-router";
+import Connexion from "./components/Connexion.jsx";
 
 function App() {
   const [user, setUser] = useState({})
@@ -15,21 +17,10 @@ function App() {
     }, [])
 
   return (
-    <>
-
-      <div>
-      </div>
-      <h1>Salut {user? user.username : ""}</h1>
-      <div className="card">
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <ImportFile></ImportFile>
-    </>
+      <Routes>
+          <Route path="/Connexion" element={< Connexion/>} />
+          <Route path="/DashBoard" element={<h1/>} />
+      </Routes>
   )
 }
 

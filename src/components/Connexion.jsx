@@ -7,23 +7,28 @@ import {Label} from "./ui/label.jsx";
 import {Input} from "./ui/input.jsx";
 import {Alert, AlertDescription, AlertTitle} from "./ui/alert.jsx";
 import {AlertCircleIcon} from "lucide-react";
+import {useNavigate} from "react-router";
 
 
 function Connexion() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [error, setError] = React.useState(false);
+    const navigate = useNavigate();
 
     const loginHandler = (e) => {
         e.preventDefault()
         console.log("password :",password);
         Login(email, password, setError);
+        if (error) {
+            navigate("/DashBoard");
+        }
     }
 
     return (
         <>
         <div className={cn("flex flex-col gap-6")}>
-            <Card>
+            <Card style={{width:'350px'}}>
                 <CardHeader>
                     <CardTitle>Connexion à votre compte</CardTitle>
                     <CardDescription>
