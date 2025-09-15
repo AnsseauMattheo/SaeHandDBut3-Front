@@ -20,10 +20,12 @@ export function Login(email, password, setError) {
     )
         .then((response) => {
             console.log("response : ", response.data);
-            setError(false);
+            return true;
         })
         .catch((error) => {
             console.error("Erreur lors de la requête : ", error.response);
-            setError(true);
+            return false;
         });
+
+    return false
 }

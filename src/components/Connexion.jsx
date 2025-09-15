@@ -8,21 +8,24 @@ import {Input} from "./ui/input.jsx";
 import {Alert, AlertDescription, AlertTitle} from "./ui/alert.jsx";
 import {AlertCircleIcon} from "lucide-react";
 import {useNavigate} from "react-router";
+import { AlertProvider, useAlerts } from "../context/AlertProvider.jsx";
 
 
 function Connexion() {
+
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [error, setError] = React.useState(false);
     const navigate = useNavigate();
 
+    const { addSuccess, addError, addWarning, addInfo } = useAlerts();
+
     const loginHandler = (e) => {
         e.preventDefault()
         console.log("password :",password);
-        Login(email, password, setError);
-        if (error) {
-            navigate("/DashBoard");
-        }
+        console.log(Login(email, password, setError));
+        addSuccess("test")
+        navigate("/DashBoard")
     }
 
     return (
