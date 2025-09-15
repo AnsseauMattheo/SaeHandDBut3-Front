@@ -5,16 +5,19 @@ import {cn} from "../lib/utils.js";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "./ui/card.jsx";
 import {Label} from "./ui/label.jsx";
 import {Input} from "./ui/input.jsx";
+import {Alert, AlertDescription, AlertTitle} from "./ui/alert.jsx";
+import {AlertCircleIcon} from "lucide-react";
 
 
 function Connexion() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [error, setError] = React.useState(false);
 
     const loginHandler = (e) => {
         e.preventDefault()
         console.log("password :",password);
-        Login(email, password);
+        Login(email, password, setError);
     }
 
     return (
@@ -58,6 +61,13 @@ function Connexion() {
                                     Connexion
                                 </Button>
                             </div>
+                            {
+                                error?
+                                    <Alert variant="destructive">
+                                        <AlertCircleIcon />
+                                        <AlertTitle>Identifiant ou mot de passe incorrect !</AlertTitle>
+                                    </Alert> : ""
+                            }
                         </div>
                     </form>
                 </CardContent>

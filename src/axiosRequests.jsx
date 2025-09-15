@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function Login(email, password) {
+export function Login(email, password, setError) {
     console.log("Login called with:", email, password); // 🐞 Debug
 
     axios.post('http://localhost:8080/auth/login',
@@ -20,8 +20,10 @@ export function Login(email, password) {
     )
         .then((response) => {
             console.log("response : ", response.data);
+            setError(false);
         })
         .catch((error) => {
             console.error("Erreur lors de la requête : ", error.response);
+            setError(true);
         });
 }
