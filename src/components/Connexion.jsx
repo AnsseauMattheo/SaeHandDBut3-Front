@@ -27,7 +27,7 @@ function Connexion() {
                 <CardHeader>
                     <CardTitle>Connexion à votre compte</CardTitle>
                     <CardDescription>
-                        entrez votre email ci-dessous pour accédez à votre compte
+                        Entrez votre email ci-dessous pour accéder à votre compte
                     </CardDescription>
                 </CardHeader>
                 <CardContent>

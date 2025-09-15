@@ -8,6 +8,6 @@ const root = document.getElementById("root");
 
 ReactDOM.createRoot(root).render(
     <BrowserRouter>
-        <Connexion />
+        <Connexion/>
     </BrowserRouter>,
 );
