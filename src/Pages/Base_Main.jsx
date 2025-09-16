@@ -5,8 +5,9 @@ import {
 } from "@/components/ui/sidebar"
 import Connexion from "../components/Connexion.jsx";
 import {Children} from "react";
+import App from "@/App.jsx";
 
-export default function Page( { children } ) {
+export default function Page( { children = <App /> } ) {
     return (
         <SidebarProvider>
             <AppSidebar />

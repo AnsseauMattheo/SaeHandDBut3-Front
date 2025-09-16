@@ -12,6 +12,7 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
+  Banana,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -154,6 +155,40 @@ const data = {
   //     icon: Map,
   //   },
   // ],
+    testsDonneesSidebar: [
+        {
+            name: "test",
+            url: "https://www.google.com",
+            icon: Banana,
+        },
+        {
+            name: "test2",
+            url: "#",
+            icon: Bot,
+            items: [
+                {
+                    title: "testtttttt",
+                    url : "#",
+                },
+                {
+                    title: "testtttttt",
+                    url : "#",
+                },
+                {
+                    title: "testtttttt",
+                    url : "#",
+                },
+                {
+                    title: "testtttttt",
+                    url : "#",
+                },
+                {
+                    title: "testtttttt",
+                    url : "#",
+                },
+            ],
+        },
+    ],
 }
 
 export function AppSidebar({
@@ -162,12 +197,12 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <SidebarTrigger className="-ml-1" />
-        <TeamSwitcher teams={data.teams} />
+        <SidebarTrigger className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg" />
+        {/*<TeamSwitcher teams={data.teams} />*/}
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {/*<NavProjects projects={data.projects} />*/}
+        <NavProjects projects={data.testsDonneesSidebar} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

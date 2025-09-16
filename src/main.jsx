@@ -9,6 +9,7 @@ const root = document.getElementById("root");
 
 ReactDOM.createRoot(root).render(
     <BrowserRouter>
-        <Base_Main>{App}</Base_Main>
+        <Base_Main />
+        {/*<Base_Main children={<App />} />*/}
     </BrowserRouter>,
 );
