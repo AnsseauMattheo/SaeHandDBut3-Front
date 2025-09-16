@@ -28,3 +28,5 @@ export async function Login(email, password, setError) {
         return false; // Échec
     }
 }
+
+export async function getBut(email, password, setError) {}

@@ -5,6 +5,7 @@ import Connexion from "./components/Connexion.jsx";
 import App from "./App.jsx";
 import AlertContainer from "./components/AlertContainer.jsx";
 import { AlertProvider } from "./context/AlertProvider.jsx";
+import Dashboard from "./components/DashboardTeam.jsx";
 
 const root = document.getElementById("root");
 
@@ -12,7 +13,7 @@ ReactDOM.createRoot(root).render(
     <BrowserRouter>
         <>
             <AlertProvider>
-                <App />
+                <Dashboard />
             </AlertProvider>
         </>
     </BrowserRouter>,
