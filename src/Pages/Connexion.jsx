@@ -11,7 +11,7 @@ import { useNavigate } from "react-router";
 import { AlertProvider, useAlerts } from "../context/AlertProvider.jsx";
 
 
-function Connexion() {
+function Connexion({reload}) {
 
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -26,7 +26,8 @@ function Connexion() {
         let response = await Login(email, password, setError);
         console.log(response)
         if (response === true) {
-            addSuccess("Succès depuis le composant 1!" )
+            reload();
+            addSuccess("Connexion")
             navigate("/DashBoard")
         }
 

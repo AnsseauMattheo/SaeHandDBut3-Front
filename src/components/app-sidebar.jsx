@@ -55,21 +55,18 @@ const data = {
     ],
 }
 
-export function AppSidebar({
-                               user, ...props
-                           }) {
+export function AppSidebar({user, logout, ...props}) {
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
                 <SidebarTrigger
                     className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"/>
-                {/*<TeamSwitcher teams={data.teams} />*/}
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain}/>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser userinfo={user}/>
+                <NavUser userinfo={user} logout={logout} />
             </SidebarFooter>
             <SidebarRail/>
         </Sidebar>

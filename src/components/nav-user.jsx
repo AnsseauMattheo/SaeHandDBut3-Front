@@ -28,11 +28,16 @@ import {
     useSidebar,
 } from "@/components/ui/sidebar"
 
-export function NavUser({userinfo}) {
+export function NavUser({userinfo, logout}) {
     const {isMobile} = useSidebar()
 
     console.log(userinfo ? "oui" : "non")
 
+    const handleLogOut = () => {
+        console.log("logout1")
+        logout();
+    }
+ 
     if (userinfo) {
         return (
             <SidebarMenu>
@@ -82,7 +87,7 @@ export function NavUser({userinfo}) {
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>
                             <DropdownMenuSeparator/>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={handleLogOut} >
                                 <LogOut/>
                                 Déconnexion
                             </DropdownMenuItem>
