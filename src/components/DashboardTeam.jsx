@@ -12,10 +12,22 @@ function StatCard({ title, value, subtitle }) {
 
 export default function Dashboard() {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-            <StatCard title="Buts marqués" value="28" subtitle="Dernier match" />
-            <StatCard title="Buts encaissés" value="24" subtitle="Dernier match" />
-            <StatCard title="Taux de réussite" value="75%" subtitle="Saison en cours" />
+        <div className="grid grid-cols-4 gap-6">
+            {/* Bloc large */}
+            <div className="col-span-2">
+                <StatCard title="Performance Globale" value="68%" subtitle="sur les 5 derniers matchs" />
+            </div>
+
+            <div className="col-span-4"></div> {/* saut de ligne */}
+
+            {/* Deux petits blocs */}
+            <StatCard title="Buts marqués" value="27" subtitle="Dernier match" />
+            <StatCard title="Arrêts gardien" value="14" subtitle="Dernier match" />
         </div>
+
     );
 }
+
+
+
+
