@@ -56,13 +56,15 @@ function App() {
       });
   };
 
-  return (
+ return (
     <Routes>
-      <Route path="/Connexion" element={< Connexion reload={handleReload} />} />
+      <Route path="/Connexion" element={<Connexion reload={handleReload} />} />
       <Route path="/DashBoard" element={<DashBoard user={user} logout={handleLogOut} />}>
-          <Route index element={<p>Bienvenue sur ton Dashboard 👋</p>} />
-          <Route path="StatTir" element={<StatTir />} />
+        <Route index element={<div><p>Bienvenue sur ton Dashboard 👋</p></div>} />
+        <Route path="StatTir" element={<StatTir />} />
       </Route>
+    
+      <Route path="/" element={<Connexion reload={handleReload} />} />
     </Routes>
   )
 }

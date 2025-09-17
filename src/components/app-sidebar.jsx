@@ -14,6 +14,7 @@ import {
     SquareTerminal,
     Banana,
     Beer,
+    Home,
 } from "lucide-react"
 
 import {NavMain} from "@/components/nav-main"
@@ -31,6 +32,11 @@ import {
 // This is sample data.
 const data = {
     navMain: [
+        {
+            title: "Accueil",
+            url : "/DashBoard",
+            icon: Home
+        },
         {
             title: "Statistiques tir",
             url: "/DashBoard/StatTir",
