@@ -32,8 +32,8 @@ import {
 const data = {
     navMain: [
         {
-            title: "Playground",
-            url: "#",
+            title: "Statistiques tir",
+            url: "/DashBoard/StatTir",
             icon: SquareTerminal,
             isActive: true,
         },
