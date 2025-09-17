@@ -1,17 +1,17 @@
 import React from "react";
 import { Login } from '../axiosRequests.jsx';
-import { Button } from "./ui/button.jsx";
+import { Button } from "../components/ui/button.jsx";
 import { cn } from "../lib/utils.js";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card.jsx";
-import { Label } from "./ui/label.jsx";
-import { Input } from "./ui/input.jsx";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert.jsx";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card.jsx";
+import { Label } from "../components/ui/label.jsx";
+import { Input } from "../components/ui/input.jsx";
+import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert.jsx";
 import { AlertCircleIcon } from "lucide-react";
 import { useNavigate } from "react-router";
 import { AlertProvider, useAlerts } from "../context/AlertProvider.jsx";
 
 
-function Connexion() {
+function Connexion({reload}) {
 
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -26,7 +26,8 @@ function Connexion() {
         let response = await Login(email, password, setError);
         console.log(response)
         if (response === true) {
-            addSuccess("Succès depuis le composant 1!" )
+            reload();
+            addSuccess("Connexion")
             navigate("/DashBoard")
         }
 
