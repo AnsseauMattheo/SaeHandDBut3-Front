@@ -5,7 +5,6 @@ import axios from "axios";
 import { Route, Routes, useNavigate } from "react-router";
 import Connexion from "./Pages/Connexion.jsx";
 import DashBoard from "./Pages/Base_Main.jsx";
-import Cookies from "js-cookie";
 import { useAlerts } from './context/AlertProvider.jsx';
 
 function App() {
