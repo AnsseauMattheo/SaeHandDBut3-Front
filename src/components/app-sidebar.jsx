@@ -14,6 +14,7 @@ import {
     SquareTerminal,
     Banana,
     Beer,
+    Home,
 } from "lucide-react"
 
 import {NavMain} from "@/components/nav-main"
@@ -32,8 +33,13 @@ import {
 const data = {
     navMain: [
         {
-            title: "Playground",
-            url: "#",
+            title: "Accueil",
+            url : "/DashBoard",
+            icon: Home
+        },
+        {
+            title: "Statistiques tir",
+            url: "/DashBoard/StatTir",
             icon: SquareTerminal,
             isActive: true,
         },

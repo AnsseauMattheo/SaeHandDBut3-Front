@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import ImportFile from './components/ImportFile.jsx'
 import axios from "axios";
-import { Route, Routes, useNavigate } from "react-router";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Connexion from "./Pages/Connexion.jsx";
 import DashBoard from "./Pages/Base_Main.jsx";
 import Cookies from "js-cookie";
 import { useAlerts } from './context/AlertProvider.jsx';
+import StatTir from "./Pages/StatTir.jsx";
 
 function App() {
   const [user, setUser] = useState({})
@@ -55,10 +56,15 @@ function App() {
       });
   };
 
-  return (
+ return (
     <Routes>
-      <Route path="/Connexion" element={< Connexion reload={handleReload} />} />
-      <Route path="/DashBoard" element={<DashBoard user={user} logout={handleLogOut} />} />
+      <Route path="/Connexion" element={<Connexion reload={handleReload} />} />
+      <Route path="/DashBoard" element={<DashBoard user={user} logout={handleLogOut} />}>
+        <Route index element={<div><p>Bienvenue sur ton Dashboard 👋</p></div>} />
+        <Route path="StatTir" element={<StatTir />} />
+      </Route>
+    
+      <Route path="/" element={<Connexion reload={handleReload} />} />
     </Routes>
   )
 }
