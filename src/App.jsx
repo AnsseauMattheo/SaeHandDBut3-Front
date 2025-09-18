@@ -61,7 +61,7 @@ function App() {
     <Routes>
       <Route path="/Connexion" element={<Connexion reload={handleReload} />} />
       <Route path="/DashBoard" element={<DashBoard user={user} logout={handleLogOut} />}>
-        <Route index element={<div><p>Bienvenue sur ton Dashboard 👋</p></div>} />
+        <Route index element={<DashboardTeam />} />
         <Route path="StatTir" element={<StatTir />} />
       </Route>
     
