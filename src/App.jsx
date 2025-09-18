@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import ImportFile from './components/ImportFile.jsx'
+import ImportFile from './Pages/ImportFile.jsx'
 import axios from "axios";
 import { Route, Routes, useNavigate } from "react-router";
 import Connexion from "./Pages/Connexion.jsx";
