@@ -52,7 +52,7 @@ const CarteTirs = () => {
                             return (
                                 <div
                                     key={caseNum}
-                                    className={`row-start-${row} col-start-${col} col-span-${block.length} bg-red-500/70 flex items-center justify-center text-white rounded`}
+                                    className={`row-start-${row} col-start-${col} col-span-${block.length} flex items-center justify-center text-white rounded`}
                                 >
                                     <DonneTir tirs={10} tirsReussi={10} totalTirs={10} />
                                 </div>
