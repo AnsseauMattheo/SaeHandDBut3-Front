@@ -13,7 +13,7 @@ ReactDOM.createRoot(root).render(
     <BrowserRouter>
         <>
             <AlertProvider>
-                <Dashboard />
+                <App />
             </AlertProvider>
         </>
     </BrowserRouter>,

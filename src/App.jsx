@@ -7,6 +7,7 @@ import Connexion from "./Pages/Connexion.jsx";
 import DashBoard from "./Pages/Base_Main.jsx";
 import Cookies from "js-cookie";
 import { useAlerts } from './context/AlertProvider.jsx';
+import DashboardTeam from "./components/DashboardTeam.jsx";
 
 function App() {
   const [user, setUser] = useState({})
@@ -58,7 +59,7 @@ function App() {
   return (
     <Routes>
       <Route path="/Connexion" element={< Connexion reload={handleReload} />} />
-      <Route path="/DashBoard" element={<DashBoard user={user} logout={handleLogOut} />} />
+      <Route path="/DashBoard" element={<DashBoard user={user} logout={handleLogOut} children={<DashboardTeam/>} />} />
     </Routes>
   )
 }

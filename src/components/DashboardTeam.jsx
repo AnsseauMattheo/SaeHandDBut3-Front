@@ -10,24 +10,30 @@ function StatCard({ title, value, subtitle }) {
     );
 }
 
-export default function Dashboard() {
+export default function DashboardTeam() {
     return (
-        <div className="grid grid-cols-4 gap-6">
+        <div className="p-6 flex flex-col gap-6">
             {/* Bloc large */}
-            <div className="col-span-2">
-                <StatCard title="Performance Globale" value="68%" subtitle="sur les 5 derniers matchs" />
+            <div className="flex justify-start">
+                <div className="max-w-md">
+                    <StatCard
+                        title="Performance Globale"
+                        value="68%"
+                        subtitle="Sur les 5 derniers matchs"
+                    />
+                </div>
             </div>
 
-            <div className="col-span-4"></div> {/* saut de ligne */}
-
             {/* Deux petits blocs */}
-            <StatCard title="Buts marqués" value="27" subtitle="Dernier match" />
-            <StatCard title="Arrêts gardien" value="14" subtitle="Dernier match" />
+            <div className="flex gap-6 justify-start">
+                <div className="max-w-md">
+                    <StatCard title="Buts marqués" value="27" subtitle="Dernier match" />
+                </div>
+                <div className="max-w-md">
+                    <StatCard title="Arrêts gardien" value="14" subtitle="Dernier match" />
+                </div>
+            </div>
         </div>
 
     );
 }
-
-
-
-

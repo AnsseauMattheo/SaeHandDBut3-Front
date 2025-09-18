@@ -29,4 +29,12 @@ export async function Login(email, password, setError) {
     }
 }
 
-export async function getBut(email, password, setError) {}
+export async function getLastMatch() {
+    try{
+        const response = await axios.get('http://localhost:8080/match/lastMatch');
+        return response.data;
+    }catch(error){
+        console.error("Erreur lors de la requête : ", error.response);
+        return false;
+    }
+}
