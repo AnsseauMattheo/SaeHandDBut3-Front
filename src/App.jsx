@@ -6,6 +6,7 @@ import { Route, Routes, useNavigate } from "react-router";
 import Connexion from "./Pages/Connexion.jsx";
 import DashBoard from "./Pages/Base_Main.jsx";
 import { useAlerts } from './context/AlertProvider.jsx';
+import ImportFileCSV from "@/Pages/ImportFileCSV.jsx";
 
 function App() {
   const [user, setUser] = useState({})
@@ -58,6 +59,8 @@ function App() {
     <Routes>
       <Route path="/Connexion" element={< Connexion reload={handleReload} />} />
       <Route path="/DashBoard" element={<DashBoard user={user} logout={handleLogOut} />} />
+      <Route path="/import" element={<ImportFile />} />
+      <Route path="/CSVimport" element={<ImportFileCSV />} />
     </Routes>
   )
 }

@@ -11,10 +11,8 @@ const ImportFile = () => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("name", file);
-        formData.append("date", file);
 
-        axios.post("http://localhost:8080/data/import", formData, {
+        axios.post("http://localhost:8080/data/CSVimport", formData, {
             withCredentials: true,
             headers: { "Content-Type": "multipart/form-data" }
         })
@@ -30,8 +28,6 @@ const ImportFile = () => {
         <>
             <h1>Importer un fichier</h1>
             <form onSubmit={handleSubmit}>
-                <label>Nom du match</label><input type="text"></input>
-                <label>Date du match</label><input type="date"></input>{/*ou type string si le type pose pbm avec la bdd*/}
                 <input type="file" onChange={handleChangeFile}></input>
                 <Button>Button</Button>
             </form>
