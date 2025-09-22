@@ -47,34 +47,36 @@ export default function StatTir() {
     }
 
     return (
-        <Card className="w-full">
-            <CardContent className="p-6">
-                <div className="flex gap-6 h-[600px]">
-                    {/* Liste des joueuses - hauteur fixe */}
-                    <div className="w-50 flex-shrink-0">
-                        <ListComponent liste={joueuses} />
-                    </div>
+        <div className="flex justify-center" >
+            <Card>
+                <CardContent className="p-6">
+                    <div className="flex gap-6 h-[600px]">
+                        {/* Liste des joueuses - hauteur fixe */}
+                        <div className="w-50 flex-shrink-0">
+                            <ListComponent liste={joueuses} />
+                        </div>
 
-                    {/* Carte des tirs - élément principal qui prend tout l'espace restant */}
-                    <div className="flex-1 relative max-w-[900px] max-h-[500px]">
-                        <CarteTirs />
-                    </div>
+                        {/* Carte des tirs - élément principal qui prend tout l'espace restant */}
+                        <div className="flex-1 relative max-w-[900px] max-h-[500px]">
+                            <CarteTirs />
+                        </div>
 
-                    {/* Switch - hauteur fixe, aligné verticalement */}
-                    <div className="w-48 flex-shrink-0 flex flex-col justify-center items-center space-y-4">
-                        <div className="flex flex-col items-center space-y-3">
-                            <Switch
-                                id="switcher"
-                                checked={appuit}
-                                onCheckedChange={setAppuit}
-                            />
-                            <Label htmlFor="switcher" className="text-center text-sm">
-                                Appui / Suspension
-                            </Label>
+                        {/* Switch - hauteur fixe, aligné verticalement */}
+                        <div className="w-48 flex-shrink-0 flex flex-col justify-center items-center space-y-4">
+                            <div className="flex flex-col items-center space-y-3">
+                                <Switch
+                                    id="switcher"
+                                    checked={appuit}
+                                    onCheckedChange={setAppuit}
+                                />
+                                <Label htmlFor="switcher" className="text-center text-sm">
+                                    Appui / Suspension
+                                </Label>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </CardContent>
-        </Card>
+                </CardContent>
+            </Card>
+        </div>
     );
 }
