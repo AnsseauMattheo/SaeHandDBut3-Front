@@ -1,10 +1,13 @@
+import { useEffect, useState } from "react";
 import terrainVide from "../assets/DemiTerrainVide.jpg";
 import DonneTir from "./DonneeTir";
+import axios from "axios";
 
 
 const CarteTirs = () => {
     const totalCases = 150;
     const cols = 15;
+
 
     const blocks = [
         [94],
@@ -34,15 +37,15 @@ const CarteTirs = () => {
     });
 
     function caseToCoords(caseNumber, cols = 15) {
-    const row = Math.ceil(caseNumber / cols);
-    const col = ((caseNumber - 1) % cols) + 1;
-    return { row, col };
-}
+        const row = Math.ceil(caseNumber / cols);
+        const col = ((caseNumber - 1) % cols) + 1;
+        return { row, col };
+    }
 
 
     return (
         <>
-        <img src={terrainVide} />
+            <img src={terrainVide} />
             <div className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-4 p-6 w-full aspect-[15/10]">
                 {Array.from({ length: totalCases }).map((_, i) => {
                     const caseNum = i + 1;
