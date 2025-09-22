@@ -7,26 +7,31 @@ import { Fragment } from "react"
 const ListComponent = ({liste = [], onClick}) => {
 
 
- return (
-    <ScrollArea className="h-150 w-35 rounded-md border">
-      <div className="p-4">
-        <h4 className="mb-4 text-sm leading-none font-medium">Joueuses</h4>
-        {liste.map((tag) => (
-          <Fragment key={tag} >
-            <Button onClick={() => console.log(tag)} variant="outline" >{tag}</Button>
-        
-            <Separator className="my-2" />
-          </Fragment>
-        ))}
-      </div>
-    </ScrollArea>
-  )
-
     return (
-        liste.map((element) => {
-            return (<Button variant="outline">{element}</Button>)
-        })
+        <ScrollArea className="h-full rounded-md border">
+            <div className="p-4">
+                <h4 className="mb-4 text-sm leading-none font-medium">Joueuses</h4>
+                {liste.map((tag, index) => (
+                    <Fragment key={tag}>
+                        <Button 
+                            onClick={() => {
+                                console.log(tag);
+                                onClick?.(tag);
+                            }} 
+                            variant="outline" 
+                            className="w-full justify-start mb-2"
+                        >
+                            {tag}
+                        </Button>
+                        {index < liste.length - 1 && (
+                            <Separator className="my-2" />
+                        )}
+                    </Fragment>
+                ))}
+            </div>
+        </ScrollArea>
     )
+
 
 }
 

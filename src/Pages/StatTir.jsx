@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import CarteTirs from "../components/CarteTirs.jsx";
 import DonneeTir from "../components/DonneeTir.jsx";
 import axios from "axios";
 import ListComponent from "../components/ListComponent.jsx";
-import {Label} from "../components/ui/label.jsx";
-import {Switch} from "../components/ui/switch.jsx";
+import { Label } from "../components/ui/label.jsx";
+import { Switch } from "../components/ui/switch.jsx";
+import { Card, CardContent } from "../components/ui/card.jsx";
 
 export default function StatTir() {
 
@@ -25,7 +26,7 @@ export default function StatTir() {
     }
 
     useEffect(() => {
-        axios.get("http://localhost:8080/data/getTirs", {withCredentials: true}).then((res) => {
+        axios.get("http://localhost:8080/data/getTirs", { withCredentials: true }).then((res) => {
             console.log(res.data);
             setDatas(res.data)
             joueusesListe(res.data);
@@ -46,21 +47,34 @@ export default function StatTir() {
     }
 
     return (
-        <>
-            <div className="flex h-screen">
+        <Card className="w-full">
+            <CardContent className="p-6">
+                <div className="flex gap-6 h-[600px]">
+                    {/* Liste des joueuses - hauteur fixe */}
+                    <div className="w-50 flex-shrink-0">
+                        <ListComponent liste={joueuses} />
+                    </div>
 
-                <div className="flex-shrink-0">
+                    {/* Carte des tirs - élément principal qui prend tout l'espace restant */}
+                    <div className="flex-1 relative max-w-[900px] max-h-[500px]">
+                        <CarteTirs />
+                    </div>
+
+                    {/* Switch - hauteur fixe, aligné verticalement */}
+                    <div className="w-48 flex-shrink-0 flex flex-col justify-center items-center space-y-4">
+                        <div className="flex flex-col items-center space-y-3">
+                            <Switch
+                                id="switcher"
+                                checked={appuit}
+                                onCheckedChange={setAppuit}
+                            />
+                            <Label htmlFor="switcher" className="text-center text-sm">
+                                Appui / Suspension
+                            </Label>
+                        </div>
+                    </div>
                 </div>
-
-                <div className="flex-1 relative">
-                    <CarteTirs/>
-                </div>
-            </div>
-            <div className="flex items-center space-x-2">
-                <Switch id="switcher" onClick={handleAppuits}/>
-                <Label htmlFor="switcher">Appui / Suspension</Label>
-            </div>
-        </>
-
+            </CardContent>
+        </Card>
     );
 }
