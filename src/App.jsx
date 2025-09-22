@@ -64,6 +64,7 @@ function App() {
       <Route path="/DashBoard" element={<DashBoard user={user} logout={handleLogOut} />}>
         <Route index element={<DashboardTeam />} />
         <Route path="StatTir" element={<StatTir />} />
+        <Route path="import" element={<ImportFile />} />
       </Route>
 
       <Route path="/" element={<Connexion reload={handleReload} />} />
