@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import ImportFile from './components/ImportFile.jsx'
+import ImportFile from './Pages/ImportFile.jsx'
 import axios from "axios";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Connexion from "./Pages/Connexion.jsx";
@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import { useAlerts } from './context/AlertProvider.jsx';
 import StatTir from "./Pages/StatTir.jsx";
 import DashboardTeam from "./components/DashboardTeam.jsx";
+import ImportFileCSV from "@/Pages/ImportFileCSV.jsx";
 
 function App() {
   const [user, setUser] = useState({})
@@ -64,7 +65,7 @@ function App() {
         <Route index element={<DashboardTeam />} />
         <Route path="StatTir" element={<StatTir />} />
       </Route>
-    
+
       <Route path="/" element={<Connexion reload={handleReload} />} />
     </Routes>
   )
