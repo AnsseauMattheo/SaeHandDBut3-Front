@@ -10,23 +10,12 @@ const CarteTirs = () => {
 
 
     const blocks = [
-        [79],
-        [65],
-        [51],
-        [23],
-        [55],
-        [71],
-        [87],
-        [44],
-        [74],
-        [126],
-        [130],
-        [53],
-        [38],
-        [35],
-        [41],
-        [19],
-        [27],
+        [19], [23], [27],
+        [35], [38], [41], [44],
+        [51], [53], [55],
+        [65], [71], [74],
+        [79], [87],
+        [126], [130]
     ];
 
     const caseToBlock = {};
@@ -45,7 +34,7 @@ const CarteTirs = () => {
 
     return (
         <>
-            <img src={terrainVide} />
+            <img src={terrainVide} className=" object-cover rounded-2xl" />
             <div className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-4 p-6 w-full aspect-[15/10]">
                 {Array.from({ length: totalCases }).map((_, i) => {
                     const caseNum = i + 1;
