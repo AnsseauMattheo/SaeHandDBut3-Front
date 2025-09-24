@@ -10,11 +10,8 @@ import { Card, CardContent } from "../components/ui/card.jsx";
 export default function StatTir() {
 
     const [datas, setDatas] = useState([]);
-
     const [joueuses, setJoueuses] = useState([]);
-
     const [appui, setAppui] = useState(true);
-
     const [dataJoueuse, setDataJoueuse] = useState(null);
 
     const handleAppui = () => {
@@ -34,14 +31,11 @@ export default function StatTir() {
     }, [])
 
     const joueusesListe = (list = datas) => {
-
         let liste = []
 
         for (let i = 0; i < list.length; i++) {
             liste.push(list[i].joueuse)
-
         }
-
         setJoueuses(liste)
     }
 
@@ -60,8 +54,12 @@ export default function StatTir() {
                 <CardContent className="p-6">
                     <div className="flex gap-6 h-[600px]">
                         {/* Liste des joueuses - hauteur fixe */}
-                        <div className="w-50 flex-shrink-0">
-                            <ListComponent liste={joueuses} onClick={handleClickJoueuse} />
+                        <div className="flex flex-col items-center w-full sm:w-40 md:w-48 relative h-full">
+                            <h1 className="mb-4 text-sm leading-none font-medium text-center">Joueuses</h1>
+                            <div className="flex-1 w-full overflow-y-auto">
+                                <ListComponent liste={joueuses} onClick={handleClickJoueuse} />
+                            </div>
+
                         </div>
 
                         {/* Carte des tirs - élément principal qui prend tout l'espace restant */}

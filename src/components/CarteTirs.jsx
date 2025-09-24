@@ -9,7 +9,6 @@ const CarteTirs = ({ datas, appui }) => {
 
     const totalCases = 150;
     const cols = 15;
-
     const [totalTirs, setTotalTirs] = useState(0);
 
     useEffect(() => {
@@ -42,13 +41,11 @@ const CarteTirs = ({ datas, appui }) => {
         blockMap.set(block.pos, block);
     });
 
-
     function caseToCoords(caseNumber, cols = 15) {
         const row = Math.ceil(caseNumber / cols);
         const col = ((caseNumber - 1) % cols) + 1;
         return { row, col };
     }
-
 
     return (
         <>
@@ -56,48 +53,37 @@ const CarteTirs = ({ datas, appui }) => {
             <div className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-4 p-6 w-full aspect-[15/10]">
                 {Array.from({ length: totalCases }).map((_, i) => {
                     const caseNum = i + 1;
-
-                    // Vérifier si cette case correspond à un block
                     const block = blockMap.get(caseNum);
 
                     if (block && datas) {
                         const { row, col } = caseToCoords(caseNum, cols);
-
-                        let infosecteur 
+                        let infosecteur
                         datas.forEach(data => {
                             if(data.secteur === block.secteur) {
                                 infosecteur = data
                             }
                         });
 
-                        console.log(infosecteur)
-                        
                         if(infosecteur) {
-                            console.log(totalTirs)
                             return (
                                 <div
                                     key={caseNum}
-                                    className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded bg-blue-500`}
+                                    className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded bg-transparent`}
                                 >
-                                    
                                     <DonneTir tirs={infosecteur.tirsTotal} tirsReussi={infosecteur.tirsReussi} totalTirs={totalTirs} />
                                 </div>
                             );
                         } else {
-                                                        return (
+                            return (
                                 <div
                                     key={caseNum}
                                     className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded-lg bg-slate-900`}
                                 >
-                                    
                                     0
                                 </div>
                             );
                         }
-
                     }
-
-
                     return (
                         <div
                             key={caseNum}

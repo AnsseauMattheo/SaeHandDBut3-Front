@@ -6,11 +6,9 @@ import { Fragment } from "react"
 
 const ListComponent = ({liste = [], onClick}) => {
 
-
     return (
-        <ScrollArea className="h-full rounded-md border">
+        <ScrollArea className="rounded-md border">
             <div className="p-4">
-                <h4 className="mb-4 text-sm leading-none font-medium">Joueuses</h4>
                 {liste.map((tag, index) => (
                     <Fragment key={tag}>
                         <Button 
