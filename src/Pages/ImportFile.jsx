@@ -12,6 +12,7 @@ const ImportFile = () => {
     const [nomMatch, setNomMatch] = useState(null);
     const [adversaireName, setAadversaireName] = useState(null);
     const [dateMatch, setDateMatch] = useState(null);
+    const [win, setWin] = useState(null);
     const [load, setLoad] = useState(false);
 
     const handleSubmit = (e) => {
@@ -23,6 +24,7 @@ const ImportFile = () => {
         formData.append("nameM", nomMatch);
         formData.append("nameA", adversaireName);
         formData.append("date", dateMatch);
+        formData.append("win", win);
 
         axios.post("http://localhost:8080/data/import", formData, {
             withCredentials: true,
@@ -62,7 +64,7 @@ const ImportFile = () => {
 
     const handleWin = (e) => {
         const win = e.target.checked;
-        setDateMatch(win)
+        setWin(win)
         console.log("change win")
     }
 
@@ -135,7 +137,6 @@ const ImportFile = () => {
                         Victoire
                     </label>
                     <input
-                    required
                     type="checkbox"
                     onChange={handleWin}
                     className="border border-[var(--color-border)]"
