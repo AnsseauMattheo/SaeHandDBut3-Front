@@ -3,10 +3,11 @@ import React from 'react';
 
 const DonneTir = ({tirs, totalTirs = 0, tirsReussi = 0}) => {
 return (
-  <div className="inline-flex items-center bg-slate-800 rounded-lg px-2 py-2 text-white text-sm font-medium">
+  <div className="inline-flex items-center bg-slate-900 rounded-lg px-2 py-2 text-white text-sm font-medium">
 
     <div className="relative flex items-center mr-1">
 
+    
       <div className="w-9 h-9 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center">
         <span className="text-white text-xs font-bold">
           {totalTirs > 0 ? Math.round((tirs / totalTirs) * 100) + "%" : "0%"}

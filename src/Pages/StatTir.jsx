@@ -15,7 +15,7 @@ export default function StatTir() {
 
     const [appuit, setAppuit] = useState(true);
 
-    const [dataJoueuse, setDataJoueuse] = useState({});
+    const [dataJoueuse, setDataJoueuse] = useState(null);
 
     const handleAppuits = () => {
         if (appuit) {
@@ -67,7 +67,7 @@ export default function StatTir() {
 
                         {/* Carte des tirs - élément principal qui prend tout l'espace restant */}
                         <div className="flex-1 relative max-w-[900px] max-h-[500px]">
-                            <CarteTirs />
+                            <CarteTirs datas={dataJoueuse} />
                         </div>
 
                         {/* Switch - hauteur fixe, aligné verticalement */}
