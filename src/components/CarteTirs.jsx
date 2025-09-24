@@ -5,10 +5,7 @@ import axios from "axios";
 import { data } from "react-router";
 
 
-const CarteTirs = ({ datas }) => {
-
-    const [appui, setAppuit] = useState(false);
-
+const CarteTirs = ({ datas, appui }) => {
 
     const totalCases = 150;
     const cols = 15;

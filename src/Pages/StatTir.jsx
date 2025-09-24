@@ -13,17 +13,16 @@ export default function StatTir() {
 
     const [joueuses, setJoueuses] = useState([]);
 
-    const [appuit, setAppuit] = useState(true);
+    const [appui, setAppui] = useState(true);
 
     const [dataJoueuse, setDataJoueuse] = useState(null);
 
-    const handleAppuits = () => {
-        if (appuit) {
-            setAppuit(false);
+    const handleAppui = () => {
+        if (appui) {
+            setAppui(false);
         } else {
-            setAppuit(true);
+            setAppui(true);
         }
-
     }
 
     useEffect(() => {
@@ -67,7 +66,10 @@ export default function StatTir() {
 
                         {/* Carte des tirs - élément principal qui prend tout l'espace restant */}
                         <div className="flex-1 relative max-w-[900px] max-h-[500px]">
-                            <CarteTirs datas={dataJoueuse} />
+                            <h1 className="text-center">
+                                Joueuse : {dataJoueuse?.[0].joueuse}
+                            </h1>
+                            <CarteTirs datas={dataJoueuse} appui={appui} />
                         </div>
 
                         {/* Switch - hauteur fixe, aligné verticalement */}
@@ -75,8 +77,8 @@ export default function StatTir() {
                             <div className="flex flex-col items-center space-y-3">
                                 <Switch
                                     id="switcher"
-                                    checked={appuit}
-                                    onCheckedChange={setAppuit}
+                                    checked={appui}
+                                    onCheckedChange={handleAppui}
                                 />
                                 <Label htmlFor="switcher" className="text-center text-sm">
                                     Appui / Suspension
