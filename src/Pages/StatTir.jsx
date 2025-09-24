@@ -14,7 +14,8 @@ export default function StatTir() {
     const [joueuses, setJoueuses] = useState([]);
 
     const [appuit, setAppuit] = useState(true);
-    console.log(appuit);
+
+    const [dataJoueuse, setDataJoueuse] = useState({});
 
     const handleAppuits = () => {
         if (appuit) {
@@ -38,12 +39,20 @@ export default function StatTir() {
         let liste = []
 
         for (let i = 0; i < list.length; i++) {
-            console.log(list[i].joueuse)
             liste.push(list[i].joueuse)
 
         }
 
         setJoueuses(liste)
+    }
+
+    const handleClickJoueuse = (tag) => {
+        datas.forEach((data) => {
+            if(data.joueuse === tag){
+                setDataJoueuse(data.tirs)
+                console.log(data.tirs)
+            }
+        })
     }
 
     return (
@@ -53,7 +62,7 @@ export default function StatTir() {
                     <div className="flex gap-6 h-[600px]">
                         {/* Liste des joueuses - hauteur fixe */}
                         <div className="w-50 flex-shrink-0">
-                            <ListComponent liste={joueuses} />
+                            <ListComponent liste={joueuses} onClick={handleClickJoueuse} />
                         </div>
 
                         {/* Carte des tirs - élément principal qui prend tout l'espace restant */}
