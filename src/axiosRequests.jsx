@@ -1,29 +1,40 @@
 import axios from 'axios';
 
-export function Login(email, password, setError) {
+
+export async function Login(email, password, setError) {
     console.log("Login called with:", email, password); // 🐞 Debug
 
-    axios.post('http://localhost:8080/auth/login',
-        {
-            email,
-            password
-        },
-        {
-            headers: { 'Content-Type': 'application/json' },
-             withCredentials: true
-        },
-        {
-            withCredentials: true
+    try {
+        const response = await axios.post('http://localhost:8080/auth/login',
+            {
+                email,
+                password
+            },
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
+        );
+        
+        console.log("response : ", response.data);
+        return true; 
+        
+    } catch (error) {
+        console.error("Erreur lors de la requête : ", error.response);
+        
+        
+        setError(true);
 
-        }
+        return false; // Échec
+    }
+}
 
-    )
-        .then((response) => {
-            console.log("response : ", response.data);
-            setError(false);
-        })
-        .catch((error) => {
-            console.error("Erreur lors de la requête : ", error.response);
-            setError(true);
-        });
+export async function getLastMatch() {
+    try{
+        const response = await axios.get('http://localhost:8080/match/lastMatch');
+        return response.data;
+    }catch(error){
+        console.error("Erreur lors de la requête : ", error.response);
+        return false;
+    }
 }
