@@ -8,8 +8,9 @@ import DashBoard from "./Pages/Base_Main.jsx";
 import Cookies from "js-cookie";
 import { useAlerts } from './context/AlertProvider.jsx';
 import StatTir from "./Pages/StatTir.jsx";
-import DashboardTeam from "./components/DashboardTeam.jsx";
+import DashboardTeam from "./Pages/DashboardTeam.jsx";
 import ImportFileCSV from "@/Pages/ImportFileCSV.jsx";
+
 
 function App() {
   const [user, setUser] = useState({})
