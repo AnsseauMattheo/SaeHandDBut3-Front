@@ -29,7 +29,7 @@ const CarteTirs = ({ datas, appui }) => {
         { "pos": 51, "secteur": "5 6" }, { "pos": 53, "secteur": "3 4" }, { "pos": 55, "secteur": "2 3" },
         { "pos": 65, "secteur": "4 5" }, { "pos": 71, "secteur": "1 2" },
         { "pos": 79, "secteur": "ALD" }, { "pos": 87, "secteur": "ALG" },
-        { "pos": 126, "secteur": "BUT VIDE" }, { "pos": 130, "secteur": "CA MB" }
+        { "pos": 126, "secteur": "But vide" }, { "pos": 130, "secteur": "CA MB" }
     ];
 
     const caseToBlock = [];
