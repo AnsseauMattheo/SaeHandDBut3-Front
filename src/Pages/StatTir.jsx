@@ -41,7 +41,7 @@ export default function StatTir() {
 
     const handleClickJoueuse = (tag) => {
         datas.forEach((data) => {
-            if(data.joueuse === tag){
+            if (data.joueuse === tag) {
                 setDataJoueuse(data.tirs)
                 console.log(data.tirs)
             }
@@ -64,25 +64,30 @@ export default function StatTir() {
 
                         {/* Carte des tirs - élément principal qui prend tout l'espace restant */}
                         <div className="flex-1 relative max-w-[900px] max-h-[500px]">
-                            <h1 className="text-center">
-                                Joueuse : {dataJoueuse?.[0].joueuse}
-                            </h1>
+                            {dataJoueuse && (
+                                <h1 className="text-center">
+                                    Joueuse : {dataJoueuse?.[0].joueuse}
+                                </h1>
+                            )}
                             <CarteTirs datas={dataJoueuse} appui={appui} />
-                        </div>
+                            {/* Switch - hauteur fixe, aligné verticalement */}
+                            <div className="flex-shrink-0 flex flex-col items-center space-y-4">
 
-                        {/* Switch - hauteur fixe, aligné verticalement */}
-                        <div className="w-48 flex-shrink-0 flex flex-col justify-center items-center space-y-4">
-                            <div className="flex flex-col items-center space-y-3">
-                                <Switch
-                                    id="switcher"
-                                    checked={appui}
-                                    onCheckedChange={handleAppui}
-                                />
-                                <Label htmlFor="switcher" className="text-center text-sm">
-                                    Appui / Suspension
-                                </Label>
+                                {dataJoueuse && (
+                                    <div className="mt-2 flex flex-col items-center space-y-3">
+                                        <Switch
+                                            id="switcher"
+                                            checked={appui}
+                                            onCheckedChange={handleAppui}
+                                        />
+                                        {appui ? "Appui " : "Suspension "}
+                                    </div>)
+                                }
+
                             </div>
                         </div>
+
+
                     </div>
                 </CardContent>
             </Card>

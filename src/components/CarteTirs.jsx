@@ -10,6 +10,7 @@ const CarteTirs = ({ datas, appui }) => {
     const totalCases = 150;
     const cols = 15;
     const [totalTirs, setTotalTirs] = useState(0);
+    const [resetInfo, setResetInfo] = useState(false);
 
     useEffect(() => {
         if (datas != null) {
@@ -47,10 +48,17 @@ const CarteTirs = ({ datas, appui }) => {
         return { row, col };
     }
 
+    const handleResetInfo = (e) => {
+        console.log(e.target.id)
+        if(e.target.id !== "map") return;
+        setResetInfo(true);
+        console.log("reset info")
+    }
+
     return (
         <>
-            <img src={terrainVide} className="object-cover rounded-2xl" />
-            <div className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-4 p-6 w-full aspect-[15/10]">
+            <img src={terrainVide} className="object-cover rounded-2xl"  />
+            <div id="map" className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-4 p-6 w-full aspect-[15/10]" onClick={(e) => handleResetInfo(e)}>
                 {Array.from({ length: totalCases }).map((_, i) => {
                     const caseNum = i + 1;
                     const block = blockMap.get(caseNum);
@@ -70,14 +78,14 @@ const CarteTirs = ({ datas, appui }) => {
                                     key={caseNum}
                                     className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded bg-transparent`}
                                 >
-                                    <DonneTir tirs={infosecteur.tirsTotal} tirsReussi={infosecteur.tirsReussi} totalTirs={totalTirs} />
+                                    <DonneTir tirs={infosecteur.tirsTotal} tirsReussi={infosecteur.tirsReussi} totalTirs={totalTirs} secteur={block.secteur} reset={resetInfo} updateReset={setResetInfo} />
                                 </div>
                             );
                         } else {
                             return (
                                 <div
                                     key={caseNum}
-                                    className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded-lg bg-slate-900`}
+                                    className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded-lg h-10 w-10 py-2 px-2 bg-slate-900`}
                                 >
                                     0
                                 </div>
