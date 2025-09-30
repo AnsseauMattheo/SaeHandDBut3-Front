@@ -1,103 +1,213 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {useEffect, useState} from "react"
-import {useAlerts} from "@/context/AlertProvider.jsx";
-import axios from "axios"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { useEffect, useState } from "react";
+import { useAlerts } from "@/context/AlertProvider.jsx";
+import { useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 export default function CreationCompte() {
-    const {addSuccess, addError} = useAlerts();
+    const { addSuccess, addError } = useAlerts();
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get("token");
 
-    const [roles, setRoles] = useState([])
-    const [role, setRole] = useState("")
-    const [nom, setNom] = useState("")
-    const [prenom, setPrenom] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [load, setLoad] = useState(false)
+    const [roles, setRoles] = useState([]);
+    const [role, setRole] = useState(undefined);
+    const [nom, setNom] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [affectation, setAffectation] = useState("");
+    const [load, setLoad] = useState(false);
+    const [activationLink, setActivationLink] = useState(""); // Pour créer un compte
 
     useEffect(() => {
-        axios.get("http://localhost:8080/roles")
-            .then(res => setRoles(res.data))
-            .catch(err => addError("Impossible de charger les rôles"));
-    }, [])
+        const fetchRoles = async () => {
+            try {
+                const resRoles = await axios.get("http://localhost:8080/ajout/getrole");
+                setRoles(resRoles.data);
+
+                if (token) {
+                    // Mode activation : remplir les champs mais ne pas montrer le QR code
+                    const resData = await axios.get(
+                        `http://localhost:8080/ajout/activation-data?token=${token}`
+                    );
+                    setNom(resData.data.username || "");
+                    setEmail(resData.data.email || "");
+                    setRole(resData.data.roleId?.toString() || undefined);
+                    if (resData.data.affectationId) {
+                        setAffectation(resData.data.affectationId.toString());
+                    }
+                }
+            } catch (err) {
+                addError("Impossible de charger les rôles ou les données d'activation");
+                console.error(err);
+            }
+        };
+        fetchRoles();
+    }, [token]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setLoad(true)
+        e.preventDefault();
+        setLoad(true);
 
-        const formData = new FormData()
-        formData.append("role", role)
-        formData.append("nom", nom)
-        formData.append("prenom", prenom)
-        formData.append("email", email)
-        formData.append("password", password)
+        try {
+            const formData = new FormData();
+            if (role) formData.append("role", parseInt(role));
+            formData.append("Utilisateur", nom);
+            formData.append("email", email);
+            formData.append("password", password);
+            if (affectation) formData.append("affectation", parseInt(affectation));
 
-        axios.post("http://localhost:8080/ajout/utilisateur", formData, {
-            withCredentials: true,
-            headers: { "Content-Type": "multipart/form-data" }
-        }).then(res => {
+            const res = await axios.post("http://localhost:8080/ajout/utilisateur", formData, {
+                withCredentials: true,
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+
             setLoad(false);
             addSuccess("Utilisateur ajouté avec succès !");
             addSuccess(res.data);
-        }).catch(err => {
+
+            // Afficher le QR code uniquement en mode création, pas en activation
+            if (!token) {
+                setActivationLink(res.data);
+            }
+        } catch (err) {
             setLoad(false);
             addError("Erreur lors de l'ajout de l'utilisateur");
-            addSuccess(err.data);
-        })
-    }
+            console.error(err);
+        }
+    };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen w-full bg-gradient-to-r from-blue-50 to-purple-100 p-8">
             <h2 className="text-4xl font-extrabold text-gray-800 mb-8">
-                Créer un compte
+                {token ? "Activer mon compte" : "Créer un compte"}
             </h2>
 
-            <form onSubmit={handleSubmit} className="flex flex-col w-full h-full max-w-4xl text-gray-800 shadow-2xl rounded-3xl p-8 space-y-6">
+            <form
+                onSubmit={handleSubmit}
+                className="flex flex-col w-full max-w-4xl text-gray-800 shadow-2xl rounded-3xl p-8 space-y-6 bg-white"
+            >
                 <div className="flex flex-col md:flex-row md:space-x-4">
+                    {/* Select Rôle */}
                     <div className="flex-1">
                         <Label htmlFor="role">Rôle</Label>
-                        <select
-                            id="role"
+                        <Select
                             value={role}
-                            onChange={e => setRole(e.target.value)}
-                            className="w-full border rounded p-2"
+                            onValueChange={setRole}
+                            disabled={!!token} // non modifiable si activation
                         >
-                            <option value="">-- Choisir un rôle --</option>
-                            {roles.map(r => (
-                                <option key={r.id} value={r.id}>
-                                    {r.role}
-                                </option>
-                            ))}
-                        </select>
+                            <SelectTrigger>
+                                <SelectValue placeholder="-- Choisir un rôle --" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {roles.map((r) => (
+                                    <SelectItem key={r.id} value={r.id.toString()}>
+                                        {r.role}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </div>
+
+                    {/* Nom utilisateur */}
                     <div className="flex-1">
-                        <Label htmlFor="nom">Nom</Label>
-                        <Input id="nom" type="text" value={nom} onChange={e => setNom(e.target.value)} />
+                        <Label htmlFor="Utilisateur">Utilisateur</Label>
+                        <Input
+                            id="Utilisateur"
+                            type="text"
+                            value={nom}
+                            onChange={(e) => setNom(e.target.value)}
+                            disabled={!!token}
+                        />
                     </div>
                 </div>
 
+                {/* Affectation */}
+                {role === "2" && (
+                    <div className="flex-1 mt-4">
+                        <Label htmlFor="Affectation">Affectation</Label>
+                        <Select
+                            value={affectation}
+                            onValueChange={setAffectation}
+                            disabled={!!token} // non modifiable si activation
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="-- Choisir une affectation --" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="1">Gardienne</SelectItem>
+                                <SelectItem value="2">Défenseuse</SelectItem>
+                                <SelectItem value="3">Attaquante</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                )}
+
+                {/* Email */}
                 <div className="flex flex-col md:flex-row md:space-x-4">
                     <div className="flex-1">
-                        <Label htmlFor="prenom">Prénom</Label>
-                        <Input id="prenom" type="text" value={prenom} onChange={e => setPrenom(e.target.value)} />
-                    </div>
-                    <div className="flex-1">
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} />
+                        <Input
+                            id="email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            disabled={!!token} // non modifiable si activation
+                        />
                     </div>
                 </div>
 
+                {/* Password */}
                 <div>
                     <Label htmlFor="password">Mot de passe</Label>
-                    <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" />
+                    <Input
+                        id="password"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="••••••••"
+                    />
                 </div>
 
-                <Button type="submit" disabled={load}
-                        className="w-full bg-gradient-to-r from-pink-700 to-blue-900 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200 border-white">
-                    {load ? "Création en cours..." : "Créer le compte"}
+                {/* Bouton */}
+                <Button
+                    type="submit"
+                    disabled={load}
+                    className="w-full bg-gradient-to-r from-pink-700 to-blue-900 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200 border-white"
+                >
+                    {load
+                        ? "Création en cours..."
+                        : token
+                            ? "Activer mon compte"
+                            : "Créer le compte"}
                 </Button>
             </form>
+
+            {/* QR Code et lien : uniquement si création */}
+            {!token && activationLink && (
+                <div className="mt-8 flex flex-col items-center bg-white p-4 rounded-xl shadow-lg">
+                    <h3 className="text-xl font-semibold mb-4">Lien d’activation (QR Code)</h3>
+                    <QRCode value={activationLink} size={200} />
+                    <p className="mt-2 text-gray-700 break-all">{activationLink}</p>
+                    <Button
+                        onClick={() => {
+                            navigator.clipboard.writeText(activationLink);
+                            addSuccess("Lien copié dans le presse-papier !");
+                        }}
+                        className="mt-2 bg-blue-600 hover:bg-blue-700 text-white"
+                    >
+                        Copier le lien
+                    </Button>
+                </div>
+            )}
         </div>
-    )
+    );
 }
