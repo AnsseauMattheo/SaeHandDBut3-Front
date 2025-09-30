@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { useAlerts } from "@/context/AlertProvider.jsx";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function CreationCompte() {
     const { addSuccess, addError } = useAlerts();
@@ -30,8 +31,9 @@ export default function CreationCompte() {
     useEffect(() => {
         const fetchRoles = async () => {
             try {
-                const resRoles = await axios.get("http://localhost:8080/ajout/getrole");
+                const resRoles = await axios.get("http://localhost:8080/roles/getAll");
                 setRoles(resRoles.data);
+                console.log(resRoles.data);
 
                 if (token) {
                     // Mode activation : remplir les champs mais ne pas montrer le QR code
@@ -58,26 +60,39 @@ export default function CreationCompte() {
         setLoad(true);
 
         try {
-            const formData = new FormData();
-            if (role) formData.append("role", parseInt(role));
-            formData.append("Utilisateur", nom);
-            formData.append("email", email);
-            formData.append("password", password);
-            if (affectation) formData.append("affectation", parseInt(affectation));
-
-            const res = await axios.post("http://localhost:8080/ajout/utilisateur", formData, {
-                withCredentials: true,
-                headers: { "Content-Type": "multipart/form-data" },
-            });
-
-            setLoad(false);
-            addSuccess("Utilisateur ajouté avec succès !");
-            addSuccess(res.data);
-
-            // Afficher le QR code uniquement en mode création, pas en activation
             if (!token) {
+
+                const formData = new FormData();
+                if (role) formData.append("role", parseInt(role));
+                formData.append("nom", nom);
+                formData.append("email", email);
+                formData.append("password", password);
+                if (affectation) formData.append("affectation", parseInt(affectation));
+
+                const res = await axios.post("http://localhost:8080/ajout/utilisateur", formData, {
+                    withCredentials: true,
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+
+                setLoad(false);
+                addSuccess("Utilisateur ajouté avec succès !");
+                addSuccess(res.data);
+
                 setActivationLink(res.data);
+
+            } else {
+                const formData = new FormData();
+                formData.append("token", token);
+                formData.append("password", password);
+                const res = axios.post("http://localhost:8080/ajout/activation", formData, {
+                    withCredentials: true,
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+                setLoad(false);
+                addSuccess("Compte activé avec succès !");
+                console.log(res.data);
             }
+
         } catch (err) {
             setLoad(false);
             addError("Erreur lors de l'ajout de l'utilisateur");
@@ -195,7 +210,7 @@ export default function CreationCompte() {
             {!token && activationLink && (
                 <div className="mt-8 flex flex-col items-center bg-white p-4 rounded-xl shadow-lg">
                     <h3 className="text-xl font-semibold mb-4">Lien d’activation (QR Code)</h3>
-                    <QRCode value={activationLink} size={200} />
+                    <QRCodeSVG value={activationLink} size={200} />
                     <p className="mt-2 text-gray-700 break-all">{activationLink}</p>
                     <Button
                         onClick={() => {
