@@ -51,7 +51,7 @@ export default function StatTir() {
     return (
         <div className="flex justify-center" >
             <Card>
-                <CardContent className="p-6">
+                <CardContent className="p-6 mb-3">
                     <div className="flex gap-6 h-[600px]">
                         {/* Liste des joueuses - hauteur fixe */}
                         <div className="flex flex-col items-center w-full sm:w-40 md:w-48 relative h-full">
@@ -80,10 +80,11 @@ export default function StatTir() {
                                             checked={appui}
                                             onCheckedChange={handleAppui}
                                         />
-                                        {appui ? "Appui " : "Suspension "}
+                                        <Label htmlFor={"switcher"}>
+                                            {appui ? "Appui " : "Suspension "}
+                                        </Label>
                                     </div>)
                                 }
-
                             </div>
                         </div>
 
