@@ -5,11 +5,11 @@ import axios from "axios";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Connexion from "./Pages/Connexion.jsx";
 import DashBoard from "./Pages/Base_Main.jsx";
-import Cookies from "js-cookie";
 import { useAlerts } from './context/AlertProvider.jsx';
 import StatTir from "./Pages/StatTir.jsx";
 import DashboardTeam from "./Pages/DashboardTeam.jsx";
 import ImportFileCSV from "@/Pages/ImportFileCSV.jsx";
+import CreationCompte from './Pages/AjoutUtilisateur.jsx';
 
 
 function App() {
@@ -66,9 +66,11 @@ function App() {
         <Route index element={<DashboardTeam />} />
         <Route path="StatTir" element={<StatTir />} />
         <Route path="import" element={<ImportFile />} />
+        <Route path="ajout-utilisateur" element={<CreationCompte />} />
       </Route>
 
       <Route path="/" element={<Connexion reload={handleReload} />} />
+      <Route path="/activation" element={<CreationCompte />} />
     </Routes>
   )
 }
