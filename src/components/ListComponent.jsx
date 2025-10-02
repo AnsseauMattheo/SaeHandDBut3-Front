@@ -7,7 +7,7 @@ import { Fragment } from "react"
 const ListComponent = ({liste = [], onClick}) => {
 
     return (
-        <ScrollArea className="rounded-md border">
+        <ScrollArea className="h-full rounded-md border">
             <div className="p-4">
                 {liste.map((tag, index) => (
                     <Fragment key={tag}>
