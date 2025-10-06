@@ -13,13 +13,14 @@ export default function StatTir() {
     const [joueuses, setJoueuses] = useState([]);
     const [appui, setAppui] = useState(true);
     const [dataJoueuse, setDataJoueuse] = useState(null);
+    const [showData, setShowData] = useState(true);
 
     const handleAppui = () => {
-        if (appui) {
-            setAppui(false);
-        } else {
-            setAppui(true);
-        }
+            setAppui(!appui);
+    }
+
+    const handleShowData = () => {
+        setShowData(!showData);
     }
 
     useEffect(() => {
@@ -69,23 +70,37 @@ export default function StatTir() {
                                     Joueuse : {dataJoueuse?.[0].joueuse}
                                 </h1>
                             )}
-                            <CarteTirs datas={dataJoueuse} appui={appui} />
+                            <CarteTirs datas={dataJoueuse} appui={appui} showData={showData} />
                             {/* Switch - hauteur fixe, aligné verticalement */}
-                            <div className="flex-shrink-0 flex flex-col items-center space-y-4">
+                            <div className="flex-shrink-0 flex flex-row items-start justify-around space-y-4">
 
                                 {dataJoueuse && (
+                                    <>
                                     <div className="mt-2 flex flex-col items-center space-y-3">
                                         <Switch
-                                            id="switcher"
+                                            id="switchAppui"
                                             checked={appui}
                                             onCheckedChange={handleAppui}
                                         />
-                                        <Label htmlFor={"switcher"}>
+                                        <Label htmlFor={"switchAppui"}>
                                             {appui ? "Appui " : "Suspension "}
                                         </Label>
-                                    </div>)
+                                    </div>
+                                    <div className="mt-2 flex flex-col items-center space-y-3">
+                                        <Switch
+                                            id="switchData"
+                                            checked={showData}
+                                            onCheckedChange={handleShowData}
+                                        />
+                                        <Label htmlFor={"switchData"}>
+                                            {showData ? "Data " : "Heatmap "}
+                                        </Label>
+                                    </div>
+                                   </> 
+                                )
                                 }
                             </div>
+
                         </div>
 
 

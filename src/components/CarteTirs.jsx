@@ -5,7 +5,7 @@ import axios from "axios";
 import { data } from "react-router";
 
 
-const CarteTirs = ({ datas, appui }) => {
+const CarteTirs = ({ datas, appui, showData = true }) => {
 
     const totalCases = 150;
     const cols = 15;
@@ -78,7 +78,7 @@ const CarteTirs = ({ datas, appui }) => {
                                     key={caseNum}
                                     className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded bg-transparent`}
                                 >
-                                    <DonneTir tirs={infosecteur.tirsTotal} tirsReussi={infosecteur.tirsReussi} totalTirs={totalTirs} secteur={block.secteur} reset={resetInfo} updateReset={setResetInfo} />
+                                    <DonneTir tirs={infosecteur.tirsTotal} tirsReussi={infosecteur.tirsReussi} totalTirs={totalTirs} secteur={block.secteur} reset={resetInfo} updateReset={setResetInfo} data={showData} />
                                 </div>
                             );
                         } else {
