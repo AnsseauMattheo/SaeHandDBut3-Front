@@ -15,6 +15,9 @@ import {
     Banana,
     Beer,
     Home,
+    MapIcon,
+    UserPlus,
+    FileUp,
 } from "lucide-react"
 
 import {NavMain} from "@/components/nav-main"
@@ -29,7 +32,6 @@ import {
     SidebarRail, SidebarTrigger,
 } from "@/components/ui/sidebar"
 
-// This is sample data.
 const data = {
     navMain: [
         {
@@ -38,26 +40,21 @@ const data = {
             icon: Home
         },
         {
-            title: "Statistiques tir",
+            title: "Carte des tirs",
             url: "/DashBoard/StatTir",
-            icon: SquareTerminal,
+            icon: MapIcon,
             isActive: true,
         },
         {
-            title: "Models",
-            url: "#",
-            icon: Bot,
+            title: "Importer",
+            url: "/DashBoard/import",
+            icon: FileUp,
         },
         {
-            title: "Documentation",
-            url: "#",
-            icon: BookOpen,
-        },
-        {
-            title: "Settings",
-            url: "#",
-            icon: Beer,
-        },
+            title: "Ajouter utilisateur",
+            url: "/DashBoard/ajout-utilisateur",
+            icon: UserPlus,
+        }
     ],
 }
 

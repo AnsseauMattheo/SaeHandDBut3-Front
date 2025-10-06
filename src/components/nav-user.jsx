@@ -37,6 +37,8 @@ export function NavUser({userinfo, logout}) {
         console.log("logout1")
         logout();
     }
+
+    const avatarFallback = userinfo.username?.split(" ").map((n) => n[0]).join("") || "U";
  
     if (userinfo) {
         return (
@@ -49,7 +51,7 @@ export function NavUser({userinfo, logout}) {
                                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
                                 <Avatar className="h-8 w-8 rounded-lg">
                                     <AvatarImage src={userinfo.avatar} alt={userinfo.username}/>
-                                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                                    <AvatarFallback className="rounded-lg">{avatarFallback}</AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
                                     <span className="truncate font-medium">{userinfo.username}</span>
@@ -67,7 +69,7 @@ export function NavUser({userinfo, logout}) {
                                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                     <Avatar className="h-8 w-8 rounded-lg">
                                         <AvatarImage src={userinfo.avatar} alt={userinfo.username}/>
-                                        <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                                        <AvatarFallback className="rounded-lg">{avatarFallback}</AvatarFallback>
                                     </Avatar>
                                     <div className="grid flex-1 text-left text-sm leading-tight">
                                         <span className="truncate font-medium">{userinfo.username}</span>
