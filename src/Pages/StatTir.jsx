@@ -6,6 +6,7 @@ import ListComponent from "../components/ListComponent.jsx";
 import { Label } from "../components/ui/label.jsx";
 import { Switch } from "../components/ui/switch.jsx";
 import { Card, CardContent } from "../components/ui/card.jsx";
+import {Button} from "@/components/ui/button.jsx";
 
 export default function StatTir() {
 
@@ -63,9 +64,7 @@ export default function StatTir() {
     };
 
     const handleSetDatasJoueuse = (newDatas) => {
-
         let newDatasJoueuses = [];
-
         Object.keys(newDatas).forEach((key) => {
             newDatas[key].map((item) => {
                 if(item.selected) {
@@ -82,7 +81,24 @@ export default function StatTir() {
         console.log(newDatasJoueuses)
     }
 
+    const handleSetFalseSelect = () => {
+        const newJoueuses = { ...joueuses };
 
+        Object.keys(newJoueuses).forEach((key) => {
+            newJoueuses[key] = newJoueuses[key].map((item) => {
+                if (item.selected === true) {
+                    return {
+                        ...item,
+                        selected: !item.selected,
+                    };
+                }
+                return item;
+            });
+        });
+
+        setJoueuses(newJoueuses)
+        setDataJoueuse([])
+    }
 
     return (
         <div className="flex justify-center" >
@@ -95,6 +111,7 @@ export default function StatTir() {
                             <div className="flex-1 w-full overflow-y-auto">
                                 <ListComponent liste={joueuses} onClick={handleSelectectJoueuse} />
                             </div>
+                            <Button onClick={handleSetFalseSelect}>Clear</Button>
                         </div>
 
                         {/* Carte des tirs - élément principal qui prend tout l'espace restant */}
