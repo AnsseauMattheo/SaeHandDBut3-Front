@@ -24,27 +24,20 @@ export default function StatTir() {
     }
 
     useEffect(() => {
+        axios.get("http://localhost:8080/joueuses/JoueusesParAffectation", { withCredentials: true }).then((res) => {
+            // console.log("joueuse : " + res.data);
+            setJoueuses(res.data)
+        })
         axios.get("http://localhost:8080/data/getTirs", { withCredentials: true }).then((res) => {
-            console.log(res.data);
+            // console.log("datas tirs : " + res.data);
             setDatas(res.data)
-            joueusesListe(res.data);
         })
     }, [])
 
-    const joueusesListe = (list = datas) => {
-        let liste = []
-
-        for (let i = 0; i < list.length; i++) {
-            liste.push(list[i].joueuse)
-        }
-        setJoueuses(liste)
-    }
-
     const handleClickJoueuse = (tag) => {
-        datas.forEach((data) => {
-            if (data.joueuse === tag) {
-                setDataJoueuse(data.tirs)
-                console.log(data.tirs)
+        datas.forEach((item) => {
+            if(item.joueuse === tag) {
+                setDataJoueuse(item.tirs)
             }
         })
     }
@@ -60,7 +53,6 @@ export default function StatTir() {
                             <div className="flex-1 w-full overflow-y-auto">
                                 <ListComponent liste={joueuses} onClick={handleClickJoueuse} />
                             </div>
-
                         </div>
 
                         {/* Carte des tirs - élément principal qui prend tout l'espace restant */}
@@ -73,7 +65,6 @@ export default function StatTir() {
                             <CarteTirs datas={dataJoueuse} appui={appui} showData={showData} />
                             {/* Switch - hauteur fixe, aligné verticalement */}
                             <div className="flex-shrink-0 flex flex-row items-start justify-around space-y-4">
-
                                 {dataJoueuse && (
                                     <>
                                     <div className="mt-2 flex flex-col items-center space-y-3">
@@ -100,10 +91,7 @@ export default function StatTir() {
                                 )
                                 }
                             </div>
-
                         </div>
-
-
                     </div>
                 </CardContent>
             </Card>
