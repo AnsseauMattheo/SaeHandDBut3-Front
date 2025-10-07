@@ -12,7 +12,7 @@ export default function StatTir() {
     const [datas, setDatas] = useState([]);
     const [joueuses, setJoueuses] = useState([]);
     const [appui, setAppui] = useState(true);
-    const [dataJoueuse, setDataJoueuse] = useState(null);
+    const [dataJoueuse, setDataJoueuse] = useState([]);
     const [showData, setShowData] = useState(true);
 
     const handleAppui = () => {
@@ -59,16 +59,30 @@ export default function StatTir() {
         });
 
         setJoueuses(newJoueuses);
+       handleSetDatasJoueuse(newJoueuses);
     };
 
+    const handleSetDatasJoueuse = (newDatas) => {
 
-    const handleClickJoueuse = (tag) => {
-        datas.forEach((item) => {
-            if(item.joueuse === tag) {
-                setDataJoueuse(item.tirs)
-            }
-        })
+        let newDatasJoueuses = [];
+
+        Object.keys(newDatas).forEach((key) => {
+            newDatas[key].map((item) => {
+                if(item.selected) {
+                    datas.forEach((data) => {
+                        if(data.joueuse === item.nom) {
+                            newDatasJoueuses.push(data);
+                        }
+                    });
+                }
+            });
+        });
+
+        setDataJoueuse(newDatasJoueuses);
+        console.log(newDatasJoueuses)
     }
+
+
 
     return (
         <div className="flex justify-center" >
@@ -85,7 +99,7 @@ export default function StatTir() {
 
                         {/* Carte des tirs - élément principal qui prend tout l'espace restant */}
                         <div className="flex-1 relative max-w-[900px] max-h-[500px]">
-                            {dataJoueuse && (
+                            {dataJoueuse.length !== 0 && (
                                 <h1 className="text-center">
                                     Joueuse : {dataJoueuse?.[0].joueuse}
                                 </h1>
@@ -93,7 +107,7 @@ export default function StatTir() {
                             <CarteTirs datas={dataJoueuse} appui={appui} showData={showData} />
                             {/* Switch - hauteur fixe, aligné verticalement */}
                             <div className="flex-shrink-0 flex flex-row items-start justify-around space-y-4">
-                                {dataJoueuse && (
+                                {dataJoueuse.length !== 0 && (
                                     <>
                                     <div className="mt-2 flex flex-col items-center space-y-3">
                                         <Switch

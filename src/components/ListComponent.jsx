@@ -9,7 +9,7 @@ import {Check, CheckCircleIcon} from "lucide-react";
 const ListComponent = ({liste = {}, onClick}) => {
 
     useEffect(() => {
-        console.log(liste)
+        console.log("liste", liste);
     }, [liste]);
 
     return (
@@ -29,7 +29,6 @@ const ListComponent = ({liste = {}, onClick}) => {
                                 {liste[key].map((tag, index) => (
                                     <Fragment key={tag.id}>
                                         <Button
-                                            htmlFor={tag.id}
                                             variant="outline"
                                             className="relative w-full justify-start mb-2"
                                             onClick={() => onClick(tag.id)}
