@@ -5,6 +5,10 @@ const DonneTir = ({ tirs, totalTirs = 0, tirsReussi = 0, secteur, reset, updateR
 
   const [showInfo, setShowInfo] = useState(false);
 
+  if (secteur === "But vide" || secteur === "CA MB" || secteur === "Jet 7m") {
+    data = true
+  }
+
   const handleClick = () => {
     setShowInfo(!showInfo);
   }
@@ -58,7 +62,7 @@ const DonneTir = ({ tirs, totalTirs = 0, tirsReussi = 0, secteur, reset, updateR
   }
 
 
-    const tauxReussite = tirs > 0 ? (tirsReussi / tirs) * 100 : 0;
+  const tauxReussite = tirs > 0 ? (tirsReussi / tirs) * 100 : 0;
 
   // Taille plus marquée (60px à 160px)
   const minSize = 60;

@@ -57,7 +57,7 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
 
     return (
         <>
-            <img src={terrainVide} className="object-cover rounded-2xl"  />
+            <img src={terrainVide} className="object-cover rounded-2xl" style={!showData? { filter: "grayscale(1)" } : {}}  />
             <div id="map" className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-4 p-6 w-full aspect-[15/10]" onClick={(e) => handleResetInfo(e)}>
                 {Array.from({ length: totalCases }).map((_, i) => {
                     const caseNum = i + 1;
@@ -72,6 +72,7 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
                             }
                         });
 
+
                         if(infosecteur) {
                             return (
                                 <div
@@ -81,7 +82,7 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
                                     <DonneTir tirs={infosecteur.tirsTotal} tirsReussi={infosecteur.tirsReussi} totalTirs={totalTirs} secteur={block.secteur} reset={resetInfo} updateReset={setResetInfo} data={showData} />
                                 </div>
                             );
-                        } else {
+                        } else if (showData) {
                             return (
                                 <div
                                     key={caseNum}
