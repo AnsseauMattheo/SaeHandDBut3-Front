@@ -49,14 +49,57 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
     }
 
     // Sinon on affiche les infos
+    const tauxReussite = totalTirs > 0 ? ((totalReussis / totalTirs) * 100).toFixed(1) : "N/A";
     return (
-        <div>
-            <h1 className="text-center">
-                Joueuse : {joueuse || datas[0]?.joueuse || "Inconnue"}
-            </h1>
-            <p>Nombre de tirs : {totalTirs}</p>
-            <p>Tirs réussis : {totalReussis}</p>
-            <p>Taux de réussite : {totalTirs > 0 ? ((totalReussis / totalTirs) * 100).toFixed(1) + "%" : "N/A"}</p>
+        <div className="relative w-64 h-96 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-2xl shadow-xl border-4 border-yellow-800 flex flex-col items-center justify-start overflow-hidden">
+            {/* Bande brillante en haut */}
+            <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white/50 to-transparent"></div>
+
+            {/* Photo */}
+            <div className="mt-8 w-28 h-28 rounded-full border-4 border-yellow-800 overflow-hidden shadow-md bg-gray-200">
+                {/*{photoUrl ? (*/}
+                {/*    <img*/}
+                {/*        src={photoUrl}*/}
+                {/*        alt={joueuse}*/}
+                {/*        className="w-full h-full object-cover"*/}
+                {/*    />*/}
+                {/*) : (*/}
+                {/*    <div className="flex items-center justify-center h-full text-gray-500 text-sm">*/}
+                {/*        Aucune photo*/}
+                {/*    </div>*/}
+                {/*)}*/}
+            </div>
+
+            {/* Nom de la joueuse */}
+            <h2 className="mt-3 text-xl font-bold text-center text-yellow-900 drop-shadow-md uppercase">
+                {joueuse || "Inconnue"}
+            </h2>
+
+            {/* Bloc stats */}
+            <div className="mt-4 w-5/6 bg-yellow-100 rounded-xl p-3 shadow-inner">
+                <div className="flex justify-between text-sm font-semibold text-yellow-900">
+                    <span>Tirs :</span>
+                    <span>{totalTirs}</span>
+                </div>
+                <div className="flex justify-between text-sm font-semibold text-yellow-900">
+                    <span>Réussis :</span>
+                    <span>{totalReussis}</span>
+                </div>
+                <div className="flex justify-between text-sm font-semibold text-yellow-900">
+                    <span>Taux :</span>
+                    <span>{tauxReussite}%</span>
+                </div>
+            </div>
+
+            {/* Barre de réussite */}
+            <div className="mt-5 w-5/6 h-4 bg-yellow-200 rounded-full overflow-hidden">
+                <div
+                    className="h-full bg-green-500 transition-all duration-500"
+                    style={{ width: `${tauxReussite === "N/A" ? 0 : tauxReussite}%` }}
+                ></div>
+            </div>
+
+            <p className="mt-2 text-xs text-yellow-900 font-medium">Taux de réussite</p>
         </div>
     );
 };
