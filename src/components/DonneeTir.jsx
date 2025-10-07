@@ -70,8 +70,6 @@ const DonneTir = ({ tirs, totalTirs = 0, tirsReussi = 0, secteur, reset, updateR
   const sizeRatio = totalTirs > 0 ? Math.min(tirs / totalTirs, 1) : 0;
   const size = minSize + (maxSize - minSize) * sizeRatio;
 
-  // Opacité plus forte (0.6 à 1)
-  const opacity = 0.6 + (tauxReussite / 100) * 0.4;
 
   // Couleur basée sur le taux de réussite
   let bgColor = "bg-red-500";
@@ -90,7 +88,6 @@ const DonneTir = ({ tirs, totalTirs = 0, tirsReussi = 0, secteur, reset, updateR
       style={{
         width: `${size}px`,
         height: `${size}px`,
-        opacity,
         boxShadow: `0 0 ${size / 2}px ${bgColor.replace("bg-", "").replace("-500", "")}`,
       }}
       onClick={handleClick}
