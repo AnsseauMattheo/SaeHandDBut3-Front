@@ -6,7 +6,7 @@ import ListComponent from "../components/ListComponent.jsx";
 import { Label } from "../components/ui/label.jsx";
 import { Switch } from "../components/ui/switch.jsx";
 import { Card, CardContent } from "../components/ui/card.jsx";
-import {Button} from "@/components/ui/button.jsx";
+import { Button } from "@/components/ui/button.jsx";
 
 export default function StatTir() {
 
@@ -16,8 +16,10 @@ export default function StatTir() {
     const [dataJoueuse, setDataJoueuse] = useState([]);
     const [showData, setShowData] = useState(true);
 
+    const [categorie, setCategorie] = useState([]);
+
     const handleAppui = () => {
-            setAppui(!appui);
+        setAppui(!appui);
     }
 
     const handleShowData = () => {
@@ -25,11 +27,16 @@ export default function StatTir() {
     }
 
     const handleInitSelectect = (joueuseListe) => {
+        let cat = {}
         Object.keys(joueuseListe).forEach((key, index) => {
+            cat[key] = false;
             joueuseListe[key].forEach((item) => {
                 item.selected = false;
             })
         })
+        console.log("cat", cat)
+        setCategorie(cat);
+
     }
 
     useEffect(() => {
@@ -60,16 +67,16 @@ export default function StatTir() {
         });
 
         setJoueuses(newJoueuses);
-       handleSetDatasJoueuse(newJoueuses);
+        handleSetDatasJoueuse(newJoueuses);
     };
 
     const handleSetDatasJoueuse = (newDatas) => {
         let newDatasJoueuses = [];
         Object.keys(newDatas).forEach((key) => {
             newDatas[key].map((item) => {
-                if(item.selected) {
+                if (item.selected) {
                     datas.forEach((data) => {
-                        if(data.joueuse === item.nom) {
+                        if (data.joueuse === item.nom) {
                             newDatasJoueuses.push(data);
                         }
                     });
@@ -79,6 +86,23 @@ export default function StatTir() {
 
         setDataJoueuse(newDatasJoueuses);
         console.log(newDatasJoueuses)
+    }
+
+    const handleSelectAll = (key) => {
+        const newJoueuses = { ...joueuses };
+        newJoueuses[key] = newJoueuses[key].map((item) => {
+            return {
+                ...item,
+                selected: !categorie[key],
+            };
+        });
+
+        const newCategorie = { ...categorie };
+        newCategorie[key] = !categorie[key];
+        setCategorie(newCategorie);
+
+        setJoueuses(newJoueuses)
+        handleSetDatasJoueuse(newJoueuses);
     }
 
     const handleSetFalseSelect = () => {
@@ -103,15 +127,15 @@ export default function StatTir() {
     return (
         <div className="flex justify-center" >
             <Card>
-                <CardContent className="p-6 mb-3">
+                <CardContent className="p-6 mb-7">
                     <div className="flex gap-6 h-[600px]">
                         {/* Liste des joueuses - hauteur fixe */}
                         <div className="flex flex-col items-center w-full sm:w-40 md:w-48 relative h-full">
                             <h1 className="mb-4 text-sm leading-none font-medium text-center">Joueuses</h1>
                             <div className="flex-1 w-full overflow-y-auto">
-                                <ListComponent liste={joueuses} onClick={handleSelectectJoueuse} />
+                                <ListComponent liste={joueuses} categorie={categorie} onClick={handleSelectectJoueuse} selectAll={handleSelectAll} />
                             </div>
-                            <Button onClick={handleSetFalseSelect}>Clear</Button>
+                            <Button className="mt-3" onClick={handleSetFalseSelect}>Clear</Button>
                         </div>
 
                         {/* Carte des tirs - élément principal qui prend tout l'espace restant */}
@@ -123,32 +147,30 @@ export default function StatTir() {
                             )}
                             <CarteTirs datas={dataJoueuse} appui={appui} showData={showData} />
                             {/* Switch - hauteur fixe, aligné verticalement */}
-                            <div className="flex-shrink-0 flex flex-row items-start justify-around space-y-4">
-                                {dataJoueuse.length !== 0 && (
-                                    <>
-                                    <div className="mt-2 flex flex-col items-center space-y-3">
-                                        <Switch
-                                            id="switchAppui"
-                                            checked={appui}
-                                            onCheckedChange={handleAppui}
-                                        />
-                                        <Label htmlFor={"switchAppui"}>
-                                            {appui ? "Appui " : "Suspension "}
-                                        </Label>
-                                    </div>
-                                    <div className="mt-2 flex flex-col items-center space-y-3">
-                                        <Switch
-                                            id="switchData"
-                                            checked={showData}
-                                            onCheckedChange={handleShowData}
-                                        />
-                                        <Label htmlFor={"switchData"}>
-                                            {showData ? "Data " : "Heatmap "}
-                                        </Label>
-                                    </div>
-                                   </> 
-                                )
-                                }
+                            <div className="flex-shrink-0 mt-4 flex flex-row items-start justify-around space-y-4">
+
+
+                                <div className="mt-2 flex flex-col items-center space-y-3">
+                                    <Switch
+                                        id="switchAppui"
+                                        checked={appui}
+                                        onCheckedChange={handleAppui}
+                                    />
+                                    <Label htmlFor={"switchAppui"}>
+                                        {appui ? "Appui " : "Suspension "}
+                                    </Label>
+                                </div>
+                                <div className="mt-2 flex flex-col items-center space-y-3">
+                                    <Switch
+                                        id="switchData"
+                                        checked={showData}
+                                        onCheckedChange={handleShowData}
+                                    />
+                                    <Label htmlFor={"switchData"}>
+                                        {showData ? "Data " : "Heatmap "}
+                                    </Label>
+                                </div>
+
                             </div>
                         </div>
                     </div>

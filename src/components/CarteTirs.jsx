@@ -70,14 +70,13 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
                         let infosecteur = [];
 
                         datas.forEach(data => {
-                            console.log("data", data)
                             data.tirs.forEach(element => {
                                 if (element.secteur === block.secteur) {
                                     infosecteur.push(element);
                                 }
                             });
                         });
-                            
+
                         let tirsTotal = 0;
                         let tirsReussi = 0;
 
