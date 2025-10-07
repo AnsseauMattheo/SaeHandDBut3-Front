@@ -9,6 +9,7 @@ import { useAlerts } from './context/AlertProvider.jsx';
 import StatTir from "./Pages/StatTir.jsx";
 import DashboardTeam from "./Pages/DashboardTeam.jsx";
 import ImportFileCSV from "@/Pages/ImportFileCSV.jsx";
+import SupImport from "./Pages/SupImport.jsx";
 import CreationCompte from './Pages/AjoutUtilisateur.jsx';
 import Joueuses from './Pages/Joueuses.jsx';
 
@@ -67,6 +68,7 @@ function App() {
         <Route index element={<DashboardTeam />} />
         <Route path="StatTir" element={<StatTir />} />
         <Route path="import" element={<ImportFile />} />
+        <Route path="supImport" element={<SupImport />} />
         <Route path="ajout-utilisateur" element={<CreationCompte />} />
         <Route path='joueuses' element={<Joueuses />} />
       </Route>

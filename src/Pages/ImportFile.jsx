@@ -70,17 +70,6 @@ const ImportFile = () => {
 
     return (
         <>
-            {/*<h1>Importer un fichier</h1>*/}
-            {/*<form onSubmit={handleSubmit}>*/}
-            {/*    <label>Nom du match</label><input required type="text" onChange={handleMatchName}></input>*/}
-            {/*    <label>Date du match</label><input required type="date" onChange={handleMatchDate}></input>/!*ou type string si le type pose pbm avec la bdd*!/*/}
-            {/*    <input required type="file" onChange={handleChangeFile}></input>*/}
-            {/*    <Button disabled = {load}>*/}
-            {/*        {load? <Loader2Icon className="animate-spin" /> : ""}*/}
-            {/*        Button*/}
-            {/*    </Button>*/}
-            {/*</form>*/}
-
             <h1 className="text-2xl font-bold mb-6 text-center text-[var(--color-primary)]">
                 Importer un fichier
             </h1>
@@ -92,7 +81,7 @@ const ImportFile = () => {
             >
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-[var(--color-primary)] mb-1">
-                        Nom du match
+                        Nom de l'import
                     </label>
                     <input
                         required
