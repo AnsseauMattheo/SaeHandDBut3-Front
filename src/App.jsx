@@ -10,6 +10,7 @@ import { useAlerts } from './context/AlertProvider.jsx';
 import StatTir from "./Pages/StatTir.jsx";
 import DashboardTeam from "./Pages/DashboardTeam.jsx";
 import ImportFileCSV from "@/Pages/ImportFileCSV.jsx";
+import SupImport from "./Pages/SupImport.jsx";
 
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
         <Route index element={<DashboardTeam />} />
         <Route path="StatTir" element={<StatTir />} />
         <Route path="import" element={<ImportFile />} />
+        <Route path="supImport" element={<SupImport />} />
       </Route>
 
       <Route path="/" element={<Connexion reload={handleReload} />} />
