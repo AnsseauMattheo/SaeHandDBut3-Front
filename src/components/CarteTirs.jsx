@@ -5,11 +5,12 @@ import axios from "axios";
 import { data } from "react-router";
 
 
-const CarteTirs = ({ datas, appui }) => {
+const CarteTirs = ({ datas, appui, showData = true }) => {
 
     const totalCases = 150;
     const cols = 15;
     const [totalTirs, setTotalTirs] = useState(0);
+    const [resetInfo, setResetInfo] = useState(false);
 
     useEffect(() => {
         if (datas != null) {
@@ -28,7 +29,7 @@ const CarteTirs = ({ datas, appui }) => {
         { "pos": 51, "secteur": "5 6" }, { "pos": 53, "secteur": "3 4" }, { "pos": 55, "secteur": "2 3" },
         { "pos": 65, "secteur": "4 5" }, { "pos": 71, "secteur": "1 2" },
         { "pos": 79, "secteur": "ALD" }, { "pos": 87, "secteur": "ALG" },
-        { "pos": 126, "secteur": "BUT VIDE" }, { "pos": 130, "secteur": "CA MB" }
+        { "pos": 126, "secteur": "But vide" }, { "pos": 130, "secteur": "CA MB" }
     ];
 
     const caseToBlock = [];
@@ -47,10 +48,17 @@ const CarteTirs = ({ datas, appui }) => {
         return { row, col };
     }
 
+    const handleResetInfo = (e) => {
+        console.log(e.target.id)
+        if(e.target.id !== "map") return;
+        setResetInfo(true);
+        console.log("reset info")
+    }
+
     return (
         <>
-            <img src={terrainVide} className="object-cover rounded-2xl" />
-            <div className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-4 p-6 w-full aspect-[15/10]">
+            <img src={terrainVide} className="object-cover rounded-2xl" style={!showData? { filter: "grayscale(1)" } : {}}  />
+            <div id="map" className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-4 p-6 w-full aspect-[15/10]" onClick={(e) => handleResetInfo(e)}>
                 {Array.from({ length: totalCases }).map((_, i) => {
                     const caseNum = i + 1;
                     const block = blockMap.get(caseNum);
@@ -64,20 +72,21 @@ const CarteTirs = ({ datas, appui }) => {
                             }
                         });
 
+
                         if(infosecteur) {
                             return (
                                 <div
                                     key={caseNum}
                                     className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded bg-transparent`}
                                 >
-                                    <DonneTir tirs={infosecteur.tirsTotal} tirsReussi={infosecteur.tirsReussi} totalTirs={totalTirs} />
+                                    <DonneTir tirs={infosecteur.tirsTotal} tirsReussi={infosecteur.tirsReussi} totalTirs={totalTirs} secteur={block.secteur} reset={resetInfo} updateReset={setResetInfo} data={showData} />
                                 </div>
                             );
-                        } else {
+                        } else if (showData) {
                             return (
                                 <div
                                     key={caseNum}
-                                    className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded-lg bg-slate-900`}
+                                    className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded-lg h-10 w-10 py-2 px-2 bg-slate-900`}
                                 >
                                     0
                                 </div>
