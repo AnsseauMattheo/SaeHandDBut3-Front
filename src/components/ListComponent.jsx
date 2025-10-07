@@ -2,10 +2,15 @@ import { Button } from "./ui/button"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import { Fragment } from "react"
+import {Fragment, useEffect} from "react"
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion.jsx";
+import {Check, CheckCircleIcon} from "lucide-react";
 
 const ListComponent = ({liste = {}, onClick}) => {
+
+    useEffect(() => {
+        console.log(liste)
+    }, [liste]);
 
     return (
         <ScrollArea className="h-full rounded-md border">
@@ -24,13 +29,13 @@ const ListComponent = ({liste = {}, onClick}) => {
                                 {liste[key].map((tag, index) => (
                                     <Fragment key={tag.id}>
                                         <Button
-                                            onClick={() => {
-                                                onClick?.(tag.nom);
-                                            }}
+                                            htmlFor={tag.id}
                                             variant="outline"
-                                            className="w-full justify-start mb-2"
+                                            className="relative w-full justify-start mb-2"
+                                            onClick={() => onClick(tag.id)}
                                         >
                                             {tag.nom}
+                                            {tag.selected ? <Check className="absolute right-3 text-green-600" /> : ""}
                                         </Button>
                                         {index < liste.length - 1 && (
                                             <Separator className="my-2" />

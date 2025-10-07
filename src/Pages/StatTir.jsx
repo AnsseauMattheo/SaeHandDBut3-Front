@@ -23,16 +23,44 @@ export default function StatTir() {
         setShowData(!showData);
     }
 
+    const handleInitSelectect = (joueuseListe) => {
+        Object.keys(joueuseListe).forEach((key, index) => {
+            joueuseListe[key].forEach((item) => {
+                item.selected = false;
+            })
+        })
+    }
+
     useEffect(() => {
         axios.get("http://localhost:8080/joueuses/JoueusesParAffectation", { withCredentials: true }).then((res) => {
             // console.log("joueuse : " + res.data);
             setJoueuses(res.data)
+            handleInitSelectect(res.data)
         })
         axios.get("http://localhost:8080/data/getTirs", { withCredentials: true }).then((res) => {
             // console.log("datas tirs : " + res.data);
             setDatas(res.data)
         })
     }, [])
+
+    const handleSelectectJoueuse = (id) => {
+        const newJoueuses = { ...joueuses };
+
+        Object.keys(newJoueuses).forEach((key) => {
+            newJoueuses[key] = newJoueuses[key].map((item) => {
+                if (item.id === id) {
+                    return {
+                        ...item,
+                        selected: !item.selected,
+                    };
+                }
+                return item;
+            });
+        });
+
+        setJoueuses(newJoueuses);
+    };
+
 
     const handleClickJoueuse = (tag) => {
         datas.forEach((item) => {
@@ -51,7 +79,7 @@ export default function StatTir() {
                         <div className="flex flex-col items-center w-full sm:w-40 md:w-48 relative h-full">
                             <h1 className="mb-4 text-sm leading-none font-medium text-center">Joueuses</h1>
                             <div className="flex-1 w-full overflow-y-auto">
-                                <ListComponent liste={joueuses} onClick={handleClickJoueuse} />
+                                <ListComponent liste={joueuses} onClick={handleSelectectJoueuse} />
                             </div>
                         </div>
 
