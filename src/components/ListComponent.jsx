@@ -6,7 +6,7 @@ import { Fragment, useEffect } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion.jsx";
 import { Check, CheckCircleIcon } from "lucide-react";
 
-const ListComponent = ({ liste = {}, categorie, onClick, selectAll }) => {
+const ListComponent = ({ liste = {}, nom, id, categorie, onClick, selectAll }) => {
 
     useEffect(() => {
         console.log("liste", liste);
@@ -37,13 +37,13 @@ const ListComponent = ({ liste = {}, categorie, onClick, selectAll }) => {
                                     </Button>
                                 </Fragment>
                                 {liste[key].map((tag, index) => (
-                                    <Fragment key={tag.id}>
+                                    <Fragment key={tag[id]}>
                                         <Button
                                             variant="outline"
                                             className="relative w-full justify-start mb-2"
-                                            onClick={() => onClick(tag.id)}
+                                            onClick={() => onClick(tag[id])}
                                         >
-                                            {tag.nom}
+                                            {tag[nom]}
                                             {tag.selected ? <Check className="absolute right-3 text-green-600" /> : ""}
                                         </Button>
                                         {index < liste.length - 1 && (
