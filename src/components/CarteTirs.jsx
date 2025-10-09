@@ -15,9 +15,11 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
     useEffect(() => {
         if (datas != null) {
             let res = 0;
-            datas.forEach((data) => {
-                res += data.tirsTotal
-            })
+            datas.forEach(data => {
+                data.tirs.forEach(element => {
+                    res += element.tirsTotal;
+                });
+            });
             setTotalTirs(res)
         }
 
@@ -50,14 +52,14 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
 
     const handleResetInfo = (e) => {
         console.log(e.target.id)
-        if(e.target.id !== "map") return;
+        if (e.target.id !== "map") return;
         setResetInfo(true);
         console.log("reset info")
     }
 
     return (
         <>
-            <img src={terrainVide} className="object-cover rounded-2xl" style={!showData? { filter: "grayscale(1)" } : {}}  />
+            <img src={terrainVide} className="object-cover rounded-2xl" style={!showData ? { filter: "grayscale(1)" } : {}} />
             <div id="map" className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-4 p-6 w-full aspect-[15/10]" onClick={(e) => handleResetInfo(e)}>
                 {Array.from({ length: totalCases }).map((_, i) => {
                     const caseNum = i + 1;
@@ -65,21 +67,31 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
 
                     if (block && datas) {
                         const { row, col } = caseToCoords(caseNum, cols);
-                        let infosecteur
+                        let infosecteur = [];
+
                         datas.forEach(data => {
-                            if(data.secteur === block.secteur) {
-                                infosecteur = data
-                            }
+                            data.tirs.forEach(element => {
+                                if (element.secteur === block.secteur) {
+                                    infosecteur.push(element);
+                                }
+                            });
                         });
 
+                        let tirsTotal = 0;
+                        let tirsReussi = 0;
 
-                        if(infosecteur) {
+                        infosecteur.forEach(element => {
+                            tirsTotal += element.tirsTotal;
+                            tirsReussi += element.tirsReussi;
+                        });
+
+                        if (infosecteur.length > 0) {
                             return (
                                 <div
                                     key={caseNum}
                                     className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded bg-transparent`}
                                 >
-                                    <DonneTir tirs={infosecteur.tirsTotal} tirsReussi={infosecteur.tirsReussi} totalTirs={totalTirs} secteur={block.secteur} reset={resetInfo} updateReset={setResetInfo} data={showData} />
+                                    <DonneTir tirs={tirsTotal} tirsReussi={tirsReussi} totalTirs={totalTirs} secteur={block.secteur} reset={resetInfo} updateReset={setResetInfo} data={showData} />
                                 </div>
                             );
                         } else if (showData) {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button"
 import {useAlerts} from "@/context/AlertProvider.jsx";
 import {Loader2Icon} from "lucide-react"
@@ -14,6 +14,17 @@ const ImportFile = () => {
     const [dateMatch, setDateMatch] = useState(null);
     const [win, setWin] = useState(null);
     const [load, setLoad] = useState(false);
+    const [saisons, setSaisons] = useState([]);
+    const [saisonId, setSaisonId] = useState(null);
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/saisons/getSaisons", {withCredentials: true}).then(res => {
+            setSaisons(res.data);
+            console.log(res.data);
+        }).catch(err => {
+            addError("Erreur lors du chargement des saisons");
+        })
+    }, [])
 
     const handleSubmit = (e) => {
 
@@ -25,6 +36,7 @@ const ImportFile = () => {
         formData.append("nameA", adversaireName);
         formData.append("date", dateMatch);
         formData.append("win", win);
+        formData.append("saison", saisonId);
 
         axios.post("http://localhost:8080/data/import", formData, {
             withCredentials: true,
@@ -66,6 +78,12 @@ const ImportFile = () => {
         const win = e.target.checked;
         setWin(win)
         console.log("change win")
+    }
+
+    const handleSaisonId = (e) => {
+        const saisonId = e.target.value;
+        setSaisonId(saisonId)
+        console.log("change saison")
     }
 
     return (
@@ -119,6 +137,24 @@ const ImportFile = () => {
                  bg-[var(--color-input)] text-[var(--color-foreground)] rounded-lg px-3 py-2
                  focus:outline-none focus:ring-2 focus:ring-[var(--color-ring)]"
                     />
+                </div>
+
+                <div>
+                    <label className="text-sm font-medium text-[var(--color-primary)] mb-1">
+                        Saison
+                    </label>
+                    <select onChange={handleSaisonId}
+                    required
+                        className="w-full border border-[var(--color-border)]
+                 bg-[var(--color-input)] text-[var(--color-foreground)] rounded-lg px-3 py-2
+                    focus:outline-none focus:ring-2 focus:ring-[var(--color-ring)]"
+                    >
+                        {saisons.map((saison) => (
+                            <option key={saison.id} value={saison.id}>
+                                {saison.nom}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="flex flex-col">
