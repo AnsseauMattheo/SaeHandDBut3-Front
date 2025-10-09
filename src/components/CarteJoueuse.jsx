@@ -1,24 +1,43 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const CarteJoueuse = ({ datasJ = null }) => {
+const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
     const [datas, setDatas] = useState([]);
+    const [totalReussis, setTotalReussis] = useState(0);
+    const [totalTirs, setTotalTirs] = useState(0);
 
     useEffect(() => {
         // Si aucune donnée n'est passée en props, on récupère depuis l'API
-        if (!datasJ) {
-            axios
-                .get("http://localhost:8080/data/getTirs", { withCredentials: true })
+        if (datasJ === null) {
+            axios.get("http://localhost:8080/data/getTirs", { withCredentials: true })
                 .then((res) => {
-                    console.log("Données reçues de l’API :", res.data);
-                    setDatas(res.data);
+                    for (let i = 0; i < res.data.length; i++) {
+                        if (res.data?.[i].joueuse === joueuse) {
+                            const tirs = res.data?.[i].tirs || [];
+
+                            // Calcul des totaux
+                            const totalReussisTemp = tirs.reduce((acc, t) => acc + (t.tirsReussi || 0), 0);
+                            const totalTirsTemp = tirs.reduce((acc, t) => acc + (t.tirsTotal || 0), 0);
+
+                            setDatas(tirs);
+                            setTotalReussis(totalReussisTemp);
+                            setTotalTirs(totalTirsTemp);
+                        }
+                    }
                 })
                 .catch((err) => console.error("Erreur lors du chargement :", err));
         } else {
             // Sinon, on utilise les données passées en props
             setDatas(datasJ);
+
+            // Calcul local si les données sont déjà fournies
+            const totalReussisTemp = datasJ.reduce((acc, t) => acc + (t.tirsReussi || 0), 0);
+            const totalTirsTemp = datasJ.reduce((acc, t) => acc + (t.tirsTotal || 0), 0);
+
+            setTotalReussis(totalReussisTemp);
+            setTotalTirs(totalTirsTemp);
         }
-    }, [datasJ]);
+    }, [datasJ, joueuse]);
 
     // Si aucune donnée n'est dispo
     if (!datas || datas.length === 0) {
@@ -30,12 +49,57 @@ const CarteJoueuse = ({ datasJ = null }) => {
     }
 
     // Sinon on affiche les infos
+    const tauxReussite = totalTirs > 0 ? ((totalReussis / totalTirs) * 100).toFixed(1) : "N/A";
     return (
-        <div>
-            <h1 className="text-center">
-                Joueuse : {datas[0]?.joueuse || "Inconnue"}
-            </h1>
-            <p>Nombre de tirs : {datas.length}</p>
+        <div className="relative w-64 h-96 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-2xl shadow-xl border-4 border-yellow-800 flex flex-col items-center justify-start overflow-hidden">
+            {/* Bande brillante en haut */}
+            <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white/50 to-transparent"></div>
+
+            {/* Photo */}
+            <div className="mt-8 w-28 h-28 rounded-full border-4 border-yellow-800 overflow-hidden shadow-md bg-gray-200">
+                {/*{photoUrl ? (*/}
+                {/*    <img*/}
+                {/*        src={photoUrl}*/}
+                {/*        alt={joueuse}*/}
+                {/*        className="w-full h-full object-cover"*/}
+                {/*    />*/}
+                {/*) : (*/}
+                {/*    <div className="flex items-center justify-center h-full text-gray-500 text-sm">*/}
+                {/*        Aucune photo*/}
+                {/*    </div>*/}
+                {/*)}*/}
+            </div>
+
+            {/* Nom de la joueuse */}
+            <h2 className="mt-3 text-xl font-bold text-center text-yellow-900 drop-shadow-md uppercase">
+                {joueuse || "Inconnue"}
+            </h2>
+
+            {/* Bloc stats */}
+            <div className="mt-4 w-5/6 bg-yellow-100 rounded-xl p-3 shadow-inner">
+                <div className="flex justify-between text-sm font-semibold text-yellow-900">
+                    <span>Tirs :</span>
+                    <span>{totalTirs}</span>
+                </div>
+                <div className="flex justify-between text-sm font-semibold text-yellow-900">
+                    <span>Réussis :</span>
+                    <span>{totalReussis}</span>
+                </div>
+                <div className="flex justify-between text-sm font-semibold text-yellow-900">
+                    <span>Taux :</span>
+                    <span>{tauxReussite}%</span>
+                </div>
+            </div>
+
+            {/* Barre de réussite */}
+            <div className="mt-5 w-5/6 h-4 bg-yellow-200 rounded-full overflow-hidden">
+                <div
+                    className="h-full bg-green-500 transition-all duration-500"
+                    style={{ width: `${tauxReussite === "N/A" ? 0 : tauxReussite}%` }}
+                ></div>
+            </div>
+
+            <p className="mt-2 text-xs text-yellow-900 font-medium">Taux de réussite</p>
         </div>
     );
 };
