@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {data} from "react-router";
 
 const CarteJoueuse = ({ datasJ = null }) => {
     const [datas, setDatas] = useState([]);
@@ -12,9 +11,6 @@ const CarteJoueuse = ({ datasJ = null }) => {
                 .get("http://localhost:8080/data/getTirs", { withCredentials: true })
                 .then((res) => {
                     console.log("Données reçues de l’API :", res.data);
-                    // for (d of res.data) {
-                    //     if (d
-                    // }
                     setDatas(res.data);
                 })
                 .catch((err) => console.error("Erreur lors du chargement :", err));
