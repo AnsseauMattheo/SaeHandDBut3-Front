@@ -18,8 +18,11 @@ const ImportFile = () => {
     const [saisonId, setSaisonId] = useState(null);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/saisons/getSaisons", {withCredentials: true}).then(res => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/saisons/getSaisons`, {withCredentials: true}).then(res => {
             setSaisons(res.data);
+            if (res.data.length > 0) {
+                setSaisonId(res.data[0].id);
+            }
             console.log(res.data);
         }).catch(err => {
             addError("Erreur lors du chargement des saisons");
@@ -38,7 +41,7 @@ const ImportFile = () => {
         formData.append("win", win);
         formData.append("saison", saisonId);
 
-        axios.post("http://localhost:8080/data/import", formData, {
+        axios.post(`${import.meta.env.VITE_SERVER_URL}/data/import`, formData, {
             withCredentials: true,
             headers: {"Content-Type": "multipart/form-data"}
         }).then(res => {

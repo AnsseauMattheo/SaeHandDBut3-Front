@@ -23,7 +23,7 @@ function App() {
 
   const handleReload = () => {
     axios
-      .get("http://localhost:8080/auth/me", { withCredentials: true })
+      .get(`${import.meta.env.VITE_SERVER_URL}/auth/me`, { withCredentials: true })
       .then((res) => {
         console.log(res.data);
         setUser(res.data);
@@ -45,7 +45,7 @@ function App() {
 
   const handleLogOut = () => {
     axios
-      .delete("http://localhost:8080/auth/logout", { withCredentials: true })
+      .delete(`${import.meta.env.VITE_SERVER_URL}/auth/logout`, { withCredentials: true })
       .then(() => {
         console.log("logout");
         document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

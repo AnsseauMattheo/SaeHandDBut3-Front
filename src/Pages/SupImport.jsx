@@ -11,13 +11,14 @@ const SupImport = () => {
     const [matchs, setMatchs] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/match/getAll").then(res => {
-        console.log(res.data);
-            setMatchs(res.data)});
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getAll`).then(res => {
+            console.log(res.data);
+            setMatchs(res.data);
+        });
     }, [])
 
     const handleDelete = (id) => {
-        axios.post(`http://localhost:8080/match/deleteMatch?id=${id}`, {
+        axios.post(`${import.meta.env.VITE_SERVER_URL}/match/deleteMatch?id=${id}`, {
 
         }).then(res => {
             addSuccess("Delete successfully");

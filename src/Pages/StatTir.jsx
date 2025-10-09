@@ -53,14 +53,14 @@ export default function StatTir() {
     }
 
     useEffect(() => {
-        axios.get("http://localhost:8080/joueuses/JoueusesParAffectation", { withCredentials: true }).then((res) => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/JoueusesParAffectation`, { withCredentials: true }).then((res) => {
             setJoueuses(res.data)
             handleInitJoueusesSelectect(res.data)
         })
-        axios.get("http://localhost:8080/data/getTirs", { withCredentials: true }).then((res) => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getTirs`, { withCredentials: true }).then((res) => {
             setDatas(res.data)
         })
-        axios.get("http://localhost:8080/match/getMathchParSaisons", { withCredentials: true }).then((res) => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getMathchParSaisons`, { withCredentials: true }).then((res) => {
             setMatchs(res.data);
             handleInitMatchsSelectect(res.data)
             console.log(res.data);
