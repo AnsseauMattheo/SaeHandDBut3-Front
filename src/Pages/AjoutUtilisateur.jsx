@@ -38,7 +38,7 @@ export default function CreationCompte() {
             try {
                 const resRoles = await axios.get(`${import.meta.env.VITE_SERVER_URL}/roles/getAll`);
                 setRoles(resRoles.data);
-                const resJoueuses = await axios.get("http://localhost:8080/joueuses/getJoueuses");
+                const resJoueuses = await axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/getJoueuses`);
                 setJoueuses(resJoueuses.data || []);
             } catch (err) {
                 addError("Impossible de charger les rôles ou les joueuses");
@@ -55,7 +55,7 @@ export default function CreationCompte() {
         const fetchActivationData = async () => {
             try {
                 const resData = await axios.get(
-                    `http://localhost:8080/ajout/activation-data?token=${token}`
+                    `${import.meta.env.VITE_SERVER_URL}/ajout/activation-data?token=${token}`
                 );
 
                 setNom(resData.data.username || "");
