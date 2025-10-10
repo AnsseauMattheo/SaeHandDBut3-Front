@@ -2,18 +2,6 @@
 
 import * as React from "react"
 import {
-    AudioWaveform,
-    BookOpen,
-    Bot,
-    Command,
-    Frame,
-    GalleryVerticalEnd,
-    Map,
-    PieChart,
-    Settings2,
-    SquareTerminal,
-    Banana,
-    Beer,
     Home,
     MapIcon,
     UserPlus,
@@ -23,15 +11,14 @@ import {
 } from "lucide-react"
 
 import {NavMain} from "@/components/nav-main"
-import {NavProjects} from "@/components/nav-projects"
 import {NavUser} from "@/components/nav-user"
-import {TeamSwitcher} from "@/components/team-switcher"
 import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
-    SidebarRail, SidebarTrigger,
+    SidebarRail,
+    SidebarTrigger,
 } from "@/components/ui/sidebar"
 
 const data = {
@@ -74,8 +61,8 @@ export function AppSidebar({user, logout, ...props}) {
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
-                <SidebarTrigger
-                    className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"/>
+                {/* Bouton trigger visible uniquement sur desktop (lg et plus) */}
+                <SidebarTrigger className="hidden lg:flex bg-sidebar-primary text-sidebar-primary-foreground aspect-square size-8 items-center justify-center rounded-lg"/>
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain}/>

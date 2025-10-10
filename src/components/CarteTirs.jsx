@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import terrainVide from "../assets/DemiTerrainVide.jpg";
 import DonneTir from "./DonneeTir";
 import axios from "axios";
-import { data } from "react-router";
-
 
 const CarteTirs = ({ datas, appui, showData = true }) => {
 
@@ -22,7 +20,6 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
             });
             setTotalTirs(res)
         }
-
     }, [datas])
 
     const blocks = [
@@ -51,16 +48,23 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
     }
 
     const handleResetInfo = (e) => {
-        console.log(e.target.id)
         if (e.target.id !== "map") return;
         setResetInfo(true);
-        console.log("reset info")
     }
 
     return (
-        <>
-            <img src={terrainVide} className="object-cover rounded-2xl" style={!showData ? { filter: "grayscale(1)" } : {}} />
-            <div id="map" className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-4 p-6 w-full aspect-[15/10]" onClick={(e) => handleResetInfo(e)}>
+        <div className="relative w-full h-full">
+            <img
+                src={terrainVide}
+                className="w-full h-full object-contain rounded-lg sm:rounded-xl lg:rounded-2xl"
+                style={!showData ? { filter: "grayscale(1)" } : {}}
+                alt="Terrain"
+            />
+            <div
+                id="map"
+                className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-1 sm:gap-2 lg:gap-4 p-2 sm:p-4 lg:p-6 w-full aspect-[15/10]"
+                onClick={(e) => handleResetInfo(e)}
+            >
                 {Array.from({ length: totalCases }).map((_, i) => {
                     const caseNum = i + 1;
                     const block = blockMap.get(caseNum);
@@ -91,14 +95,22 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
                                     key={caseNum}
                                     className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded bg-transparent`}
                                 >
-                                    <DonneTir tirs={tirsTotal} tirsReussi={tirsReussi} totalTirs={totalTirs} secteur={block.secteur} reset={resetInfo} updateReset={setResetInfo} data={showData} />
+                                    <DonneTir
+                                        tirs={tirsTotal}
+                                        tirsReussi={tirsReussi}
+                                        totalTirs={totalTirs}
+                                        secteur={block.secteur}
+                                        reset={resetInfo}
+                                        updateReset={setResetInfo}
+                                        data={showData}
+                                    />
                                 </div>
                             );
                         } else if (showData) {
                             return (
                                 <div
                                     key={caseNum}
-                                    className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded-lg h-10 w-10 py-2 px-2 bg-slate-900`}
+                                    className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded-lg h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 py-1 px-1 sm:py-1.5 sm:px-1.5 lg:py-2 lg:px-2 bg-slate-900 text-[9px] sm:text-xs lg:text-sm`}
                                 >
                                     0
                                 </div>
@@ -113,7 +125,7 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
                     )
                 })}
             </div>
-        </>
+        </div>
     )
 }
 
