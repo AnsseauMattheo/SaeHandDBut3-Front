@@ -24,15 +24,47 @@ export default function CreationCompte() {
     const [nom, setNom] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [affectation, setAffectation] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [joueuses, setJoueuses] = useState([]);
+    const [joueuseSelectionnee, setJoueuseSelectionnee] = useState("");
     const [load, setLoad] = useState(false);
-    const [activationLink, setActivationLink] = useState(""); // Pour créer un compte
+    const [activationLink, setActivationLink] = useState("");
 
+    console.log('joueuses:', joueuseSelectionnee);
+
+// 1️⃣ Charger les rôles et les joueuses au montage
     useEffect(() => {
-        const fetchRoles = async () => {
+        const fetchRolesAndJoueuses = async () => {
             try {
                 const resRoles = await axios.get(`${import.meta.env.VITE_SERVER_URL}/roles/getAll`);
                 setRoles(resRoles.data);
+                const resJoueuses = await axios.get("http://localhost:8080/joueuses/getJoueuses");
+                setJoueuses(resJoueuses.data || []);
+            } catch (err) {
+                addError("Impossible de charger les rôles ou les joueuses");
+                console.error(err);
+            }
+        };
+        fetchRolesAndJoueuses();
+    }, []);
+
+// 2️⃣ Pré-remplir les données si token existant
+    useEffect(() => {
+        if (!token) return;
+
+        const fetchActivationData = async () => {
+            try {
+                const resData = await axios.get(
+                    `http://localhost:8080/ajout/activation-data?token=${token}`
+                );
+
+                setNom(resData.data.username || "");
+                setEmail(resData.data.email || "");
+                setRole(resData.data.roleId?.toString() || "");
+                setJoueuseSelectionnee(resData.data.joueuse || "");
+
+                const joueuseNom = resData.data.joueuse;
+                console.log(joueuseNom);
                 console.log(resRoles.data);
 
                 if (token) {
@@ -47,17 +79,26 @@ export default function CreationCompte() {
                         setAffectation(resData.data.affectationId.toString());
                     }
                 }
+
             } catch (err) {
-                addError("Impossible de charger les rôles ou les données d'activation");
+                addError("Impossible de charger les données d'activation");
                 console.error(err);
             }
         };
-        fetchRoles();
-    }, [token]);
+
+        fetchActivationData();
+    }, [token, joueuses]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoad(true);
+
+        if (token && password !== confirmPassword) {
+            setLoad(false);
+            addError("Les mots de passe ne correspondent pas !");
+            return;
+        }
 
         try {
             if (!token) {
@@ -67,7 +108,7 @@ export default function CreationCompte() {
                 formData.append("nom", nom);
                 formData.append("email", email);
                 formData.append("password", password);
-                if (affectation) formData.append("affectation", parseInt(affectation));
+                if (joueuseSelectionnee) formData.append("joueuse", joueuseSelectionnee);
 
                 const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/ajout/utilisateur`, formData, {
                     withCredentials: true,
@@ -145,26 +186,29 @@ export default function CreationCompte() {
                     </div>
                 </div>
 
-                {/* Affectation */}
-                {role === "2" && (
+                {/* Joueuse */}
+                {role && roles.find(r => r.id.toString() === role)?.role === "JOUEUSE" && (
                     <div className="flex-1 mt-4">
-                        <Label htmlFor="Affectation">Affectation</Label>
+                        <Label htmlFor="joueuse">Joueuse</Label>
                         <Select
-                            value={affectation}
-                            onValueChange={setAffectation}
-                            disabled={!!token} // non modifiable si activation
+                            value={joueuseSelectionnee || ""}
+                            onValueChange={val => setJoueuseSelectionnee(val)}
+                            disabled={!!token}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder="-- Choisir une affectation --" />
+                                <SelectValue placeholder="-- Choisir une joueuse --" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="1">Gardienne</SelectItem>
-                                <SelectItem value="2">Défenseuse</SelectItem>
-                                <SelectItem value="3">Attaquante</SelectItem>
+                                {joueuses.map((j) => (
+                                    <SelectItem key={j.id} value={j.nom} selected={(!token && joueuseSelectionnee === j.nom) }>
+                                        {j.nom}
+                                    </SelectItem>
+                                ))}
                             </SelectContent>
                         </Select>
                     </div>
                 )}
+
 
                 {/* Email */}
                 <div className="flex flex-col md:flex-row md:space-x-4">
@@ -181,16 +225,37 @@ export default function CreationCompte() {
                 </div>
 
                 {/* Password */}
-                <div>
-                    <Label htmlFor="password">Mot de passe</Label>
-                    <Input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="••••••••"
-                    />
-                </div>
+                {token && (
+                    <>
+                        <div>
+                            <Label htmlFor="password">Mot de passe</Label>
+                            <Input
+                                id="password"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="••••••••"
+                                required
+                                minLength={8}
+
+                            />
+                        </div>
+
+                        <div>
+                            <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
+                            <Input
+                                id="confirmPassword"
+                                type="password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                placeholder="••••••••"
+                                required
+                                minLength={8}
+
+                            />
+                        </div>
+                    </>
+                )}
 
                 {/* Bouton */}
                 <Button
