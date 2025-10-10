@@ -36,7 +36,6 @@ export default function StatTir() {
                 item.selected = false;
             })
         })
-        console.log("Jcat", joueusecat)
         setjoueuseCategorie(joueusecat);
     }
 
@@ -48,7 +47,6 @@ export default function StatTir() {
                 item.selected = false;
             })
         })
-        console.log("Mcat", matchcat)
         setMatchCategorie(matchcat);
     }
 
@@ -63,11 +61,9 @@ export default function StatTir() {
         axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getMathchParSaisons`, { withCredentials: true }).then((res) => {
             setMatchs(res.data);
             handleInitMatchsSelectect(res.data)
-            console.log(res.data);
         })
     }, [])
 
-    // Fonction pour obtenir les joueuses sélectionnées
     const getSelectedJoueuses = (joueusesObj) => {
         const selected = [];
         Object.keys(joueusesObj).forEach((key) => {
@@ -80,7 +76,6 @@ export default function StatTir() {
         return selected;
     };
 
-    // Fonction pour obtenir les matchs sélectionnés
     const getSelectedMatchs = (matchsObj) => {
         const selected = [];
         Object.keys(matchsObj).forEach((key) => {
@@ -93,28 +88,24 @@ export default function StatTir() {
         return selected;
     };
 
-    // Fonction pour filtrer les données selon les joueuses ET matchs sélectionnés
     const filterDatas = (joueusesObj, matchsObj) => {
         const selectedJoueuseNoms = getSelectedJoueuses(joueusesObj);
         const selectedMatchIds = getSelectedMatchs(matchsObj);
-        
-        // Si aucune sélection, retourner un tableau vide
+
         if (selectedJoueuseNoms.length === 0 && selectedMatchIds.length === 0) {
             return [];
         }
-        
-        // Si seulement des joueuses sont sélectionnées
+
         if (selectedJoueuseNoms.length > 0 && selectedMatchIds.length === 0) {
-            return datas.filter(data => 
+            return datas.filter(data =>
                 selectedJoueuseNoms.includes(data.joueuse)
             );
         }
-        
-        // Si seulement des matchs sont sélectionnés
+
         if (selectedJoueuseNoms.length === 0 && selectedMatchIds.length > 0) {
             const filteredData = [];
             datas.forEach(joueuseData => {
-                const filteredTirs = joueuseData.tirs.filter(tir => 
+                const filteredTirs = joueuseData.tirs.filter(tir =>
                     selectedMatchIds.includes(tir.match.mid)
                 );
                 if (filteredTirs.length > 0) {
@@ -126,12 +117,11 @@ export default function StatTir() {
             });
             return filteredData;
         }
-        
-        // Si les deux sont sélectionnés (joueuses ET matchs)
+
         const filteredData = [];
         datas.forEach(joueuseData => {
             if (selectedJoueuseNoms.includes(joueuseData.joueuse)) {
-                const filteredTirs = joueuseData.tirs.filter(tir => 
+                const filteredTirs = joueuseData.tirs.filter(tir =>
                     selectedMatchIds.includes(tir.match.mid)
                 );
                 if (filteredTirs.length > 0) {
@@ -142,7 +132,7 @@ export default function StatTir() {
                 }
             }
         });
-        
+
         return filteredData;
     };
 
@@ -162,14 +152,11 @@ export default function StatTir() {
         });
 
         setJoueuses(newJoueuses);
-        // Filtrer avec les deux critères
         const filteredData = filterDatas(newJoueuses, matchs);
         setSelectedDatas(filteredData);
-        console.log("Données filtrées:", filteredData);
     };
 
     const handleSelectectMatch = (id) => {
-        console.log("select match", id)
         const newMatchs = { ...matchs };
 
         Object.keys(newMatchs).forEach((key) => {
@@ -185,10 +172,8 @@ export default function StatTir() {
         });
 
         setMatchs(newMatchs);
-        // Filtrer avec les deux critères
         const filteredData = filterDatas(joueuses, newMatchs);
         setSelectedDatas(filteredData);
-        console.log("Données filtrées:", filteredData);
     };
 
     const handleSelectAll = (key, isJoueuse = true) => {
@@ -274,76 +259,78 @@ export default function StatTir() {
     }
 
     return (
-        <div className="flex justify-center" >
-            <Card>
-                <CardContent className="p-6 mb-7">
-                    <div className="flex gap-6 h-[600px]">
+        <div className="flex justify-center px-2 sm:px-4 lg:px-6" >
+            <Card className="w-full max-w-7xl">
+                <CardContent className="p-3 sm:p-4 lg:p-6 mb-4 sm:mb-7">
+                    <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6 min-h-[400px] lg:h-[600px]">
                         {/* Liste des joueuses */}
-                        <div className="flex flex-col items-center w-full sm:w-40 md:w-48 relative h-full">
-                            <h1 className="mb-4 text-sm leading-none font-medium text-center">Joueuses</h1>
+                        <div className="flex flex-col items-center w-full lg:w-40 xl:w-48 h-[300px] lg:h-full">
+                            <h1 className="mb-3 sm:mb-4 text-xs sm:text-sm leading-none font-medium text-center">Joueuses</h1>
                             <div className="flex-1 w-full overflow-y-auto">
-                                <ListComponent 
-                                    liste={joueuses} 
-                                    nom={"nom"} 
-                                    id={"id"} 
-                                    categorie={joueuseCategorie} 
-                                    onClick={handleSelectectJoueuse} 
-                                    selectAll={(key) => handleSelectAll(key, true)} 
+                                <ListComponent
+                                    liste={joueuses}
+                                    nom={"nom"}
+                                    id={"id"}
+                                    categorie={joueuseCategorie}
+                                    onClick={handleSelectectJoueuse}
+                                    selectAll={(key) => handleSelectAll(key, true)}
                                 />
                             </div>
-                            <Button className="mt-3" onClick={handleClearJoueuses}>Clear</Button>
+                            <Button className="mt-2 sm:mt-3 text-xs sm:text-sm w-full" onClick={handleClearJoueuses}>Clear</Button>
                         </div>
 
                         {/* Carte des tirs */}
-                        <div className="flex-1 relative max-w-[900px] max-h-[500px]">
+                        <div className="flex-1 flex flex-col min-h-[400px] lg:max-w-[900px] lg:max-h-[500px]">
                             {selectedDatas.length !== 0 && (
-                                <h1 className="text-center">
-                                    {selectedDatas.length === 1 
+                                <h1 className="text-center text-sm sm:text-base mb-2">
+                                    {selectedDatas.length === 1
                                         ? `Joueuse : ${selectedDatas[0].joueuse}`
                                         : `${selectedDatas.length} joueuses sélectionnées`
                                     }
                                 </h1>
                             )}
-                            <CarteTirs datas={selectedDatas} appui={appui} showData={showData} />
-                            
-                            <div className="flex-shrink-0 mt-4 flex flex-row items-start justify-around space-y-4">
-                                <div className="mt-2 flex flex-col items-center space-y-3">
+                            <div className="flex-1 relative">
+                                <CarteTirs datas={selectedDatas} appui={appui} showData={showData} />
+                            </div>
+
+                            <div className="flex-shrink-0 mt-3 sm:mt-4 flex flex-row items-center justify-around gap-4 sm:gap-6">
+                                <div className="flex flex-col items-center space-y-2 sm:space-y-3">
                                     <Switch
                                         id="switchAppui"
                                         checked={appui}
                                         onCheckedChange={handleAppui}
                                     />
-                                    <Label htmlFor={"switchAppui"}>
-                                        {appui ? "Appui " : "Suspension "}
+                                    <Label htmlFor={"switchAppui"} className="text-xs sm:text-sm">
+                                        {appui ? "Appui" : "Suspension"}
                                     </Label>
                                 </div>
-                                <div className="mt-2 flex flex-col items-center space-y-3">
+                                <div className="flex flex-col items-center space-y-2 sm:space-y-3">
                                     <Switch
                                         id="switchData"
                                         checked={showData}
                                         onCheckedChange={handleShowData}
                                     />
-                                    <Label htmlFor={"switchData"}>
-                                        {showData ? "Data " : "Heatmap "}
+                                    <Label htmlFor={"switchData"} className="text-xs sm:text-sm">
+                                        {showData ? "Data" : "Heatmap"}
                                     </Label>
                                 </div>
                             </div>
                         </div>
 
                         {/* Liste des matchs */}
-                        <div className="flex flex-col items-center w-full sm:w-40 md:w-48 relative h-full">
-                            <h1 className="mb-4 text-sm leading-none font-medium text-center">Matchs</h1>
+                        <div className="flex flex-col items-center w-full lg:w-40 xl:w-48 h-[300px] lg:h-full">
+                            <h1 className="mb-3 sm:mb-4 text-xs sm:text-sm leading-none font-medium text-center">Matchs</h1>
                             <div className="flex-1 w-full overflow-y-auto">
-                                <ListComponent 
-                                    liste={matchs} 
-                                    nom={"nomImport"} 
-                                    id={"mid"} 
-                                    categorie={matchCategorie} 
-                                    onClick={handleSelectectMatch} 
-                                    selectAll={(key) => handleSelectAll(key, false)} 
+                                <ListComponent
+                                    liste={matchs}
+                                    nom={"nomImport"}
+                                    id={"mid"}
+                                    categorie={matchCategorie}
+                                    onClick={handleSelectectMatch}
+                                    selectAll={(key) => handleSelectAll(key, false)}
                                 />
                             </div>
-                            <Button className="mt-3" onClick={handleClearMatchs}>Clear</Button>
+                            <Button className="mt-2 sm:mt-3 text-xs sm:text-sm w-full" onClick={handleClearMatchs}>Clear</Button>
                         </div>
                     </div>
                 </CardContent>
