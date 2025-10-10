@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getLastMatch } from "../axiosRequests.jsx";
+import { getLastMatch } from "../axiosRequests.js";
 import StatCard from "../components/StatCard/StatCard.jsx";
 import LastMatchCard from "../components/StatCard/LastMatchCard.jsx";
 

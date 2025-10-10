@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Login } from '../axiosRequests.jsx';
+import { Login } from '../axiosRequests.js';
 import { Button } from "../components/ui/button.jsx";
 import { cn } from "../lib/utils.js";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card.jsx";
