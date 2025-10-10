@@ -2,24 +2,24 @@ import { useEffect, useState } from "react";
 import terrainVide from "../assets/DemiTerrainVide.jpg";
 import DonneTir from "./DonneeTir";
 import axios from "axios";
-import { data } from "react-router";
 
-
-const CarteTirs = ({ datas, appui }) => {
+const CarteTirs = ({ datas, appui, showData = true }) => {
 
     const totalCases = 150;
     const cols = 15;
     const [totalTirs, setTotalTirs] = useState(0);
+    const [resetInfo, setResetInfo] = useState(false);
 
     useEffect(() => {
         if (datas != null) {
             let res = 0;
-            datas.forEach((data) => {
-                res += data.tirsTotal
-            })
+            datas.forEach(data => {
+                data.tirs.forEach(element => {
+                    res += element.tirsTotal;
+                });
+            });
             setTotalTirs(res)
         }
-
     }, [datas])
 
     const blocks = [
@@ -28,7 +28,7 @@ const CarteTirs = ({ datas, appui }) => {
         { "pos": 51, "secteur": "5 6" }, { "pos": 53, "secteur": "3 4" }, { "pos": 55, "secteur": "2 3" },
         { "pos": 65, "secteur": "4 5" }, { "pos": 71, "secteur": "1 2" },
         { "pos": 79, "secteur": "ALD" }, { "pos": 87, "secteur": "ALG" },
-        { "pos": 126, "secteur": "BUT VIDE" }, { "pos": 130, "secteur": "CA MB" }
+        { "pos": 126, "secteur": "But vide" }, { "pos": 130, "secteur": "CA MB" }
     ];
 
     const caseToBlock = [];
@@ -47,37 +47,70 @@ const CarteTirs = ({ datas, appui }) => {
         return { row, col };
     }
 
+    const handleResetInfo = (e) => {
+        if (e.target.id !== "map") return;
+        setResetInfo(true);
+    }
+
     return (
-        <>
-            <img src={terrainVide} className="object-cover rounded-2xl" />
-            <div className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-4 p-6 w-full aspect-[15/10]">
+        <div className="relative w-full h-full">
+            <img
+                src={terrainVide}
+                className="w-full h-full object-contain rounded-lg sm:rounded-xl lg:rounded-2xl"
+                style={!showData ? { filter: "grayscale(1)" } : {}}
+                alt="Terrain"
+            />
+            <div
+                id="map"
+                className="absolute inset-0 grid grid-cols-15 grid-rows-10 gap-1 sm:gap-2 lg:gap-4 p-2 sm:p-4 lg:p-6 w-full aspect-[15/10]"
+                onClick={(e) => handleResetInfo(e)}
+            >
                 {Array.from({ length: totalCases }).map((_, i) => {
                     const caseNum = i + 1;
                     const block = blockMap.get(caseNum);
 
                     if (block && datas) {
                         const { row, col } = caseToCoords(caseNum, cols);
-                        let infosecteur
+                        let infosecteur = [];
+
                         datas.forEach(data => {
-                            if(data.secteur === block.secteur) {
-                                infosecteur = data
-                            }
+                            data.tirs.forEach(element => {
+                                if (element.secteur === block.secteur) {
+                                    infosecteur.push(element);
+                                }
+                            });
                         });
 
-                        if(infosecteur) {
+                        let tirsTotal = 0;
+                        let tirsReussi = 0;
+
+                        infosecteur.forEach(element => {
+                            tirsTotal += element.tirsTotal;
+                            tirsReussi += element.tirsReussi;
+                        });
+
+                        if (infosecteur.length > 0) {
                             return (
                                 <div
                                     key={caseNum}
                                     className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded bg-transparent`}
                                 >
-                                    <DonneTir tirs={infosecteur.tirsTotal} tirsReussi={infosecteur.tirsReussi} totalTirs={totalTirs} />
+                                    <DonneTir
+                                        tirs={tirsTotal}
+                                        tirsReussi={tirsReussi}
+                                        totalTirs={totalTirs}
+                                        secteur={block.secteur}
+                                        reset={resetInfo}
+                                        updateReset={setResetInfo}
+                                        data={showData}
+                                    />
                                 </div>
                             );
-                        } else {
+                        } else if (showData) {
                             return (
                                 <div
                                     key={caseNum}
-                                    className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded-lg bg-slate-900`}
+                                    className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded-lg h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 py-1 px-1 sm:py-1.5 sm:px-1.5 lg:py-2 lg:px-2 bg-slate-900 text-[9px] sm:text-xs lg:text-sm`}
                                 >
                                     0
                                 </div>
@@ -92,7 +125,7 @@ const CarteTirs = ({ datas, appui }) => {
                     )
                 })}
             </div>
-        </>
+        </div>
     )
 }
 

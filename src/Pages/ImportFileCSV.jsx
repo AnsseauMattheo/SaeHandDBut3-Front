@@ -12,7 +12,7 @@ const ImportFile = () => {
         const formData = new FormData();
         formData.append("file", file);
 
-        axios.post("http://localhost:8080/data/CSVimport", formData, {
+        axios.post(`${import.meta.env.VITE_SERVER_URL}/data/CSVimport`, formData, {
             withCredentials: true,
             headers: { "Content-Type": "multipart/form-data" }
         })

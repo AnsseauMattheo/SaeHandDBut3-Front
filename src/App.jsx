@@ -5,11 +5,13 @@ import axios from "axios";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Connexion from "./Pages/Connexion.jsx";
 import DashBoard from "./Pages/Base_Main.jsx";
-import Cookies from "js-cookie";
 import { useAlerts } from './context/AlertProvider.jsx';
 import StatTir from "./Pages/StatTir.jsx";
 import DashboardTeam from "./Pages/DashboardTeam.jsx";
 import ImportFileCSV from "@/Pages/ImportFileCSV.jsx";
+import SupImport from "./Pages/SupImport.jsx";
+import CreationCompte from './Pages/AjoutUtilisateur.jsx';
+import Joueuses from './Pages/Joueuses.jsx';
 
 
 function App() {
@@ -21,7 +23,7 @@ function App() {
 
   const handleReload = () => {
     axios
-      .get("http://localhost:8080/auth/me", { withCredentials: true })
+      .get(`${import.meta.env.VITE_SERVER_URL}/auth/me`, { withCredentials: true })
       .then((res) => {
         console.log(res.data);
         setUser(res.data);
@@ -43,7 +45,7 @@ function App() {
 
   const handleLogOut = () => {
     axios
-      .delete("http://localhost:8080/auth/logout", { withCredentials: true })
+      .delete(`${import.meta.env.VITE_SERVER_URL}/auth/logout`, { withCredentials: true })
       .then(() => {
         console.log("logout");
         document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -66,9 +68,13 @@ function App() {
         <Route index element={<DashboardTeam />} />
         <Route path="StatTir" element={<StatTir />} />
         <Route path="import" element={<ImportFile />} />
+        <Route path="supImport" element={<SupImport />} />
+        <Route path="ajout-utilisateur" element={<CreationCompte />} />
+        <Route path='joueuses' element={<Joueuses />} />
       </Route>
 
       <Route path="/" element={<Connexion reload={handleReload} />} />
+      <Route path="/activation" element={<CreationCompte />} />
     </Routes>
   )
 }
