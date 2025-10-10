@@ -31,7 +31,7 @@ export default function Joueuses() {
   }, [selectedAffectation]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/joueuses/getJoueuses", {
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/getJoueuses`, {
       withCredentials: true
     })
       .then(response => {
@@ -42,7 +42,7 @@ export default function Joueuses() {
       });
 
     // Récupération des affectations
-    axios.get("http://localhost:8080/affectations/getAffectations", {
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/affectations/getAffectations`, {
       withCredentials: true
     })
       .then(response => {
@@ -73,7 +73,7 @@ export default function Joueuses() {
     );
     setJoueuses(updatedJoueuses);
 
-    axios.put(`http://localhost:8080/joueuses/${selectedJoueuse.id}/affectation`, {
+    axios.put(`${import.meta.env.VITE_SERVER_URL}/joueuses/${selectedJoueuse.id}/affectation`, {
       headers: {
         'Content-Type': 'application/json'
       },

@@ -18,6 +18,8 @@ import {
     MapIcon,
     UserPlus,
     FileUp,
+    FileX,
+    Users,
 } from "lucide-react"
 
 import {NavMain} from "@/components/nav-main"
@@ -54,6 +56,16 @@ const data = {
             title: "Ajouter utilisateur",
             url: "/DashBoard/ajout-utilisateur",
             icon: UserPlus,
+        },
+        {
+            title: "Supprimer import",
+            url: "/DashBoard/supImport",
+            icon: FileX,
+        },
+        {
+            title: "Joueuses",
+            url: "/DashBoard/joueuses",
+            icon: Users,
         }
     ],
 }

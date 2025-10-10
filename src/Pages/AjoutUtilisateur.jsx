@@ -36,9 +36,8 @@ export default function CreationCompte() {
     useEffect(() => {
         const fetchRolesAndJoueuses = async () => {
             try {
-                const resRoles = await axios.get("http://localhost:8080/roles/getAll");
+                const resRoles = await axios.get(`${import.meta.env.VITE_SERVER_URL}/roles/getAll`);
                 setRoles(resRoles.data);
-
                 const resJoueuses = await axios.get("http://localhost:8080/joueuses/getJoueuses");
                 setJoueuses(resJoueuses.data || []);
             } catch (err) {
@@ -66,6 +65,20 @@ export default function CreationCompte() {
 
                 const joueuseNom = resData.data.joueuse;
                 console.log(joueuseNom);
+                console.log(resRoles.data);
+
+                if (token) {
+                    // Mode activation : remplir les champs mais ne pas montrer le QR code
+                    const resData = await axios.get(
+                        `${import.meta.env.VITE_SERVER_URL}/ajout/activation-data?token=${token}`
+                    );
+                    setNom(resData.data.username || "");
+                    setEmail(resData.data.email || "");
+                    setRole(resData.data.roleId?.toString() || undefined);
+                    if (resData.data.affectationId) {
+                        setAffectation(resData.data.affectationId.toString());
+                    }
+                }
 
             } catch (err) {
                 addError("Impossible de charger les données d'activation");
@@ -97,7 +110,7 @@ export default function CreationCompte() {
                 formData.append("password", password);
                 if (joueuseSelectionnee) formData.append("joueuse", joueuseSelectionnee);
 
-                const res = await axios.post("http://localhost:8080/ajout/utilisateur", formData, {
+                const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/ajout/utilisateur`, formData, {
                     withCredentials: true,
                     headers: { "Content-Type": "multipart/form-data" },
                 });
@@ -112,7 +125,7 @@ export default function CreationCompte() {
                 const formData = new FormData();
                 formData.append("token", token);
                 formData.append("password", password);
-                const res = axios.post("http://localhost:8080/ajout/activation", formData, {
+                const res = axios.post(`${import.meta.env.VITE_SERVER_URL}/ajout/activation`, formData, {
                     withCredentials: true,
                     headers: { "Content-Type": "multipart/form-data" },
                 });

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button"
 import {useAlerts} from "@/context/AlertProvider.jsx";
 import {Loader2Icon} from "lucide-react"
@@ -14,6 +14,20 @@ const ImportFile = () => {
     const [dateMatch, setDateMatch] = useState(null);
     const [win, setWin] = useState(null);
     const [load, setLoad] = useState(false);
+    const [saisons, setSaisons] = useState([]);
+    const [saisonId, setSaisonId] = useState(null);
+
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/saisons/getSaisons`, {withCredentials: true}).then(res => {
+            setSaisons(res.data);
+            if (res.data.length > 0) {
+                setSaisonId(res.data[0].id);
+            }
+            console.log(res.data);
+        }).catch(err => {
+            addError("Erreur lors du chargement des saisons");
+        })
+    }, [])
 
     const handleSubmit = (e) => {
 
@@ -25,8 +39,9 @@ const ImportFile = () => {
         formData.append("nameA", adversaireName);
         formData.append("date", dateMatch);
         formData.append("win", win);
+        formData.append("saison", saisonId);
 
-        axios.post("http://localhost:8080/data/import", formData, {
+        axios.post(`${import.meta.env.VITE_SERVER_URL}/data/import`, formData, {
             withCredentials: true,
             headers: {"Content-Type": "multipart/form-data"}
         }).then(res => {
@@ -68,19 +83,14 @@ const ImportFile = () => {
         console.log("change win")
     }
 
+    const handleSaisonId = (e) => {
+        const saisonId = e.target.value;
+        setSaisonId(saisonId)
+        console.log("change saison")
+    }
+
     return (
         <>
-            {/*<h1>Importer un fichier</h1>*/}
-            {/*<form onSubmit={handleSubmit}>*/}
-            {/*    <label>Nom du match</label><input required type="text" onChange={handleMatchName}></input>*/}
-            {/*    <label>Date du match</label><input required type="date" onChange={handleMatchDate}></input>/!*ou type string si le type pose pbm avec la bdd*!/*/}
-            {/*    <input required type="file" onChange={handleChangeFile}></input>*/}
-            {/*    <Button disabled = {load}>*/}
-            {/*        {load? <Loader2Icon className="animate-spin" /> : ""}*/}
-            {/*        Button*/}
-            {/*    </Button>*/}
-            {/*</form>*/}
-
             <h1 className="text-2xl font-bold mb-6 text-center text-[var(--color-primary)]">
                 Importer un fichier
             </h1>
@@ -92,7 +102,7 @@ const ImportFile = () => {
             >
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-[var(--color-primary)] mb-1">
-                        Nom du match
+                        Nom de l'import
                     </label>
                     <input
                         required
@@ -130,6 +140,24 @@ const ImportFile = () => {
                  bg-[var(--color-input)] text-[var(--color-foreground)] rounded-lg px-3 py-2
                  focus:outline-none focus:ring-2 focus:ring-[var(--color-ring)]"
                     />
+                </div>
+
+                <div>
+                    <label className="text-sm font-medium text-[var(--color-primary)] mb-1">
+                        Saison
+                    </label>
+                    <select onChange={handleSaisonId}
+                    required
+                        className="w-full border border-[var(--color-border)]
+                 bg-[var(--color-input)] text-[var(--color-foreground)] rounded-lg px-3 py-2
+                    focus:outline-none focus:ring-2 focus:ring-[var(--color-ring)]"
+                    >
+                        {saisons.map((saison) => (
+                            <option key={saison.id} value={saison.id}>
+                                {saison.nom}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="flex flex-col">
