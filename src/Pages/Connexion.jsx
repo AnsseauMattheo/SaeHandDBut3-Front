@@ -33,77 +33,77 @@ function Connexion({reload}) {
 
     }
 
-    return (
-        <>
-            <div className={cn("flex flex-col gap-6")}>
-                <Card style={{ width: '350px' }}>
-                    <CardHeader>
-                        <CardTitle>Connexion à votre compte</CardTitle>
-                        <CardDescription>
-                            Entrez votre email ci-dessous pour accéder à votre compte
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <form onSubmit={loginHandler}>
-                            <div className="flex flex-col gap-6">
-                                <div className="grid gap-3">
-                                    <Label htmlFor="email">Email</Label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        placeholder="mail@example.com"
-                                        required
-                                        onChange={(e) => setEmail(e.target.value)}
-                                    />
-                                </div>
-                                <div className="grid gap-3">
-                                    <div className="flex items-center">
-                                        <Label htmlFor="password">Mot de passe</Label>
-                                    </div>
-                                    <div className="relative w-full max-w-sm">
+        return (
+            <>
+                <div className={cn("flex flex-col gap-6 h-screen justify-center items-center ")}>
+                    <Card style={{ width: '350px' }}>
+                        <CardHeader>
+                            <CardTitle>Connexion à votre compte</CardTitle>
+                            <CardDescription>
+                                Entrez votre email ci-dessous pour accéder à votre compte
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <form onSubmit={loginHandler}>
+                                <div className="flex flex-col gap-6">
+                                    <div className="grid gap-3">
+                                        <Label htmlFor="email">Email</Label>
                                         <Input
-                                            id="password"
-                                            type={showPassword ? "text" : "password"}
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            id="email"
+                                            type="email"
+                                            placeholder="mail@example.com"
                                             required
-                                            className="pr-10" // espace pour l’icône
-                                            placeholder="Mot de passe"
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
-                                        <button
-                                            type="button"
-                                            onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
-                                        >
-                                            {showPassword ? <EyeOff className="h-5 w-5 text-gray-500" /> : <Eye className="h-5 w-5 text-gray-500" />}
-                                        </button>
                                     </div>
-                                    <div className="flex items-center">
-                                        <a
-                                            href="#"
-                                        >
-                                            Mot de passe oublié ?
-                                        </a>
+                                    <div className="grid gap-3">
+                                        <div className="flex items-center">
+                                            <Label htmlFor="password">Mot de passe</Label>
+                                        </div>
+                                        <div className="relative w-full max-w-sm">
+                                            <Input
+                                                id="password"
+                                                type={showPassword ? "text" : "password"}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                required
+                                                className="pr-10" // espace pour l’icône
+                                                placeholder="Mot de passe"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
+                                            >
+                                                {showPassword ? <EyeOff className="h-5 w-5 text-gray-500" /> : <Eye className="h-5 w-5 text-gray-500" />}
+                                            </button>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <a
+                                                href="#"
+                                            >
+                                                Mot de passe oublié ?
+                                            </a>
+                                        </div>
                                     </div>
+                                    <div className="flex flex-col gap-3 ">
+                                        <Button type="submit" onClick={loginHandler}>
+                                            Connexion
+                                        </Button>
+                                    </div>
+                                    {
+                                        error ?
+                                            <Alert variant="destructive">
+                                                <AlertCircleIcon />
+                                                <AlertTitle>Identifiant ou mot de passe incorrect !</AlertTitle>
+                                            </Alert> : ""
+                                    }
                                 </div>
-                                <div className="flex flex-col gap-3 ">
-                                    <Button type="submit" onClick={loginHandler}>
-                                        Connexion
-                                    </Button>
-                                </div>
-                                {
-                                    error ?
-                                        <Alert variant="destructive">
-                                            <AlertCircleIcon />
-                                            <AlertTitle>Identifiant ou mot de passe incorrect !</AlertTitle>
-                                        </Alert> : ""
-                                }
-                            </div>
-                        </form>
-                    </CardContent>
-                </Card>
-            </div>
-        </>
-    )
+                            </form>
+                        </CardContent>
+                    </Card>
+                </div>
+            </>
+        )
 
 }
 
