@@ -51,7 +51,7 @@ function App() {
         document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         setUser(null);
 
-        if (location.pathname !== "/Connexion") {
+        if (location.pathname !== "/Connexion" || location.pathname !== "/activation") {
           addSuccess("Deconnexion ! ")
           navigate("/Connexion");
         }
