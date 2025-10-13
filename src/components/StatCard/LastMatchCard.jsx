@@ -17,7 +17,7 @@ export default function LastMatchCard({match}){
             <p className="text-gray-400 text-center">{date}</p>
             <p className="text-2xl text-center font-bold text-gray-900">{match.adversaire}</p>
             <p className="mt-2 text-lg text-center font-semibold">
-                Score : 5 - 0
+                Score : {match.butsMis} - {match.butsEncaisses}
             </p>
 
         </StatCard>
