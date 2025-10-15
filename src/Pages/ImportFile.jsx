@@ -9,9 +9,9 @@ const ImportFile = () => {
 
     const {addSuccess, addError, addWarning, addInfo} = useAlerts();
     const [file, setFile] = useState(null);
-    const [nomMatch, setNomMatch] = useState(null);
-    const [adversaireName, setAadversaireName] = useState(null);
-    const [dateMatch, setDateMatch] = useState(null);
+    const [nomMatch, setNomMatch] = useState("");
+    const [adversaireName, setAadversaireName] = useState("");
+    const [dateMatch, setDateMatch] = useState("");
     const [win, setWin] = useState(null);
     const [load, setLoad] = useState(false);
     const [saisons, setSaisons] = useState([]);
@@ -56,6 +56,10 @@ const ImportFile = () => {
 
     const handleChangeFile = (e) => {
         const importFile = e.target.files[0];
+        if(nomMatch === ""){
+            const nameWithoutExt = importFile.name.replace(/\.[^/.]+$/, "");
+            setNomMatch(nameWithoutExt);
+        }
         setFile(importFile)
         console.log("change file")
     }
@@ -109,6 +113,7 @@ const ImportFile = () => {
                         required
                         type="text"
                         onChange={handleMatchName}
+                        value={nomMatch}
                         className="border border-[var(--color-border)]
                  bg-[var(--color-input)] text-[var(--color-foreground)] rounded-lg px-3 py-2
                  focus:outline-none focus:ring-2 focus:ring-[var(--color-ring)]"

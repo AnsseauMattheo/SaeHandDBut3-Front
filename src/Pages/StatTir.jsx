@@ -338,7 +338,7 @@ export default function StatTir() {
                 </CardContent>
             </Card>
             <div className="flex flex-col items-center w-full sm:w-40 md:w-48 relative h-full">
-                <CarteJoueuse datasJ={dataJoueuse} />
+                <CarteJoueuse datasJ={selectedDatas?[0]:[]} />
             </div>
         </div>
     );
