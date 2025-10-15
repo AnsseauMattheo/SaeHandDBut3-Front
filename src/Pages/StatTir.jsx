@@ -6,7 +6,9 @@ import ListComponent from "../components/ListComponent.jsx";
 import { Label } from "../components/ui/label.jsx";
 import { Switch } from "../components/ui/switch.jsx";
 import { Card, CardContent } from "../components/ui/card.jsx";
+import CarteJoueuse from "@/components/CarteJoueuse.jsx";
 import { Button } from "@/components/ui/button.jsx";
+
 
 export default function StatTir() {
 
@@ -335,6 +337,9 @@ export default function StatTir() {
                     </div>
                 </CardContent>
             </Card>
+            <div className="flex flex-col items-center w-full sm:w-40 md:w-48 relative h-full">
+                <CarteJoueuse datasJ={dataJoueuse} />
+            </div>
         </div>
     );
 }

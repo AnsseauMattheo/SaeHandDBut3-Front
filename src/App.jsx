@@ -8,7 +8,6 @@ import DashBoard from "./Pages/Base_Main.jsx";
 import { useAlerts } from './context/AlertProvider.jsx';
 import StatTir from "./Pages/StatTir.jsx";
 import DashboardTeam from "./Pages/DashboardTeam.jsx";
-import ImportFileCSV from "@/Pages/ImportFileCSV.jsx";
 import SupImport from "./Pages/SupImport.jsx";
 import CreationCompte from './Pages/AjoutUtilisateur.jsx';
 import Joueuses from './Pages/Joueuses.jsx';
