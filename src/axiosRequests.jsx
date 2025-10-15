@@ -5,7 +5,7 @@ export async function Login(email, password, setError) {
     console.log("Login called with:", email, password); // 🐞 Debug
 
     try {
-        const response = await axios.post('http://localhost:8080/auth/login',
+        const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`,
             {
                 email,
                 password
@@ -31,7 +31,7 @@ export async function Login(email, password, setError) {
 
 export async function getLastMatch() {
     try{
-        const response = await axios.get('http://localhost:8080/match/lastMatch');
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/match/lastMatch`);
         return response.data;
     }catch(error){
         console.error("Erreur lors de la requête : ", error.response);
