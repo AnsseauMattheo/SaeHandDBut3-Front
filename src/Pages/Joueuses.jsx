@@ -105,7 +105,7 @@ export default function Joueuses() {
               joueuses.map((joueuse) => (
                 <div
                   key={joueuse.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-slate-800 transition-colors"
+                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-violet-100 transition-colors"
                 >
                   <div className="flex items-center gap-4 flex-1">
                     <Button
