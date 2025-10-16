@@ -142,7 +142,7 @@ export default function CreationCompte() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen w-full bg-gradient-to-r from-blue-50 to-purple-100 p-8">
+        <div className="flex flex-col items-center justify-center w-full p-8">
             <h2 className="text-4xl font-extrabold text-gray-800 mb-8">
                 {token ? "Activer mon compte" : "Créer un compte"}
             </h2>
@@ -261,7 +261,7 @@ export default function CreationCompte() {
                 <Button
                     type="submit"
                     disabled={load}
-                    className="w-full bg-gradient-to-r from-pink-700 to-blue-900 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200 border-white"
+                    className="w-full bg-gradient-to-r from-pink-700 to-blue-900 hover:from-pink-800 hover:to-blue-950 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200 border-white"
                 >
                     {load
                         ? "Création en cours..."
@@ -269,6 +269,7 @@ export default function CreationCompte() {
                             ? "Activer mon compte"
                             : "Créer le compte"}
                 </Button>
+
             </form>
 
             {/* QR Code et lien : uniquement si création */}
