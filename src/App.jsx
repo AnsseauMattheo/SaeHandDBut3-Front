@@ -8,7 +8,6 @@ import DashBoard from "./Pages/Base_Main.jsx";
 import { useAlerts } from './context/AlertProvider.jsx';
 import StatTir from "./Pages/StatTir.jsx";
 import DashboardTeam from "./Pages/DashboardTeam.jsx";
-import ImportFileCSV from "@/Pages/ImportFileCSV.jsx";
 import SupImport from "./Pages/SupImport.jsx";
 import CreationCompte from './Pages/AjoutUtilisateur.jsx';
 import Joueuses from './Pages/Joueuses.jsx';
@@ -51,7 +50,7 @@ function App() {
         document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         setUser(null);
 
-        if (location.pathname !== "/Connexion") {
+        if (location.pathname !== "/Connexion" || location.pathname !== "/activation") {
           addSuccess("Deconnexion ! ")
           navigate("/Connexion");
         }
