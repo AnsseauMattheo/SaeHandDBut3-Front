@@ -5,27 +5,46 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
     const [datas, setDatas] = useState([]);
     const [totalReussis, setTotalReussis] = useState(0);
     const [totalTirs, setTotalTirs] = useState(0);
+    const [passesD, setpassesD] = useState(0);
 
     useEffect(() => {
         // Si aucune donnée n'est passée en props, on récupère depuis l'API
         if (datasJ === null) {
             axios.get("http://localhost:8080/data/getTirs", { withCredentials: true })
                 .then((res) => {
-                    for (let i = 0; i < res.data.length; i++) {
-                        if (res.data?.[i].joueuse === joueuse) {
-                            const tirs = res.data?.[i].tirs || [];
+                    const joueuseData = res.data.find(j => j.joueuse === joueuse);
+                    if (joueuseData) {
+                        const tirs = joueuseData.tirs || [];
+                        const totalReussisTemp = tirs.reduce((acc, t) => acc + (t.tirsReussi || 0), 0);
+                        const totalTirsTemp = tirs.reduce((acc, t) => acc + (t.tirsTotal || 0), 0);
 
-                            // Calcul des totaux
-                            const totalReussisTemp = tirs.reduce((acc, t) => acc + (t.tirsReussi || 0), 0);
-                            const totalTirsTemp = tirs.reduce((acc, t) => acc + (t.tirsTotal || 0), 0);
-
-                            setDatas(tirs);
-                            setTotalReussis(totalReussisTemp);
-                            setTotalTirs(totalTirsTemp);
-                        }
+                        setDatas(tirs);
+                        setTotalReussis(totalReussisTemp);
+                        setTotalTirs(totalTirsTemp);
+                    } else {
+                        setDatas([]);
+                        setTotalReussis(0);
+                        setTotalTirs(0);
                     }
                 })
                 .catch((err) => console.error("Erreur lors du chargement :", err));
+
+
+
+            console.log("passesD");
+            axios.get("http://localhost:8080/data/getPassesD", { withCredentials: true })
+                .then((res) => {
+                    console.log(res.data);
+                    console.log(joueuse);
+                    const joueuseData = res.data.find(j => j.joueuse === joueuse);
+                    console.log(joueuseData);
+                    if (joueuseData) {
+                        setpassesD(joueuseData.nombrepassd);
+                    } else {
+                        setpassesD(0);
+                    }
+                })
+            .catch((err) => console.log(err));
         } else {
             // Sinon, on utilise les données passées en props
             setDatas(datasJ);
@@ -88,6 +107,10 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
                 <div className="flex justify-between text-sm font-semibold text-yellow-900">
                     <span>Taux :</span>
                     <span>{tauxReussite}%</span>
+                </div>
+                <div className="flex justify-between text-sm font-semibold text-yellow-900">
+                    <span>Passes D :</span>
+                    <span>{passesD}</span>
                 </div>
             </div>
 
