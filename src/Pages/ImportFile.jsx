@@ -12,7 +12,7 @@ const ImportFile = () => {
     const [nomMatch, setNomMatch] = useState("");
     const [adversaireName, setAadversaireName] = useState("");
     const [dateMatch, setDateMatch] = useState("");
-    const [win, setWin] = useState(null);
+    const [win, setWin] = useState(false);
     const [load, setLoad] = useState(false);
     const [saisons, setSaisons] = useState([]);
     const [saisonId, setSaisonId] = useState(null);
