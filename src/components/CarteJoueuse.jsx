@@ -13,6 +13,7 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
             axios.get("http://localhost:8080/data/getTirs", { withCredentials: true })
                 .then((res) => {
                     const joueuseData = res.data.find(j => j.joueuse === joueuse);
+                    console.log(joueuseData);
                     if (joueuseData) {
                         const tirs = joueuseData.tirs || [];
                         const totalReussisTemp = tirs.reduce((acc, t) => acc + (t.tirsReussi || 0), 0);
@@ -39,7 +40,8 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
                     const joueuseData = res.data.find(j => j.joueuse === joueuse);
                     console.log(joueuseData);
                     if (joueuseData) {
-                        setpassesD(joueuseData.nombrepassd);
+                        const passeD = joueuseData.passeDList.reduce((acc, t) => acc + (t.passeD || 0), 0);
+                        setpassesD(passeD);
                     } else {
                         setpassesD(0);
                     }
