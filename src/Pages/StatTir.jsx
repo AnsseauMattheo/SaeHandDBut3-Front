@@ -60,7 +60,7 @@ export default function StatTir() {
         axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getTirs`, { withCredentials: true }).then((res) => {
             setDatas(res.data)
         })
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getMathchParSaisons`, { withCredentials: true }).then((res) => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getMatchParSaisons`, { withCredentials: true }).then((res) => {
             setMatchs(res.data);
             handleInitMatchsSelectect(res.data)
         })

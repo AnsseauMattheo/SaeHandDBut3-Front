@@ -124,7 +124,6 @@ const ImportFile = () => {
                         type="text"
                         value={nomMatch}
                         onChange={handleMatchName}
-                        value={nomMatch}
                         className="border border-[var(--color-border)]
                         bg-[var(--color-input)] text-[var(--color-foreground)] rounded-lg px-3 py-2
                         focus:outline-none focus:ring-2 focus:ring-[var(--color-ring)]"
@@ -188,7 +187,7 @@ const ImportFile = () => {
                     <input
                         required
                         type="file"
-                        accept=".xlsx,.xls"
+                        accept=".xlsx,.xls,.csv"
                         onChange={handleChangeFile}
                         className="border border-[var(--color-border)]
                         bg-[var(--color-input)] text-[var(--color-foreground)] rounded-lg px-3 py-2

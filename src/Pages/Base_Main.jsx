@@ -9,6 +9,22 @@ import { Outlet } from "react-router-dom"
 import { Menu } from "lucide-react"
 
 export default function DashBoard({ user, logout }) {
+
+        // Dictionnaire des noms par chemin
+    const pageTitles = {
+        "/DashBoard": "Tableau de bord",
+        "/DashBoard/StatTir": "Statistiques de tir",
+        "/DashBoard/import": "Import de fichiers",
+        "/DashBoard/supImport": "Suppression d'import",
+        "/DashBoard/ajout-utilisateur": "Création de compte",
+        "/DashBoard/joueuses": "Gestion des joueuses",
+    };
+
+    // Trouve le titre correspondant
+    const name = pageTitles[location.pathname] || "Dashboard";
+
+    document.title = `SAE501 - ${name}`;
+
     return (
         <SidebarProvider>
             <AppSidebar user={user} logout={logout} />
@@ -24,7 +40,7 @@ export default function DashBoard({ user, logout }) {
                         {/* Separator caché sur desktop */}
                         <Separator orientation="vertical" className="lg:hidden mr-2 h-4" />
 
-                        <h1 className="text-base sm:text-lg font-semibold">Dashboard</h1>
+                        <h1 className="text-base sm:text-lg font-semibold">{name}</h1>
                     </div>
                 </header>
 
