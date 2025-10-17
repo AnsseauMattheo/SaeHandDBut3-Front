@@ -60,7 +60,7 @@ export default function StatTir() {
         axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getTirs`, { withCredentials: true }).then((res) => {
             setDatas(res.data)
         })
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getMathchParSaisons`, { withCredentials: true }).then((res) => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getMatchParSaisons`, { withCredentials: true }).then((res) => {
             setMatchs(res.data);
             handleInitMatchsSelectect(res.data)
         })
@@ -338,7 +338,7 @@ export default function StatTir() {
                 </CardContent>
             </Card>
             <div className="flex flex-col items-center w-full sm:w-40 md:w-48 relative h-full">
-                <CarteJoueuse datasJ={selectedDatas?[0]:[]} />
+                <CarteJoueuse joueuse={selectedDatas[0]?.joueuse} />
             </div>
         </div>
     );
