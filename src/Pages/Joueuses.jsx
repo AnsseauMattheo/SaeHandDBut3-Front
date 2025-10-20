@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -26,8 +27,9 @@ export default function Joueuses() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedJoueuse, setSelectedJoueuse] = useState(null);
   const [selectedAffectation, setSelectedAffectation] = useState('');
+  const navigate = useNavigate();
 
-  useEffect(() => {
+    useEffect(() => {
     console.log(selectedAffectation);
   }, [selectedAffectation]);
 
@@ -64,11 +66,11 @@ export default function Joueuses() {
     if (!selectedJoueuse || !selectedAffectation) return;
 
     // Mettre à jour localement
-    const updatedJoueuses = joueuses.map(j => 
-      j.id === selectedJoueuse.id 
-        ? { 
-            ...j, 
-            affectation: affectations.find(a => a.id.toString() === selectedAffectation) 
+    const updatedJoueuses = joueuses.map(j =>
+      j.id === selectedJoueuse.id
+        ? {
+            ...j,
+            affectation: affectations.find(a => a.id.toString() === selectedAffectation)
           }
         : j
     );
@@ -80,7 +82,7 @@ export default function Joueuses() {
       },
       withCredentials: true,
         affectationId: parseInt(selectedAffectation)
-      
+
     })
       .then(() => {
         console.log('Affectation mise à jour avec succès');
@@ -109,19 +111,22 @@ export default function Joueuses() {
               <AccordionContent className="pt-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                   {joueuses[key].map((tag) => (
-                    <div
-                      key={tag.id}
-                      className="relative border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow"
-                    >
-                      {/* Bouton modifier */}
-                      <button
-                        className="absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors"
-                        onClick={() => {/* Fonction de modification */}}
+                      <div
+                          key={tag.id}
+                          onClick={() => navigate(`/dashboard/joueuse/${tag.id}`)}
+                          className="relative border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:bg-gray-50"
                       >
-                        <Pencil className="w-4 h-4 text-gray-600" />
-                      </button>
 
-                      {/* Photo ou Initiales */}
+                      {/* Bouton modifier */}
+                          <button
+                              className="absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors"
+                              onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}
+                          >
+                              <Pencil className="w-4 h-4 text-gray-600" />
+                          </button>
+
+
+                          {/* Photo ou Initiales */}
                       <div className="flex flex-col items-center gap-3 mb-3">
                         {tag.photo ? (
                           <img
