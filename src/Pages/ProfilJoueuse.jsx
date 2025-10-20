@@ -44,10 +44,10 @@ const ProfilJoueuse = () => {
       
       {joueuse && datas && (
         <>
-        <>
+        <div className="flex gap-6">
           <CarteJoueuse joueuse={joueuse.nom} />
           <RadarStats joueuse={joueuse.nom}/>
-          </>
+          </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <GraphStats 

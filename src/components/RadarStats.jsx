@@ -8,6 +8,7 @@ import {
     PolarRadiusAxis,
     ResponsiveContainer,
 } from "recharts";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.jsx";
 
 const RadarStats = ({ joueuse }) => {
     const [totalReussis, setTotalReussis] = useState(0);
@@ -66,17 +67,22 @@ const RadarStats = ({ joueuse }) => {
     ];
 
     return (
-        <div className="w-full md:w-1/2 h-80 p-4 flex flex-col items-center">
-            <div className="w-full h-full">
+        <Card className="w-full">
+            <CardHeader>
+                <CardTitle className="text-lg font-semibold">
+                    Graph Radar
+                </CardTitle>
+            </CardHeader>
+            <CardContent className="w-full h-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <RadarChart
                         data={radarData}
-                        margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                        margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
                     >
                         <PolarGrid />
                         <PolarAngleAxis
                             dataKey="stat"
-                            tick={{ fontSize: 12, fill: "#92400e" }}
+                            tick={{ fontSize: 14, fill: "#92400e" }}
                             tickLine={false}
                         />
                         <PolarRadiusAxis domain={[0, 100]} tick={{ fontSize: 10 }} />
@@ -89,8 +95,8 @@ const RadarStats = ({ joueuse }) => {
                         />
                     </RadarChart>
                 </ResponsiveContainer>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     );
 };
 

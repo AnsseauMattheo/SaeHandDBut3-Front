@@ -62,41 +62,41 @@ export default function Joueuses() {
     setIsDialogOpen(true);
   };
 
-  const handleSave = () => {
-    if (!selectedJoueuse || !selectedAffectation) return;
+    const handleSave = () => {
+        if (!selectedJoueuse || !selectedAffectation) return;
 
-    // Mettre à jour localement
-    const updatedJoueuses = joueuses.map(j =>
-      j.id === selectedJoueuse.id
-        ? {
-            ...j,
-            affectation: affectations.find(a => a.id.toString() === selectedAffectation)
-          }
-        : j
-    );
-    setJoueuses(updatedJoueuses);
+        const updatedJoueuses = Object.fromEntries(
+            Object.entries(joueuses).map(([affectName, liste]) => [
+                affectName,
+                liste.map(j =>
+                    j.id === selectedJoueuse.id
+                        ? {
+                            ...j,
+                            affectation: affectations.find(a => a.id.toString() === selectedAffectation)
+                        }
+                        : j
+                ),
+            ])
+        );
 
-    axios.put(`${import.meta.env.VITE_SERVER_URL}/joueuses/${selectedJoueuse.id}/affectation`, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true,
-        affectationId: parseInt(selectedAffectation)
+        setJoueuses(updatedJoueuses);
 
-    })
-      .then(() => {
-        console.log('Affectation mise à jour avec succès');
-      })
-      .catch(error => {
-        console.error("Erreur lors de la mise à jour :", error);
-      });
+        axios.put(`${import.meta.env.VITE_SERVER_URL}/joueuses/${selectedJoueuse.id}/affectation`, {
+            affectationId: parseInt(selectedAffectation)
+        }, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+        })
+            .then(() => console.log('Affectation mise à jour avec succès'))
+            .catch(error => console.error("Erreur lors de la mise à jour :", error));
 
-    setIsDialogOpen(false);
-    setSelectedJoueuse(null);
-    setSelectedAffectation('');
-  };
+        setIsDialogOpen(false);
+        setSelectedJoueuse(null);
+        setSelectedAffectation('');
+    };
 
-  return (
+
+    return (
     <div className="container mx-auto p-6">
       <div className="p-2 sm:p-3 lg:p-4">
         <Accordion

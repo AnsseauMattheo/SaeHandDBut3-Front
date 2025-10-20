@@ -72,12 +72,12 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
     // Sinon on affiche les infos
     const tauxReussite = totalTirs > 0 ? ((totalReussis / totalTirs) * 100).toFixed(1) : "N/A";
     return (
-        <div className="relative w-64 h-96 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-2xl shadow-xl border-4 border-yellow-800 flex flex-col items-center justify-start overflow-hidden">
+        <div className="relative w-100 h-96 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-2xl shadow-xl flex flex-col items-center justify-start overflow-hidden">
             {/* Bande brillante en haut */}
             <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white/50 to-transparent"></div>
 
             {/* Photo */}
-            <div className="mt-8 w-28 h-28 rounded-full border-4 border-yellow-800 overflow-hidden shadow-md bg-gray-200">
+            <div className="mt-8 w-28 h-28 rounded-full border-2 border-yellow-800 overflow-hidden shadow-md bg-gray-200">
                 {/*{photoUrl ? (*/}
                 {/*    <img*/}
                 {/*        src={photoUrl}*/}
