@@ -88,7 +88,7 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
             {/* Bouton de bascule */}
             <button
                 onClick={() => setModeGraphique(!modeGraphique)}
-                className="absolute top-3 right-3 z-30 text-xs bg-yellow-700 text-white px-2 py-1 rounded hover:bg-yellow-800 transition"
+                className="absolute top-3 right-3 z-2 text-xs bg-yellow-700 text-white px-2 py-1 rounded hover:bg-yellow-800 transition"
             >
                 {modeGraphique ? "Voir carte" : "Voir graphique"}
             </button>
