@@ -1,18 +1,19 @@
 import axios from "axios";
-import { Car } from "lucide-react";
-import { use, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import {Car} from "lucide-react";
+import {use, useEffect, useState} from "react";
+import {useParams} from "react-router";
 import CarteJoueuse from "../components/CarteJoueuse";
 import GraphStats from "../components/GraphStats";
+import RadarStats from "@/components/RadarStats.jsx";
 
 const ProfilJoueuse = () => {
 
-    const { id } = useParams();
+    const {id} = useParams();
     const [joueuse, setJoueuse] = useState(null);
     const [datas, setDatas] = useState(null);
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/joueuse/${id}`, { withCredentials: true })
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/joueuse/${id}`, {withCredentials: true})
             .then((res) => {
                 console.log(res.data);
                 setJoueuse(res.data);
@@ -34,6 +35,7 @@ const ProfilJoueuse = () => {
 
     console.log("Profil de la joueuse avec l'ID :", id);
 
+
  return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">
@@ -42,7 +44,10 @@ const ProfilJoueuse = () => {
       
       {joueuse && datas && (
         <>
+        <>
           <CarteJoueuse joueuse={joueuse.nom} />
+          <RadarStats joueuse={joueuse.nom}/>
+          </>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <GraphStats 
