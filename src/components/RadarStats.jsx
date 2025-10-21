@@ -22,7 +22,7 @@ const RadarStats = ({ joueuse }) => {
         const fetchData = async () => {
             try {
                 // Requête tirs
-                const resTirs = await axios.get("http://localhost:8080/data/getTirs", { withCredentials: true });
+                const resTirs = await axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getTirs`, { withCredentials: true });
                 const joueuseTirs = resTirs.data.find(j => j.joueuse === joueuse);
                 if (joueuseTirs) {
                     const tirs = joueuseTirs.tirs || [];
@@ -31,7 +31,7 @@ const RadarStats = ({ joueuse }) => {
                 }
 
                 // Requête passes décisives
-                const resPasses = await axios.get("http://localhost:8080/data/getPassesD", { withCredentials: true });
+                const resPasses = await axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getPassesD`, { withCredentials: true });
                 const joueusePasses = resPasses.data.find(j => j.joueuse === joueuse);
                 if (joueusePasses) {
                     const totalPasses = joueusePasses.passeDList.reduce((acc, p) => acc + (p.passeD || 0), 0);

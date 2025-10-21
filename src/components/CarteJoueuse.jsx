@@ -10,7 +10,7 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
     useEffect(() => {
         // Si aucune donnée n'est passée en props, on récupère depuis l'API
         if (datasJ === null) {
-            axios.get("http://localhost:8080/data/getTirs", { withCredentials: true })
+            axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getTirs`, { withCredentials: true })
                 .then((res) => {
                     const joueuseData = res.data.find(j => j.joueuse === joueuse);
                     console.log(joueuseData);
@@ -33,7 +33,7 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
 
 
             console.log("passesD");
-            axios.get("http://localhost:8080/data/getPassesD", { withCredentials: true })
+            axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getPassesD`, { withCredentials: true })
                 .then((res) => {
                     console.log(res.data);
                     console.log(joueuse);
@@ -73,8 +73,7 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
     const tauxReussite = totalTirs > 0 ? ((totalReussis / totalTirs) * 100).toFixed(1) : "N/A";
     return (
         <div className="relative w-100 h-96 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-2xl shadow-xl flex flex-col items-center justify-start overflow-hidden">
-            {/* Bande brillante en haut */}
-            <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white/50 to-transparent"></div>
+
 
             {/* Photo */}
             <div className="mt-8 w-28 h-28 rounded-full border-2 border-yellow-800 overflow-hidden shadow-md bg-gray-200">
