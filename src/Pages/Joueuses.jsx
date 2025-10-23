@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Edit2, Pen, Pencil } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Edit2, Ellipsis, Pen, Pencil } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion.jsx';
 import axios from 'axios';
@@ -86,7 +94,7 @@ export default function Joueuses() {
     if (updatedJoueuses[nouvelleAffectation.affectation]) {
       updatedJoueuses[nouvelleAffectation.affectation].push(joueuseModifiee);
     } else {
-      updatedJoueuses[nouvelleAffectation.affectation ] = [joueuseModifiee];
+      updatedJoueuses[nouvelleAffectation.affectation] = [joueuseModifiee];
     }
 
     setJoueuses(updatedJoueuses);
@@ -132,8 +140,27 @@ export default function Joueuses() {
                         className="absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors"
                         onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}
                       >
-                        <Pencil className="w-4 h-4 text-gray-600" />
+                        <Ellipsis className="w-4 h-4 text-gray-600" />
                       </button>
+                      <div className='absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors'>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger onClick={(e) => e.stopPropagation()}>
+                            <Ellipsis className="w-4 h-4 text-gray-600" />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
+                            <DropdownMenuItem asChild>
+                              <Link to={`/dashboard/compte/${tag.id}`}>Compte</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <button onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}>
+                                Affectation
+                              </button>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+
+
 
                       <div className="flex flex-col items-center gap-3 mb-3">
                         {tag.photo ? (
