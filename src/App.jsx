@@ -12,6 +12,8 @@ import SupImport from "./Pages/SupImport.jsx";
 import CreationCompte from './Pages/AjoutUtilisateur.jsx';
 import Joueuses from './Pages/Joueuses.jsx';
 import ProfilJoueuse from './Pages/ProfilJoueuse.jsx';
+import Enclenchements from './Pages/Enclenchements';
+
 
 
 function App() {
@@ -72,6 +74,8 @@ function App() {
         <Route path="ajout-utilisateur" element={<CreationCompte />} />
         <Route path='joueuses' element={<Joueuses />} />
         <Route path='joueuse/:id' element={<ProfilJoueuse />} />
+          <Route path="match/:matchId/enclenchements" element={<Enclenchements />} />
+
       </Route>
 
       <Route path="/" element={<Connexion reload={handleReload} />} />
