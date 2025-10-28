@@ -153,7 +153,7 @@ export default function Joueuses() {
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                               <button onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}>
-                                Affectation
+                                Position
                               </button>
                             </DropdownMenuItem>
                           </DropdownMenuContent>
@@ -207,15 +207,15 @@ export default function Joueuses() {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Modifier l'affectation</DialogTitle>
+            <DialogTitle>Modifier la position</DialogTitle>
             <DialogDescription>
-              Choisissez une affectation pour {selectedJoueuse?.nom}
+              Choisissez une position pour {selectedJoueuse?.nom}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
             <Select value={selectedAffectation} onValueChange={setSelectedAffectation}>
               <SelectTrigger>
-                <SelectValue placeholder="Sélectionner une affectation" />
+                <SelectValue placeholder="Sélectionner une position" />
               </SelectTrigger>
               <SelectContent>
                 {affectations.map((affectation) => (

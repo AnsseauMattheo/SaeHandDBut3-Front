@@ -187,7 +187,7 @@ export default function CreationCompte() {
                 </div>
 
                 {/* Joueuse */}
-                {role && roles.find(r => r.id.toString() === role)?.role === "JOUEUSE" && (
+                {role && roles.find(r => r.id.toString() === role)?.role === "Joueuse" && (
                     <div className="flex-1 mt-4">
                         <Label htmlFor="joueuse">Joueuse</Label>
                         <Select

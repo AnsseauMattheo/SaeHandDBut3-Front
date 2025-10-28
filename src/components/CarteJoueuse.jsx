@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
+const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => {
     const [datas, setDatas] = useState([]);
     const [totalReussis, setTotalReussis] = useState(0);
     const [totalTirs, setTotalTirs] = useState(0);
@@ -72,7 +72,7 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
     // Sinon on affiche les infos
     const tauxReussite = totalTirs > 0 ? ((totalReussis / totalTirs) * 100).toFixed(1) : "N/A";
     return (
-        <div className="relative w-100 h-96 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-2xl shadow-xl flex flex-col items-center justify-start overflow-hidden">
+        <div className="relative bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-2xl shadow-xl flex flex-col items-center justify-start overflow-hidden fit-content p-2">
 
 
             {/* Photo */}
@@ -94,6 +94,7 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null }) => {
             <h2 className="mt-3 text-xl font-bold text-center text-yellow-900 drop-shadow-md uppercase">
                 {joueuse || "Inconnue"}
             </h2>
+            <h3>{affectation || "Inconnue"}</h3>
 
             {/* Bloc stats */}
             <div className="mt-4 w-5/6 bg-yellow-100 rounded-xl p-3 shadow-inner">
