@@ -11,11 +11,16 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
     const getEvaluationColor = () => {
         let score = 0;
 
-        // pondération selon l’importance
-        if (totalTirs > 0) score += Math.min((totalReussis / totalTirs) * 100 / 2, 50); // taux max = 50 pts
-        score += Math.min(passesD * 2, 20); // passes max 10 -> 20 pts
-        score += Math.max(0, 20 - perteBalle); // pénalité sur pertes (moins = mieux)
-        score += Math.min(totalTirs / 5, 10); // un peu de crédit pour l’activité de tir
+        //forme : (élément qu'on calcul, limite de points)
+        if (totalTirs > 0) {
+            score += Math.min((totalReussis / totalTirs) * 100 / 2, 50);
+        }
+        //1 passeD = 2
+        score += Math.min(passesD * 2, 20);
+        //forme : (>0, commence à 20 et perte 1 points par perte de balle)
+        score += Math.max(0, 20 - perteBalle);
+        //5 tirs = 1 point
+        score += Math.min(totalTirs / 5, 10);
 
         if (score >= 80) {
             return "blue";
