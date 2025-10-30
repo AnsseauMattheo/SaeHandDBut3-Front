@@ -6,6 +6,7 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
     const [totalReussis, setTotalReussis] = useState(0);
     const [totalTirs, setTotalTirs] = useState(0);
     const [passesD, setpassesD] = useState(0);
+    const [perteBalle, setPerteBalle] = useState(0);
 
     useEffect(() => {
         // Si aucune donnée n'est passée en props, on récupère depuis l'API
@@ -46,7 +47,23 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
                         setpassesD(0);
                     }
                 })
-            .catch((err) => console.log(err));
+                .catch((err) => console.log(err));
+
+            console.log("perteBalle");
+            axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getPerteB`, { withCredentials: true })
+                .then((res) => {
+                    console.log(res.data);
+                    console.log(joueuse);
+                    const joueuseData = res.data.find(j => j.joueuse === joueuse);
+                    console.log(joueuseData);
+                    if (joueuseData) {
+                        const perteB = joueuseData.perteBList.reduce((acc, t) => acc + (t.passeD || 0), 0);
+                        setPerteBalle(perteB);
+                    } else {
+                        setPerteBalle(0);
+                    }
+                })
+                .catch((err) => console.log(err));
         } else {
             // Sinon, on utilise les données passées en props
             setDatas(datasJ);
@@ -113,6 +130,10 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
                 <div className="flex justify-between text-sm font-semibold text-yellow-900">
                     <span>Passes D :</span>
                     <span>{passesD}</span>
+                </div>
+                <div className="flex justify-between text-sm font-semibold text-yellow-900">
+                    <span>Perte Balle :</span>
+                    <span>{perteBalle}</span>
                 </div>
             </div>
 
