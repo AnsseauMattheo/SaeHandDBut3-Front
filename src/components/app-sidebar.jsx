@@ -29,6 +29,11 @@ const data = {
             icon: Home
         },
         {
+            title: "Joueuses",
+            url: "/DashBoard/joueuses",
+            icon: Users,
+        },
+        {
             title: "Carte des tirs",
             url: "/DashBoard/StatTir",
             icon: MapIcon,
@@ -40,20 +45,17 @@ const data = {
             icon: FileUp,
         },
         {
-            title: "Ajouter utilisateur",
-            url: "/DashBoard/ajout-utilisateur",
-            icon: UserPlus,
-        },
-        {
             title: "Supprimer import",
             url: "/DashBoard/supImport",
             icon: FileX,
         },
         {
-            title: "Joueuses",
-            url: "/DashBoard/joueuses",
-            icon: Users,
-        }
+            title: "Ajouter utilisateur",
+            url: "/DashBoard/ajout-utilisateur",
+            icon: UserPlus,
+        },
+
+
     ],
 }
 
