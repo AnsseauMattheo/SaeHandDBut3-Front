@@ -57,8 +57,9 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
                     const joueuseData = res.data.find(j => j.joueuse === joueuse);
                     console.log(joueuseData);
                     if (joueuseData) {
-                        const perteB = joueuseData.perteBList.reduce((acc, t) => acc + (t.passeD || 0), 0);
+                        const perteB = joueuseData.perteBList.reduce((acc, t) => acc + (t.perteBalle || 0), 0);
                         setPerteBalle(perteB);
+                        console.log("perteB :", perteB);
                     } else {
                         setPerteBalle(0);
                     }

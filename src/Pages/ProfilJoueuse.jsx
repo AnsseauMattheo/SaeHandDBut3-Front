@@ -83,6 +83,10 @@ const ProfilJoueuse = () => {
               stats={datas.passeD}
               titre="Passes décisives"
             />
+            <GraphStats
+                stats={datas.perteBalle}
+                titre="Pertes de balle"
+            />
           </div>
         </>
       )}
