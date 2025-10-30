@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import {
     Dialog,
     DialogContent,
@@ -6,11 +6,11 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2 } from 'lucide-react';
+import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card';
+import {Loader2} from 'lucide-react';
 import axios from 'axios';
 
-export default function EnclenchementDetailModal({ isOpen, onClose, enclenchement, type, matchId }) {
+export default function EnclenchementDetailModal({isOpen, onClose, enclenchement, type, joueuse, matchId}) {
     const [detail, setDetail] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -18,18 +18,24 @@ export default function EnclenchementDetailModal({ isOpen, onClose, enclenchemen
         if (isOpen && enclenchement && type) {
             loadDetail();
         }
-    }, [isOpen, enclenchement, type, matchId]);
+    }, [isOpen, enclenchement, type, joueuse, matchId]);
 
     const loadDetail = async () => {
         try {
             setLoading(true);
+            const params = {
+                enclenchement: enclenchement,
+                type: type
+            };
+
+            if (joueuse) {
+                params.joueuse = joueuse;
+            }
+
             const response = await axios.get(
                 `${import.meta.env.VITE_SERVER_URL}/enclenchements/match/${matchId}/detail`,
                 {
-                    params: {
-                        enclenchement: enclenchement,
-                        type: type
-                    },
+                    params: params,
                     withCredentials: true
                 }
             );
@@ -48,6 +54,7 @@ export default function EnclenchementDetailModal({ isOpen, onClose, enclenchemen
                     <DialogTitle className="text-2xl">
                         Détails: {enclenchement}
                         {type && <span className="text-sm text-gray-500 ml-2">({type})</span>}
+                        {joueuse && <span className="text-sm text-blue-600 ml-2">- {joueuse}</span>}
                     </DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
@@ -55,7 +62,7 @@ export default function EnclenchementDetailModal({ isOpen, onClose, enclenchemen
 
                 {loading ? (
                     <div className="flex justify-center py-8">
-                        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+                        <Loader2 className="h-8 w-8 animate-spin text-blue-600"/>
                     </div>
                 ) : detail ? (
                     <div className="space-y-4">
@@ -65,7 +72,8 @@ export default function EnclenchementDetailModal({ isOpen, onClose, enclenchemen
                                     <CardTitle className="text-base">Distribution des résultats</CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-[400px] overflow-y-auto">
+                                    <div
+                                        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-[400px] overflow-y-auto">
                                         {Object.entries(detail.resultatDistribution || {})
                                             .sort(([, a], [, b]) => b - a)
                                             .map(([resultat, count], index) => (
@@ -98,10 +106,11 @@ export default function EnclenchementDetailModal({ isOpen, onClose, enclenchemen
                                         <CardTitle className="text-base">Secteurs</CardTitle>
                                     </CardHeader>
                                     <CardContent>
-                                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-[400px] overflow-y-auto">
+                                        <div
+                                            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-[400px] overflow-y-auto">
                                             {Object.entries(detail.secteurDistribution)
                                                 .sort(([, a], [, b]) => b - a)
-                                                .map(([secteur , count], index) => (
+                                                .map(([secteur, count], index) => (
                                                     <div
                                                         key={`secteur-${secteur}-${index}`}
                                                         className="p-2 bg-green-50 rounded-lg text-center border border-green-200"

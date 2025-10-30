@@ -3,31 +3,23 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const EnclenchementCard = ({ stats, rank, onClick }) => {
     const getColorClasses = (percentage) => {
-        if (percentage >= 60) {
+        if (percentage >= 50) {
             return {
                 badge: 'bg-green-100 text-green-800',
-                icon: '🏆',
-                label: 'Excellent'
             };
         }
         if (percentage >= 40) {
             return {
                 badge: 'bg-orange-100 text-orange-800',
-                icon: '👍',
-                label: 'Bon'
             };
         }
         if (percentage >= 20) {
             return {
                 badge: 'bg-blue-100 text-blue-800',
-                icon: '⚠️',
-                label: 'Moyen'
             };
         }
         return {
             badge: 'bg-red-100 text-red-800',
-            icon: '⚡',
-            label: 'À améliorer'
         };
     };
 
