@@ -14,7 +14,8 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { QRCodeSVG } from "qrcode.react"
 
-import ImportPhoto from "@/components/ImportPhoto.jsx"; // chemin selon ton projet
+import ImportPhoto from "@/components/ImportPhoto.jsx";
+import * as res from "react-router"; // chemin selon ton projet
 
 
 export default function CreationCompte() {
@@ -35,13 +36,6 @@ export default function CreationCompte() {
 
     const avatarRef = useRef(null);
 
-
-
-
-
-        console.log('joueuses:', joueuseSelectionnee);
-
-// 1️⃣ Charger les rôles et les joueuses au montage
         useEffect(() => {
             const fetchRolesAndJoueuses = async () => {
                 try {
@@ -57,7 +51,6 @@ export default function CreationCompte() {
             fetchRolesAndJoueuses();
         }, []);
 
-// 2️⃣ Pré-remplir les données si token existant
         useEffect(() => {
             if (!token) return;
 
@@ -72,21 +65,14 @@ export default function CreationCompte() {
                     setRole(resData.data.roleId?.toString() || "");
                     setJoueuseSelectionnee(resData.data.joueuse || "");
 
-                    const joueuseNom = resData.data.joueuse;
-                    console.log(joueuseNom);
-                    console.log(resRoles.data);
-
                     if (token) {
-                        // Mode activation : remplir les champs mais ne pas montrer le QR code
                         const resData = await axios.get(
                             `${import.meta.env.VITE_SERVER_URL}/ajout/activation-data?token=${token}`
                         );
                         setNom(resData.data.username || "");
                         setEmail(resData.data.email || "");
                         setRole(resData.data.roleId?.toString() || undefined);
-                        if (resData.data.affectationId) {
-                            setAffectation(resData.data.affectationId.toString());
-                        }
+                        setJoueuseSelectionnee(res.data.joueuse || "");
                     }
 
                 } catch (err) {
@@ -115,12 +101,10 @@ export default function CreationCompte() {
 
                 // Image en base64
                 const base64Image = avatarRef.current?.getBase64();
-                if (base64Image) formData.append("imageProfilBase64", base64Image);
-
+                formData.append("imageProfilBase64", base64Image);
 
                 if (!token) {
 
-                    const formData = new FormData();
                     if (role) formData.append("role", parseInt(role));
                     formData.append("nom", nom);
                     formData.append("email", email);
