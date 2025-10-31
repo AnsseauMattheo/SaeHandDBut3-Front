@@ -74,7 +74,7 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
                 })
                     .then(res => {
                         if (res.data) {
-                            setPhotoUrl(`data:image/png;base64,${res.data}`);
+                            setPhotoUrl(`${import.meta.env.VITE_SERVER_URL}/ajout/utilisateur/photo?nomJoueuse=${encodeURIComponent(joueuse)}`);
                         } else {
                             setPhotoUrl(null);
                         }
