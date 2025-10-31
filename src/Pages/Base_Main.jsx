@@ -16,10 +16,11 @@ export default function DashBoard({ user, logout }) {
         "/DashBoard": "Tableau de bord",
         "/DashBoard/StatTir": "Statistiques de tir",
         "/DashBoard/import": "Import de fichiers",
-        "/DashBoard/supImport": "Suppression d'import",
+        "/DashBoard/supImport": "Matchs importés",
         "/DashBoard/ajout-utilisateur": "Création de compte",
         "/DashBoard/joueuses": "Gestion des joueuses",
-        "/Dashboard/match/:id/enclenchements": "Statistiques d'Enclenchements"
+        "/Dashboard/match/:id/enclenchements": "Statistiques d'Enclenchements",
+        "/Dashboard/joueuse/:id" : "Statistique joueuse"
     };
 
     const getPageTitle = (pathname) => {
