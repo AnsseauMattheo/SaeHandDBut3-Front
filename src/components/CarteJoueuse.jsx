@@ -7,6 +7,7 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
     const [totalTirs, setTotalTirs] = useState(0);
     const [passesD, setpassesD] = useState(0);
     const [perteBalle, setPerteBalle] = useState(0);
+    const [photoUrl, setPhotoUrl] = useState(null);
 
     const getEvaluationColor = () => {
         let score = 0;
@@ -92,6 +93,24 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
                     }
                 })
                 .catch((err) => console.log(err));
+
+            if (joueuse) {
+                axios.get(`${import.meta.env.VITE_SERVER_URL}/ajout/utilisateur/photo`, {
+                    params: { nomJoueuse: joueuse },
+                    withCredentials: true
+                })
+                    .then(res => {
+                        if (res.data) {
+                            setPhotoUrl(`data:image/png;base64,${res.data}`);
+                        } else {
+                            setPhotoUrl(null);
+                        }
+                    })
+                    .catch(() => setPhotoUrl(null));
+            } else {
+                setPhotoUrl(null);
+            }
+
         } else {
             // Sinon, on utilise les données passées en props
             setDatas(datasJ);
@@ -129,18 +148,19 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
 
         {/* Photo */}
             <div className="mt-8 w-28 h-28 rounded-full border-2 border-yellow-800 overflow-hidden shadow-md bg-gray-200">
-                {/*{photoUrl ? (*/}
-                {/*    <img*/}
-                {/*        src={photoUrl}*/}
-                {/*        alt={joueuse}*/}
-                {/*        className="w-full h-full object-cover"*/}
-                {/*    />*/}
-                {/*) : (*/}
-                {/*    <div className="flex items-center justify-center h-full text-gray-500 text-sm">*/}
-                {/*        Aucune photo*/}
-                {/*    </div>*/}
-                {/*)}*/}
+                {photoUrl ? (
+                    <img
+                        src={photoUrl}
+                        alt={joueuse}
+                        className="w-full h-full object-cover"
+                    />
+                ) : (
+                    <div className="flex items-center justify-center h-full text-gray-500 text-sm">
+                        Aucune photo
+                    </div>
+                )}
             </div>
+
 
             {/* Nom de la joueuse */}
             <h2 className="mt-3 text-xl font-bold text-center text-yellow-900 drop-shadow-md uppercase">
