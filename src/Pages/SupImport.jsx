@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAlerts } from "@/context/AlertProvider.jsx";
-import { Trash2 } from "lucide-react";
+import { Trash2, BarChart3 } from "lucide-react";
 
 // Import des composants Dialog de shadcn/ui
 import {
@@ -13,12 +13,15 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { Link } from "react-router-dom";
+
 
 const SupImport = () => {
   const { addSuccess, addError } = useAlerts();
   const [matchs, setMatchs] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState(null);
+
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getAll`).then((res) => {
@@ -82,6 +85,14 @@ const SupImport = () => {
                     )}
                   </td>
                   <td className="px-4 py-2 text-center">
+                      <Link
+                          to={`/dashboard/match/${match.mid}/enclenchements`}
+                          className="inline-flex items-center px-2 py-1 rounded text-primary hover:bg-primary/10 transition"
+                          title="Voir la page stats enclenchements"
+                      >
+                          <BarChart3 size={18} className="mr-1" />
+                          Stats
+                      </Link>
                     <button
                       onClick={() => confirmDelete(match)}
                       className="text-red-500 hover:text-red-700 transition"
