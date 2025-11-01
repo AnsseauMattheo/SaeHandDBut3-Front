@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 import CarteJoueuse from "../components/CarteJoueuse";
 import GraphStats from "../components/GraphStats";
 import RadarStats from "@/components/RadarStats.jsx";
+import GraphStatsDef from "../components/GraphStatsDef";
 
 const ProfilJoueuse = () => {
 
@@ -12,6 +13,7 @@ const ProfilJoueuse = () => {
   const [joueuse, setJoueuse] = useState(null);
   const [datas, setDatas] = useState(null);
   const [evalueData, setEvalueData] = useState(null);
+  const [defStats, setDefStats] = useState(null);
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/joueuse/${id}`, { withCredentials: true })
@@ -32,14 +34,23 @@ const ProfilJoueuse = () => {
         console.error("Erreur lors de la récupération des données :", err);
       });
 
-      axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/dataParAffectation`, { withCredentials: true })
-        .then((res) => {
-          console.log("evalueData", res.data);
-          setEvalueData(res.data);
-        })
-        .catch((err) => {
-          console.error("Erreur lors de la récupération des données par affectation :", err);
-        });
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/dataParAffectation`, { withCredentials: true })
+      .then((res) => {
+        console.log("evalueData", res.data);
+        setEvalueData(res.data);
+      })
+      .catch((err) => {
+        console.error("Erreur lors de la récupération des données par affectation :", err);
+      });
+
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getJoueuseDef/${id}`, { withCredentials: true })
+      .then((res) => {
+        console.log("defStats", res.data);
+        setDefStats(res.data);
+      })
+      .catch((err) => {
+        console.error("Erreur lors de la récupération des données défensives :", err);
+      });
 
   }, [id]);
 
@@ -52,7 +63,7 @@ const ProfilJoueuse = () => {
         Profil Joueuse {joueuse ? joueuse.nom : "Chargement..."}
       </h1>
 
-      {joueuse && datas && (
+      {joueuse && datas && defStats && (
         <>
           <div className="flex flex-col lg:flex-row gap-6 w-full h-80]">
             <div className="w-full lg:w-1/4 ">
@@ -84,9 +95,20 @@ const ProfilJoueuse = () => {
               titre="Passes décisives"
             />
             <GraphStats
-                stats={datas.perteBalle}
-                titre="Pertes de balle"
+              stats={datas.perteBalle}
+              titre="Pertes de balle"
             />
+
+            <GraphStatsDef
+              defStats={defStats.defPlus}
+              titre="Statistiques Défensives Plus"
+            />
+
+            <GraphStatsDef
+              defStats={defStats.defMoins}
+              titre="Statistiques Défensives Moins"
+            />
+
           </div>
         </>
       )}
