@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Edit2, Pen, Pencil } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Edit2, Ellipsis, Pen, Pencil } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion.jsx';
 import axios from 'axios';
@@ -29,7 +37,7 @@ export default function Joueuses() {
   const [selectedAffectation, setSelectedAffectation] = useState('');
   const navigate = useNavigate();
 
-    useEffect(() => {
+  useEffect(() => {
     console.log(selectedAffectation);
   }, [selectedAffectation]);
 
@@ -62,71 +70,98 @@ export default function Joueuses() {
     setIsDialogOpen(true);
   };
 
-    const handleSave = () => {
-        if (!selectedJoueuse || !selectedAffectation) return;
+  const handleSave = () => {
+    if (!selectedJoueuse || !selectedAffectation) return;
 
-        const updatedJoueuses = Object.fromEntries(
-            Object.entries(joueuses).map(([affectName, liste]) => [
-                affectName,
-                liste.map(j =>
-                    j.id === selectedJoueuse.id
-                        ? {
-                            ...j,
-                            affectation: affectations.find(a => a.id.toString() === selectedAffectation)
-                        }
-                        : j
-                ),
-            ])
-        );
+    if (!selectedJoueuse || !selectedAffectation) return;
 
-        setJoueuses(updatedJoueuses);
+    const nouvelleAffectation = affectations.find(a => a.id.toString() === selectedAffectation);
+    if (!nouvelleAffectation) return;
 
-        axios.put(`${import.meta.env.VITE_SERVER_URL}/joueuses/${selectedJoueuse.id}/affectation`, {
-            affectationId: parseInt(selectedAffectation)
-        }, {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true
-        })
-            .then(() => console.log('Affectation mise à jour avec succès'))
-            .catch(error => console.error("Erreur lors de la mise à jour :", error));
+    const updatedJoueuses = { ...joueuses };
 
-        setIsDialogOpen(false);
-        setSelectedJoueuse(null);
-        setSelectedAffectation('');
+    Object.keys(updatedJoueuses).forEach(affectName => {
+      updatedJoueuses[affectName] = updatedJoueuses[affectName].filter(
+        j => j.id !== selectedJoueuse.id
+      );
+    });
+
+    const joueuseModifiee = {
+      ...selectedJoueuse,
+      affectation: nouvelleAffectation
     };
 
+    if (updatedJoueuses[nouvelleAffectation.affectation]) {
+      updatedJoueuses[nouvelleAffectation.affectation].push(joueuseModifiee);
+    } else {
+      updatedJoueuses[nouvelleAffectation.affectation] = [joueuseModifiee];
+    }
 
-    return (
+    setJoueuses(updatedJoueuses);
+
+    axios.put(`${import.meta.env.VITE_SERVER_URL}/joueuses/${selectedJoueuse.id}/affectation`, {
+      affectationId: parseInt(selectedAffectation)
+    }, {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true
+    })
+      .then(() => console.log('Affectation mise à jour avec succès'))
+      .catch(error => console.error("Erreur lors de la mise à jour :", error));
+
+    setIsDialogOpen(false);
+    setSelectedJoueuse(null);
+    setSelectedAffectation('');
+
+    console.log(joueuses)
+
+  };
+
+  console.log(joueuses)
+  return (
     <div className="container mx-auto p-6">
       <div className="p-2 sm:p-3 lg:p-4">
         <Accordion
           type="multiple"
-          collapsible="true"
           className="w-full"
-          defaultValue="item-1"
         >
           {Object.keys(joueuses).map((key, index) => (
             <AccordionItem value={key} key={index}>
-              <AccordionTrigger className="text-xs sm:text-sm">{key}</AccordionTrigger>
+              <AccordionTrigger className="text-xs sm:text-sm">{key} ({joueuses[key]?.length})</AccordionTrigger>
               <AccordionContent className="pt-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                   {joueuses[key].map((tag) => (
-                      <div
-                          key={tag.id}
-                          onClick={() => navigate(`/dashboard/joueuse/${tag.id}`)}
-                          className="relative border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:bg-gray-50"
+                    <div
+                      key={tag.id}
+                      onClick={() => navigate(`/dashboard/joueuse/${tag.id}`)}
+                      className="relative border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:bg-gray-50"
+                    >
+
+                      <button
+                        className="absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors"
+                        onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}
                       >
+                        <Ellipsis className="w-4 h-4 text-gray-600" />
+                      </button>
+                      <div className='absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors'>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger onClick={(e) => e.stopPropagation()}>
+                            <Ellipsis className="w-4 h-4 text-gray-600" />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
+                            <DropdownMenuItem asChild>
+                              <Link to={`/dashboard/compte/${tag.id}`}>Compte</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <button onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}>
+                                Position
+                              </button>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
 
-                      {/* Bouton modifier */}
-                          <button
-                              className="absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors"
-                              onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}
-                          >
-                              <Pencil className="w-4 h-4 text-gray-600" />
-                          </button>
 
 
-                          {/* Photo ou Initiales */}
                       <div className="flex flex-col items-center gap-3 mb-3">
                         {tag.photo ? (
                           <img
@@ -146,14 +181,13 @@ export default function Joueuses() {
                         )}
                       </div>
 
-                      {/* Nom */}
+
                       <div className="text-center mb-2">
                         <h3 className="font-semibold text-sm sm:text-base truncate">
                           {tag.nom}
                         </h3>
                       </div>
 
-                      {/* Affectation */}
                       {tag.affectation && (
                         <div className="text-center">
                           <span className="text-xs sm:text-sm text-gray-600 line-clamp-2">
@@ -173,15 +207,15 @@ export default function Joueuses() {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Modifier l'affectation</DialogTitle>
+            <DialogTitle>Modifier la position</DialogTitle>
             <DialogDescription>
-              Choisissez une affectation pour {selectedJoueuse?.nom}
+              Choisissez une position pour {selectedJoueuse?.nom}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
             <Select value={selectedAffectation} onValueChange={setSelectedAffectation}>
               <SelectTrigger>
-                <SelectValue placeholder="Sélectionner une affectation" />
+                <SelectValue placeholder="Sélectionner une position" />
               </SelectTrigger>
               <SelectContent>
                 {affectations.map((affectation) => (
@@ -204,4 +238,5 @@ export default function Joueuses() {
       </Dialog>
     </div>
   );
+
 }

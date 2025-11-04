@@ -31,15 +31,15 @@ import {
 export function NavUser({userinfo, logout}) {
     const {isMobile} = useSidebar()
 
-    console.log(userinfo ? "oui" : "non")
-
     const handleLogOut = () => {
         console.log("logout1")
         logout();
     }
-
+    if (!userinfo) {
+        return null
+    }
     const avatarFallback = userinfo.username?.split(" ").map((n) => n[0]).join("") || "U";
- 
+
     if (userinfo) {
         return (
             <SidebarMenu>

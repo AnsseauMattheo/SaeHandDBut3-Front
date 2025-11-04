@@ -29,13 +29,23 @@ const data = {
             icon: Home
         },
         {
+            title: "Joueuses",
+            url: "/DashBoard/joueuses",
+            icon: Users,
+        },
+        {
             title: "Carte des tirs",
             url: "/DashBoard/StatTir",
             icon: MapIcon,
             isActive: true,
         },
         {
-            title: "Importer",
+            title: "Matchs importés",
+            url: "/DashBoard/supImport",
+            icon: FileX,
+        },
+        {
+            title: "Importer un match",
             url: "/DashBoard/import",
             icon: FileUp,
         },
@@ -44,16 +54,8 @@ const data = {
             url: "/DashBoard/ajout-utilisateur",
             icon: UserPlus,
         },
-        {
-            title: "Supprimer import",
-            url: "/DashBoard/supImport",
-            icon: FileX,
-        },
-        {
-            title: "Joueuses",
-            url: "/DashBoard/joueuses",
-            icon: Users,
-        }
+
+
     ],
 }
 
