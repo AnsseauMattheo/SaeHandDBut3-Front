@@ -79,7 +79,7 @@ function Connexion({reload}) {
                                         </div>
                                         <div className="flex items-center">
                                             <a
-                                                href="#"
+                                                href="/ForgotPassword"
                                             >
                                                 Mot de passe oublié ?
                                             </a>

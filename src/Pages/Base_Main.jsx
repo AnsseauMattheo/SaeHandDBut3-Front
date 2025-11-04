@@ -8,6 +8,15 @@ import { Separator } from "@/components/ui/separator"
 import { Outlet } from "react-router-dom"
 import { Menu } from "lucide-react"
 
+import PropTypes from 'prop-types';
+
+DashBoard.propTypes = {
+    user: PropTypes.shape({
+        name: PropTypes.string,
+    }).isRequired,
+    logout: PropTypes.func.isRequired,
+};
+
 export default function DashBoard({ user, logout }) {
 
         // Dictionnaire des noms par chemin

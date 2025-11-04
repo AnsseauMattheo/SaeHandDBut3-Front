@@ -104,7 +104,7 @@ export default function CreationCompte() {
             if (!token) {
 
                 const formData = new FormData();
-                if (role) formData.append("role", parseInt(role));
+                if (role) formData.append("role", Number.parseInt(role));
                 formData.append("nom", nom);
                 formData.append("email", email);
                 formData.append("password", password);
