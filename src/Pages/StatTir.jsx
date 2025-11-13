@@ -331,6 +331,12 @@ export default function StatTir() {
                                     </Label>
                                 </div>
                             </div>
+                            <br/>
+                            <br/>
+                            <p style={{ display: showData ? 'none' : 'block', textAlign: 'center' }}>Plus il y a de tir, plus le cercle est gros et rouge.</p>
+                            <p style={{ display: showData ? 'block' : 'none', textAlign: 'center' }}>Le % est la précision et la valeur en haut à droite est le nombre de tir par secteurs.</p>
+
+
                         </div>
 
                         {/* Liste des matchs */}
