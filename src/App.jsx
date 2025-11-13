@@ -13,6 +13,7 @@ import CreationCompte from './Pages/AjoutUtilisateur.jsx';
 import Joueuses from './Pages/Joueuses.jsx';
 import ProfilJoueuse from './Pages/ProfilJoueuse.jsx';
 import Enclenchements from './Pages/Enclenchements';
+import StatsGenerales from './Pages/Stats-generales.jsx';
 
 
 
@@ -75,6 +76,7 @@ function App() {
         <Route path='joueuses' element={<Joueuses />} />
         <Route path='joueuse/:id' element={<ProfilJoueuse />} />
           <Route path="match/:matchId/enclenchements" element={<Enclenchements />} />
+          <Route path="match/:matchId/statsgenerales" element={<StatsGenerales />} />
 
       </Route>
 

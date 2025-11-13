@@ -19,7 +19,8 @@ export default function DashBoard({ user, logout }) {
         "/DashBoard/supImport": "Suppression d'import",
         "/DashBoard/ajout-utilisateur": "Création de compte",
         "/DashBoard/joueuses": "Gestion des joueuses",
-        "/Dashboard/match/:id/enclenchements": "Statistiques d'Enclenchements"
+        "/Dashboard/match/:id/enclenchements": "Statistiques d'Enclenchements",
+        "/Dashboard/match/:id/statsgenerales": "Statistiques Générales"
     };
 
     const getPageTitle = (pathname) => {
