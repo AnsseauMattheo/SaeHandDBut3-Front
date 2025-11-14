@@ -14,12 +14,13 @@ export default function StatsGenerales() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_SERVER_URL}/stats/match/${matchId}/grandespace`, { credentials: "include" })
+        fetch(`${import.meta.env.VITE_SERVER_URL}/stats/match/${matchId}`, { credentials: "include" })
             .then(r => r.json())
             .then(setData)
             .catch(console.error)
             .finally(() => setLoading(false));
     }, [matchId]);
+
 
     if (loading) {
         return (
