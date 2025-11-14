@@ -32,7 +32,6 @@ export default function CreationCompte() {
 
     console.log('joueuses:', joueuseSelectionnee);
 
-// 1️⃣ Charger les rôles et les joueuses au montage
     useEffect(() => {
         const fetchRolesAndJoueuses = async () => {
             try {
@@ -48,7 +47,6 @@ export default function CreationCompte() {
         fetchRolesAndJoueuses();
     }, []);
 
-// 2️⃣ Pré-remplir les données si token existant
     useEffect(() => {
         if (!token) return;
 
@@ -143,7 +141,7 @@ export default function CreationCompte() {
 
     return (
         <div className="flex flex-col items-center justify-center w-full p-8">
-            <h2 className="text-4xl font-extrabold text-gray-800 mb-8">
+            <h2 className="text-4xl text-gray-800 mb-8">
                 {token ? "Activer mon compte" : "Créer un compte"}
             </h2>
 
@@ -154,7 +152,7 @@ export default function CreationCompte() {
                 <div className="flex flex-col md:flex-row md:space-x-4">
                     {/* Select Rôle */}
                     <div className="flex-1">
-                        <Label htmlFor="role">Rôle</Label>
+                        <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="role">Rôle</Label>
                         <Select
                             value={role}
                             onValueChange={setRole}
@@ -175,7 +173,7 @@ export default function CreationCompte() {
 
                     {/* Nom utilisateur */}
                     <div className="flex-1">
-                        <Label htmlFor="Utilisateur">Utilisateur</Label>
+                        <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="Utilisateur">Utilisateur</Label>
                         <Input
                             id="Utilisateur"
                             type="text"
@@ -189,7 +187,7 @@ export default function CreationCompte() {
                 {/* Joueuse */}
                 {role && roles.find(r => r.id.toString() === role)?.role === "Joueuse" && (
                     <div className="flex-1 mt-4">
-                        <Label htmlFor="joueuse">Joueuse</Label>
+                        <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="joueuse">Joueuse</Label>
                         <Select
                             value={joueuseSelectionnee || ""}
                             onValueChange={val => setJoueuseSelectionnee(val)}
@@ -213,7 +211,7 @@ export default function CreationCompte() {
                 {/* Email */}
                 <div className="flex flex-col md:flex-row md:space-x-4">
                     <div className="flex-1">
-                        <Label htmlFor="email">Email</Label>
+                        <Label  className="text-sm font-medium text-gray-700 py-2" htmlFor="email">Email</Label>
                         <Input
                             id="email"
                             type="email"
@@ -228,7 +226,7 @@ export default function CreationCompte() {
                 {token && (
                     <>
                         <div>
-                            <Label htmlFor="password">Mot de passe</Label>
+                            <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="password">Mot de passe</Label>
                             <Input
                                 id="password"
                                 type="password"
@@ -242,7 +240,7 @@ export default function CreationCompte() {
                         </div>
 
                         <div>
-                            <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
+                            <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="confirmPassword">Confirmer le mot de passe</Label>
                             <Input
                                 id="confirmPassword"
                                 type="password"
@@ -261,7 +259,7 @@ export default function CreationCompte() {
                 <Button
                     type="submit"
                     disabled={load}
-                    className="w-full bg-gradient-to-r from-pink-700 to-blue-900 hover:from-pink-800 hover:to-blue-950 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200 border-white"
+                    className="w-full bg-primary hover:primary-700 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200 border-white"
                 >
                     {load
                         ? "Création en cours..."

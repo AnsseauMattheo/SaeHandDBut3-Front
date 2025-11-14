@@ -291,7 +291,7 @@ export default function Enclenchements() {
                             <Card className="shadow-sm">
                                 <CardContent className="flex flex-col items-center justify-center py-4">
                                     <span
-                                        className="text-4xl font-bold text-blue-600">{summary.tauxMoyen.toFixed(1)}%</span>
+                                        className="text-4xl font-bold text-purple-600">{summary.tauxMoyen.toFixed(1)}%</span>
                                     <span className="text-xs text-gray-500 mt-2">Efficacité moyenne</span>
                                 </CardContent>
                             </Card>
