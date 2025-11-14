@@ -3,6 +3,10 @@ import { useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import GrandEspace from "@/components/Grand-espace.jsx";
 import StatsTable from "@/components/StatsTable";
+import PossessionPieCharts from "@/components/PossessionPieCharts";
+import PhaseRepartitionChart from "@/components/RepartitionChart.jsx";
+import EfficacitePhases from "@/components/EfficacitePhasesChart.jsx";
+
 
 export default function StatsGenerales() {
     const { matchId } = useParams();
@@ -28,13 +32,15 @@ export default function StatsGenerales() {
 
     return (
         <div className="p-4 space-y-6">
-            <h1 className="text-2xl font-bold">Statistiques générales — Match {matchId}</h1>
 
-            {/* Graphes Grand Espace (tu passes les données en prop) */}
+            {/* Graphes Grand Espace */}
             <GrandEspace data={data} />
 
-            {/* Tableau Attaque */}
-            {data.attaque && <StatsTable title="Attaque" data={data.attaque} showAttendusSaison colorHeader={"bg-blue-50"}/>}
+            <PossessionPieCharts data={data} />
+
+            <PhaseRepartitionChart data={data} />
+
+            <EfficacitePhases data={data} />
 
             {/* Tableau Grand Espace */}
             {data.grandEspace && <StatsTable title="Grand Espace" data={data.grandEspace} showAttendusSaison colorHeader={"bg-green-50"}/>}
@@ -42,8 +48,15 @@ export default function StatsGenerales() {
             {/* Tableau Repli */}
             {data.repli && <StatsTable title="Repli" data={data.repli} showAttendusSaison colorHeader={"bg-purple-50"}/>}
 
+            {/* Tableau Attaque */}
+            {data.attaque && <StatsTable title="Attaque" data={data.attaque} showAttendusSaison colorHeader={"bg-blue-50"}/>}
+
+
+
             {/* Tableau Défense */}
             {data.defense && <StatsTable title="Défense" data={data.defense} showAttendusSaison colorHeader={"bg-red-50"}/>}
+
+
         </div>
     );
 }

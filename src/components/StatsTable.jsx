@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function StatsTable({ title, data, showAttendusSaison = true, colorHeader = "bg-blue-50" }) {
     if (!data || data.length === 0) return null;
 
-    // Identifier la ligne TOTAL (type commençant par "TOTAL")
     const hasTotal = data.some(row => row.type?.toLowerCase().includes("total"));
 
     return (

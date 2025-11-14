@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, LabelList } from "recharts";
 
 export default function GrandEspace({ data }) {
-    const [mode, setMode] = useState("nb");
+    const [mode, setMode] = useState("pct");
 
     const ge = data?.grandEspace ?? [];
     const repli = data?.repli ?? [];
@@ -11,10 +11,10 @@ export default function GrandEspace({ data }) {
     const repliMapLabel = (t) => {
         if (!t) return t;
         const s = t.toLowerCase();
-        if (s.includes("transition")) return "Transition (ADV)";
-        if (s.includes("ca mb")) return "CA MB (ADV)";
-        if (s.includes("er")) return "ER (ADV)";
-        if (s.includes("but vide")) return "But vide (ADV)";
+        if (s.includes("transition")) return "Transition";
+        if (s.includes("ca mb")) return "CA MB";
+        if (s.includes("er")) return "ER";
+        if (s.includes("but vide")) return "But vide";
         return `${t} (ADV)`;
     };
 
@@ -96,13 +96,13 @@ export default function GrandEspace({ data }) {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {usePct ? (
                     <>
-                        <PercentBar title="% phases GE (nous)" color="#2563eb" dataset={geData} />
-                        <PercentBar title="% phases GE (adversaire via repli)" color="#ef4444" dataset={advData} />
+                        <PercentBar title="Utilisation grand espace" color="#2563eb" dataset={geData} />
+                        <PercentBar title="Utilisation grand espace adversaire" color="#ef4444" dataset={advData} />
                     </>
                 ) : (
                     <>
-                        <NumberBar title="Utilisation Grand Espace (nous)" color="#2563eb" dataset={geData} />
-                        <NumberBar title="Utilisation Grand Espace (adversaire via repli)" color="#ef4444" dataset={advData} />
+                        <NumberBar title="Utilisation grand espace" color="#2563eb" dataset={geData} />
+                        <NumberBar title="Utilisation grand espace adversaire" color="#ef4444" dataset={advData} />
                     </>
                 )}
             </div>
