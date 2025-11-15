@@ -57,6 +57,9 @@ export default function StatsGenerales() {
             {/* Tableau Défense */}
             {data.defense && <StatsTable title="Défense" data={data.defense} showAttendusSaison colorHeader={"bg-red-50"}/>}
 
+            {/* Jet de 7 mètres */}
+            {data.jet7m && <StatsTable title="Jet de 7 mètres" data={data.jet7m} showAttendusSaison colorHeader={"bg-yellow-50"}/>}
+
 
         </div>
     );
