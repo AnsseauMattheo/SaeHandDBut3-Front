@@ -34,6 +34,36 @@ export default function CreationCompte() {
     const [load, setLoad] = useState(false);
     const [activationLink, setActivationLink] = useState("");
 
+    console.log('joueuses:', joueuseSelectionnee);
+
+    useEffect(() => {
+        const fetchRolesAndJoueuses = async () => {
+            try {
+                const resRoles = await axios.get(`${import.meta.env.VITE_SERVER_URL}/roles/getAll`);
+                setRoles(resRoles.data);
+                const resJoueuses = await axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/getJoueuses`);
+                setJoueuses(resJoueuses.data || []);
+            } catch (err) {
+                addError("Impossible de charger les rôles ou les joueuses");
+                console.error(err);
+            }
+        };
+        fetchRolesAndJoueuses();
+    }, []);
+
+    useEffect(() => {
+        if (!token) return;
+
+        const fetchActivationData = async () => {
+            try {
+                const resData = await axios.get(
+                    `${import.meta.env.VITE_SERVER_URL}/ajout/activation-data?token=${token}`
+                );
+
+                setNom(resData.data.username || "");
+                setEmail(resData.data.email || "");
+                setRole(resData.data.roleId?.toString() || "");
+                setJoueuseSelectionnee(resData.data.joueuse || "");
     const avatarRef = useRef(null);
 
         useEffect(() => {
@@ -142,6 +172,101 @@ export default function CreationCompte() {
             }
         };
 
+        } catch (err) {
+            setLoad(false);
+            addError("Erreur lors de l'ajout de l'utilisateur");
+            console.error(err);
+        }
+    };
+
+    return (
+        <div className="flex flex-col items-center justify-center w-full p-8">
+            <h2 className="text-4xl text-gray-800 mb-8">
+                {token ? "Activer mon compte" : "Créer un compte"}
+            </h2>
+
+            <form
+                onSubmit={handleSubmit}
+                className="flex flex-col w-full max-w-4xl text-gray-800 shadow-2xl rounded-3xl p-8 space-y-6 bg-white"
+            >
+                <div className="flex flex-col md:flex-row md:space-x-4">
+                    {/* Select Rôle */}
+                    <div className="flex-1">
+                        <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="role">Rôle</Label>
+                        <Select
+                            value={role}
+                            onValueChange={setRole}
+                            disabled={!!token} // non modifiable si activation
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="-- Choisir un rôle --" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {roles.map((r) => (
+                                    <SelectItem key={r.id} value={r.id.toString()}>
+                                        {r.role}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    {/* Nom utilisateur */}
+                    <div className="flex-1">
+                        <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="Utilisateur">Utilisateur</Label>
+                        <Input
+                            id="Utilisateur"
+                            type="text"
+                            value={nom}
+                            onChange={(e) => setNom(e.target.value)}
+                            disabled={!!token}
+                        />
+                    </div>
+                </div>
+
+                {/* Joueuse */}
+                {role && roles.find(r => r.id.toString() === role)?.role === "Joueuse" && (
+                    <div className="flex-1 mt-4">
+                        <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="joueuse">Joueuse</Label>
+                        <Select
+                            value={joueuseSelectionnee || ""}
+                            onValueChange={val => setJoueuseSelectionnee(val)}
+                            disabled={!!token}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="-- Choisir une joueuse --" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {joueuses.map((j) => (
+                                    <SelectItem key={j.id} value={j.nom} selected={(!token && joueuseSelectionnee === j.nom) }>
+                                        {j.nom}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                )}
+
+
+                {/* Email */}
+                <div className="flex flex-col md:flex-row md:space-x-4">
+                    <div className="flex-1">
+                        <Label  className="text-sm font-medium text-gray-700 py-2" htmlFor="email">Email</Label>
+                        <Input
+                            id="email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            disabled={!!token} // non modifiable si activation
+                        />
+                    </div>
+                </div>
+
+                {/* Password */}
+                {token && (
+                    <>
+                        <div>
+                            <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="password">Mot de passe</Label>
         return (
             <div className="flex flex-col items-center justify-center w-full p-8">
                 <h2 className="text-4xl font-extrabold text-gray-800 mb-8">
@@ -187,6 +312,16 @@ export default function CreationCompte() {
                         </div>
                     </div>
 
+                        <div>
+                            <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="confirmPassword">Confirmer le mot de passe</Label>
+                            <Input
+                                id="confirmPassword"
+                                type="password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                placeholder="••••••••"
+                                required
+                                minLength={8}
                     {/* Joueuse */}
                     {role && roles.find(r => r.id.toString() === role)?.role === "Joueuse" && (
                         <div className="flex-1 mt-4">
@@ -226,6 +361,27 @@ export default function CreationCompte() {
                         </div>
                     </div>
 
+                {/* Bouton */}
+                <Button
+                    type="submit"
+                    disabled={load}
+                    className="w-full bg-primary hover:primary-700 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200 border-white"
+                >
+                    {load
+                        ? "Création en cours..."
+                        : token
+                            ? "Activer mon compte"
+                            : "Créer le compte"}
+                </Button>
+
+            </form>
+
+            {/* QR Code et lien : uniquement si création */}
+            {!token && activationLink && (
+                <div className="mt-8 flex flex-col items-center bg-white p-4 rounded-xl shadow-lg">
+                    <h3 className="text-xl font-semibold mb-4">Lien d’activation (QR Code)</h3>
+                    <QRCodeSVG value={activationLink} size={200} />
+                    <p className="mt-2 text-gray-700 break-all">{activationLink}</p>
                     {/* Password */}
                     {token && (
                         <>

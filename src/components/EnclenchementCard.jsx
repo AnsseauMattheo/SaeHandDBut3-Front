@@ -32,10 +32,10 @@ const EnclenchementCard = ({ stats, rank, onClick }) => {
         >
             {rank && (
                 <div className={`absolute -top-3 -left-3 w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shadow-lg z-2 ${
-                    rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-yellow-600' :
-                        rank === 2 ? 'bg-gradient-to-br from-gray-400 to-gray-600' :
-                            rank === 3 ? 'bg-gradient-to-br from-orange-400 to-orange-600' :
-                                'bg-gradient-to-br from-blue-500 to-purple-600'
+                    rank === 1 ? 'bg-yellow-600' :
+                        rank === 2 ? 'bg-gray-600' :
+                            rank === 3 ? 'bg-orange-600' :
+                                'bg-purple-600'
                 }`}>
                     #{rank}
                 </div>
@@ -73,7 +73,7 @@ const EnclenchementCard = ({ stats, rank, onClick }) => {
                 <div className="space-y-2">
                     <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
                         <div
-                            className="h-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center transition-all duration-700"
+                            className="h-full bg-purple-600 flex items-center justify-center transition-all duration-700"
                             style={{ width: `${stats.pourcentageReussite}%` }}
                         >
               <span className="text-[10px] font-bold text-white">
