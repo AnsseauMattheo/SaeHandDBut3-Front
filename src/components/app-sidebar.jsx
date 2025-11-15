@@ -40,14 +40,14 @@ const data = {
             isActive: true,
         },
         {
-            title: "Importer",
-            url: "/DashBoard/import",
-            icon: FileUp,
-        },
-        {
-            title: "Supprimer import",
+            title: "Matchs importés",
             url: "/DashBoard/supImport",
             icon: FileX,
+        },
+        {
+            title: "Importer un match",
+            url: "/DashBoard/import",
+            icon: FileUp,
         },
         {
             title: "Ajouter utilisateur",

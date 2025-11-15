@@ -20,6 +20,8 @@ const RadarStats = ({ joueuse, evalueData, affectation }) => {
     const [totalTirs, setTotalTirs] = useState(0);
     const [passesD, setPassesD] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [perteBalle, setPerteBalle] = useState(0);
+
 
     useEffect(() => {
         if (!joueuse) return;
@@ -42,6 +44,16 @@ const RadarStats = ({ joueuse, evalueData, affectation }) => {
                     const totalPasses = joueusePasses.passeDList.reduce((acc, p) => acc + (p.passeD || 0), 0);
                     setPassesD(totalPasses);
                 }
+                // Requête pertes de balle
+                const resPerte = await axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getPerteB`, { withCredentials: true });
+                const joueusePerte = resPerte.data.find(j => j.joueuse === joueuse);
+                if (joueusePerte) {
+                    const perteB = joueusePerte.perteBList.reduce((acc, t) => acc + (t.perteBalle || 0), 0);
+                    setPerteBalle(perteB);
+                } else {
+                    setPerteBalle(0);
+                }
+
 
             } catch (err) {
                 console.error("Erreur lors du chargement des stats radar :", err);
@@ -81,6 +93,11 @@ const radarData = [
     stat: "Passes D",
     value: Math.round((passesD / evalueData?.[affectation]?.maxPasseD) * 100),
   },
+  {
+      stat: "Pertes de balle",
+      value: Math.round((perteBalle / evalueData?.[affectation]?.maxPerteBalle) * 100),
+  },
+
 ];
 
     return (

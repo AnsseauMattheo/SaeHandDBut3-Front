@@ -9,6 +9,15 @@ import { Outlet, useLocation, matchPath } from "react-router-dom"
 import { Menu } from "lucide-react"
 import { useEffect } from "react"
 
+import PropTypes from 'prop-types';
+
+DashBoard.propTypes = {
+    user: PropTypes.shape({
+        name: PropTypes.string,
+    }).isRequired,
+    logout: PropTypes.func.isRequired,
+};
+
 export default function DashBoard({ user, logout }) {
     const location = useLocation();
 
@@ -16,11 +25,12 @@ export default function DashBoard({ user, logout }) {
         "/DashBoard": "Tableau de bord",
         "/DashBoard/StatTir": "Statistiques de tir",
         "/DashBoard/import": "Import de fichiers",
-        "/DashBoard/supImport": "Suppression d'import",
+        "/DashBoard/supImport": "Matchs importés",
         "/DashBoard/ajout-utilisateur": "Création de compte",
         "/DashBoard/joueuses": "Gestion des joueuses",
         "/Dashboard/match/:id/enclenchements": "Statistiques d'Enclenchements",
         "/Dashboard/match/:id/statsgenerales": "Statistiques Générales"
+        "/Dashboard/joueuse/:id" : "Statistique joueuse"
     };
 
     const getPageTitle = (pathname) => {
