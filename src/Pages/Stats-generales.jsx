@@ -6,7 +6,7 @@ import StatsTable from "@/components/StatsTable";
 import PossessionPieCharts from "@/components/PossessionPieCharts";
 import PhaseRepartitionChart from "@/components/RepartitionChart.jsx";
 import EfficacitePhases from "@/components/EfficacitePhasesChart.jsx";
-
+import StatsComparaison from "@/components/StatsComparaison.jsx";
 
 export default function StatsGenerales() {
     const { matchId } = useParams();
@@ -43,6 +43,8 @@ export default function StatsGenerales() {
 
             <EfficacitePhases data={data} />
 
+            <StatsComparaison statsEquipe={data.statsClefsDTOEquipe} statsAdversaire={data.statsClefsDTOAdversaire} />
+
             {/* Tableau Grand Espace */}
             {data.grandEspace && <StatsTable title="Grand Espace" data={data.grandEspace} showAttendusSaison colorHeader={"bg-green-50"}/>}
 
@@ -59,6 +61,9 @@ export default function StatsGenerales() {
 
             {/* Jet de 7 mètres */}
             {data.jet7m && <StatsTable title="Jet de 7 mètres" data={data.jet7m} showAttendusSaison colorHeader={"bg-yellow-50"}/>}
+
+            {/*Efficacité possession */}
+            {data.efficaciteTotal && <StatsTable title="Efficacité possession" data={data.efficaciteTotal} showAttendusSaison colorHeader={"bg-orange-50"}/>}
 
 
         </div>
