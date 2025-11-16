@@ -86,7 +86,7 @@ const SupImport = () => {
                   </td>
                   <td className="px-4 py-2 text-center">
                       <Link
-                          to={`/dashboard/match/${match.mid}/enclenchements`}
+                          to={`/dashboard/match/${match.mid}/statistiques`}
                           className="inline-flex items-center px-2 py-1 rounded text-primary hover:bg-primary/10 transition"
                           title="Voir la page stats enclenchements"
                       >

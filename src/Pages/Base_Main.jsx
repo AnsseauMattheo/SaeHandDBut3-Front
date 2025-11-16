@@ -30,7 +30,8 @@ export default function DashBoard({ user, logout }) {
         "/DashBoard/joueuses": "Gestion des joueuses",
         "/Dashboard/match/:id/enclenchements": "Statistiques d'Enclenchements",
         "/Dashboard/match/:id/statsgenerales": "Statistiques Générales",
-        "/Dashboard/joueuse/:id" : "Statistique joueuse"
+        "/Dashboard/joueuse/:id" : "Statistique joueuse",
+        "/Dashboard/match/:id/statistiques" : "Statistiques du match"
     };
 
     const getPageTitle = (pathname) => {

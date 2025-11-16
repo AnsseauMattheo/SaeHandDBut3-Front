@@ -14,6 +14,8 @@ import Joueuses from './Pages/Joueuses.jsx';
 import ProfilJoueuse from './Pages/ProfilJoueuse.jsx';
 import Enclenchements from './Pages/Enclenchements';
 import StatsGenerales from './Pages/Stats-generales.jsx';
+import AnalyseDefensive from "@/Pages/AnalyseDefensive.jsx";
+import StatistiquesMatchMain from "@/Pages/StatistiquesMatchMain.jsx";
 
 
 
@@ -75,8 +77,11 @@ function App() {
         <Route path="ajout-utilisateur" element={<CreationCompte />} />
         <Route path='joueuses' element={<Joueuses />} />
         <Route path='joueuse/:id' element={<ProfilJoueuse />} />
-          <Route path="match/:matchId/enclenchements" element={<Enclenchements />} />
-          <Route path="match/:matchId/statsgenerales" element={<StatsGenerales />} />
+          <Route path="match/:matchId/statistiques/enclenchements" element={<Enclenchements />} />
+          <Route path="match/:matchId/statistiques/generales" element={<StatsGenerales />} />
+          <Route path="match/:matchId/statistiques/analyse-defensive" element={<AnalyseDefensive />} />
+          <Route path="match/:matchId/statistiques" element={<StatistiquesMatchMain />} />
+
 
       </Route>
 
