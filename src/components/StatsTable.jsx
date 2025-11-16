@@ -4,6 +4,8 @@ import { useState } from "react";
 import AttenduInput from "./AttenduInput";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import chroma from "chroma-js";
+
 /**
  * Props:
  * - title: titre de la section (ex: "Attaque", "Grand Espace")
@@ -13,12 +15,18 @@ import { Label } from "@/components/ui/label";
 export default function StatsTable({ title, data, showAttendusSaison = true, colorHeader = "bg-blue-50" }) {
     if (!data || data.length === 0) return null;
 
-    const hasTotal = data.some(row => row.type?.toLowerCase().includes("total"));
-
-
     const [editMode, setEditMode] = useState(false);
 
-
+    const getEfficaciteColor = (eff, attendu) => {
+        if (eff == null || attendu == null) return "transparent";
+        const diff = eff - attendu;
+        if (diff >= 0) {
+            return chroma.scale(["#c8f7c5", "#2ecc71"])(Math.min(diff / 20, 1)).hex();
+        } else {
+            const ratio = Math.min(Math.abs(diff) / 20, 1);
+            return chroma.scale(["#f8c4c4", "#e74c3c"])(ratio).hex();
+        }
+    };
 
     return (
         <Card>
@@ -57,11 +65,10 @@ export default function StatsTable({ title, data, showAttendusSaison = true, col
                     </thead>
                     <tbody>
                         {data.map((row, i) => {
-                            const isTotal = row.type?.toLowerCase().includes("total");
+                            const effColor = getEfficaciteColor(row.efficacite, row.attendu?.valeur);
+
                             return (
-                                <tr
-                                    key={i}
-                                    className={`border-b hover:bg-gray-50 ${isTotal ? "bg-blue-50 font-semibold" : ""}`}
+                                <tr key={i} className={`border-b hover:bg-gray-50 ${row.type?.toLowerCase().includes("total") ? "bg-blue-50 font-semibold" : ""}`}
                                 >
                                     <td className="py-2 px-2 min-w-[120px]">{row.type}</td>
                                     <td className="text-center px-2">{row.but ?? 0}</td>
@@ -72,9 +79,13 @@ export default function StatsTable({ title, data, showAttendusSaison = true, col
                                     <td className="text-center px-2">{row.tirRateNC ?? 0}</td>
                                     <td className="text-center px-2">{row.arretNC ?? 0}</td>
                                     <td className="text-center px-2">{row.neutContre ?? 0}</td>
-                                    <td className="text-center px-2 font-semibold text-blue-600">
+                                    <td 
+                                        className="text-center px-2 font-semibold text-black"
+                                        style={{ backgroundColor: effColor }}
+                                    >
                                         {row.efficacite != null ? `${row.efficacite.toFixed(1)}%` : "-"}
                                     </td>
+
                                     <td className="text-center px-2">
                                         {row.attendu && editMode ? (
                                             <AttenduInput
