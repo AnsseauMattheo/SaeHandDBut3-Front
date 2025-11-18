@@ -83,11 +83,8 @@ function App() {
           <Route path="match/:matchId/statistiques/enclenchements" element={<Enclenchements />} />
           <Route path="match/:matchId/statistiques/generales" element={<StatsGenerales />} />
           <Route path="match/:matchId/statistiques/analyse-defensive" element={<AnalyseDefensive />} />
-
           <Route path="match/:matchId/statistiques" element={<StatistiquesMatchMain />} />
           <Route path="match/:matchId/statistiques/analyse-gb" element={<AnalyseGB />} />
-
-
 
       </Route>
 

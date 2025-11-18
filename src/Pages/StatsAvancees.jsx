@@ -50,31 +50,52 @@ export default function StatsAvancees() {
         return () => abortController.abort();
     }, []);
 
-    // ✅ CORRECTION : Mettre matchsList dans useMemo
+
     const matchsList = useMemo(() => {
         if (!matchsData) return [];
 
+        const seasonEntries = Array.isArray(matchsData)
+            ? [["", matchsData]]
+            : Object.entries(matchsData);
+
         const allMatches = [];
-        Object.entries(matchsData).forEach(([saison, matchesArray]) => {
-            matchesArray.forEach(matchData => {
+
+        seasonEntries.forEach(([saisonNom, matchesArray]) => {
+            (matchesArray || []).forEach((entry) => {
+                // Certains payloads utilisent "macth" au lieu de "match"
+                const m = entry?.match ?? entry?.macth ?? null;
+                if (!m) return;
+
                 allMatches.push({
-                    ...matchData.match,
-                    saison,
-                    stats: matchData
+                    // Champs utilisés par l’UI
+                    mid: m.mid,
+                    date: m.date,
+                    adversaire: m.adversaire,
+                    nomImport: m.nomImport,
+                    win: Boolean(m.win),
+                    butsMis: m.butsMis ?? 0,
+                    butsEncaisses: m.butsEncaisses ?? 0,
+                    // On stocke un libellé de saison (string) pour le groupement
+                    saison: m.saison?.nom ?? saisonNom ?? "Inconnue",
+                    saisonId: m.saison?.id,
+                    // On expose toutes les stats brutes pour les calculs
+                    stats: {
+                        ...entry,
+                        match: m, // on normalise la clé utilisée ensuite
+                    },
                 });
             });
         });
 
         return allMatches.sort((a, b) => new Date(b.date) - new Date(a.date));
-    }, [matchsData]); // Ne dépend que de matchsData
+    }, [matchsData]);
 
-    // ✅ CORRECTION : Mettre matchesBySeason dans useMemo
+
     const matchesBySeason = useMemo(() => {
         return matchsList.reduce((acc, match) => {
-            if (!acc[match.saison]) {
-                acc[match.saison] = [];
-            }
-            acc[match.saison].push(match);
+            const key = match.saison || "Inconnue";
+            if (!acc[key]) acc[key] = [];
+            acc[key].push(match);
             return acc;
         }, {});
     }, [matchsList]);
@@ -462,112 +483,106 @@ export default function StatsAvancees() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <Card className="lg:col-span-1">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <BarChart3 className="h-5 w-5" />
-                            Sélection des matchs
-                        </CardTitle>
-                        <CardDescription>
-                            {selectedMatches.length} match{selectedMatches.length > 1 ? 's' : ''} sélectionné{selectedMatches.length > 1 ? 's' : ''}
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                        <div className="space-y-3">
-                            <Label className="text-base font-semibold">Type de calcul</Label>
-                            <RadioGroup value={calculationType} onValueChange={setCalculationType}>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="moyenne" id="moyenne" />
-                                    <Label htmlFor="moyenne" className="cursor-pointer">
-                                        Moyenne des matchs
-                                    </Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="addition" id="addition" />
-                                    <Label htmlFor="addition" className="cursor-pointer">
-                                        Addition des matchs
-                                    </Label>
-                                </div>
-                            </RadioGroup>
-                        </div>
+                <div className="lg:col-span-1 lg:sticky lg:top-24 self-start">
+                    <Card className="h-full lg:max-h-[calc(100vh-6rem)] flex flex-col">
+                        <CardHeader>
+                             <CardTitle className="flex items-center gap-2">
+                                 <BarChart3 className="h-5 w-5" />
+                                 Sélection des matchs
+                             </CardTitle>
+                             <CardDescription>
+                                 {selectedMatches.length} match{selectedMatches.length > 1 ? 's' : ''} sélectionné{selectedMatches.length > 1 ? 's' : ''}
+                             </CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex-1 overflow-hidden space-y-6">
+                             <div className="space-y-3">
+                                 <Label className="text-base font-semibold">Type de calcul</Label>
+                                 <RadioGroup value={calculationType} onValueChange={setCalculationType}>
+                                     <div className="flex items-center space-x-2">
+                                         <RadioGroupItem value="moyenne" id="moyenne" />
+                                         <Label htmlFor="moyenne" className="cursor-pointer">
+                                             Moyenne des matchs
+                                         </Label>
+                                     </div>
+                                     <div className="flex items-center space-x-2">
+                                         <RadioGroupItem value="addition" id="addition" />
+                                         <Label htmlFor="addition" className="cursor-pointer">
+                                             Addition des matchs
+                                         </Label>
+                                     </div>
+                                 </RadioGroup>
+                             </div>
 
-                        <div className="space-y-3">
-                            <div className="flex items-center justify-between">
-                                <Label className="text-base font-semibold">Matchs disponibles</Label>
-                                {matchsList.length > 0 && (
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={handleSelectAll}
-                                    >
-                                        {selectedMatches.length === matchsList.length ? 'Tout désélectionner' : 'Tout sélectionner'}
-                                    </Button>
-                                )}
-                            </div>
+                             <div className="space-y-3">
+                                 <div className="flex items-center justify-between">
+                                     <Label className="text-base font-semibold">Matchs disponibles</Label>
+                                     {matchsList.length > 0 && (
+                                         <Button
+                                             variant="ghost"
+                                             size="sm"
+                                             onClick={handleSelectAll}
+                                         >
+                                             {selectedMatches.length === matchsList.length ? 'Tout désélectionner' : 'Tout sélectionner'}
+                                         </Button>
+                                     )}
+                                 </div>
 
-                            <ScrollArea className="h-[500px] border rounded-md p-4">
-                                <div className="space-y-4">
-                                    {Object.entries(matchesBySeason).map(([saison, matches]) => (
-                                        <div key={saison}>
-                                            <div className="flex items-center justify-between mb-2 sticky top-0 bg-white py-1 z-10">
-                                                <h3 className="font-semibold text-sm text-gray-700">{saison}</h3>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    className="h-6 text-xs"
-                                                    onClick={() => handleSelectSeason(saison)}
-                                                >
-                                                    {matches.every(m => selectedMatches.includes(m.mid)) ? 'Désélectionner' : 'Sélectionner'}
-                                                </Button>
-                                            </div>
-                                            <div className="space-y-2">
-                                                {matches.map((match) => (
-                                                    <div key={match.mid} className="flex items-start space-x-3 p-2 rounded hover:bg-gray-50 transition-colors">
-                                                        <Checkbox
-                                                            id={`match-${match.mid}`}
-                                                            checked={selectedMatches.includes(match.mid)}
-                                                            onCheckedChange={() => handleMatchToggle(match.mid)}
-                                                        />
-                                                        <Label
-                                                            htmlFor={`match-${match.mid}`}
-                                                            className="cursor-pointer flex-1 leading-tight"
-                                                        >
-                                                            <div className="font-medium text-sm">
-                                                                {match.nomImport || match.adversaire}
-                                                            </div>
-                                                            <div className="text-xs text-gray-500">
-                                                                {new Date(match.date).toLocaleDateString('fr-FR')} -
-                                                                <span className={match.win ? 'text-green-600' : 'text-red-600'}>
-                                                                    {match.win ? ' Victoire' : ' Défaite'}
-                                                                </span>
-                                                                {' '}({match.butsMis}-{match.butsEncaisses})
-                                                            </div>
-                                                        </Label>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                            <Separator className="mt-3" />
-                                        </div>
-                                    ))}
+                                <ScrollArea className="h-full border rounded-md p-4">
+                                     <div className="space-y-4">
+                                         {Object.entries(matchesBySeason).map(([saison, matches]) => (
+                                             <div key={saison}>
+                                                 <div className="flex items-center justify-between mb-2 sticky top-0 bg-white py-1 z-10">
+                                                     <h3 className="font-semibold text-sm text-gray-700">{saison}</h3>
+                                                     <Button
+                                                         variant="ghost"
+                                                         size="sm"
+                                                         className="h-6 text-xs"
+                                                         onClick={() => handleSelectSeason(saison)}
+                                                     >
+                                                         {matches.every(m => selectedMatches.includes(m.mid)) ? 'Désélectionner' : 'Sélectionner'}
+                                                     </Button>
+                                                 </div>
+                                                 <div className="space-y-2">
+                                                     {matches.map((match) => (
+                                                         <div key={match.mid} className="flex items-start space-x-3 p-2 rounded hover:bg-gray-50 transition-colors">
+                                                             <Checkbox
+                                                                 id={`match-${match.mid}`}
+                                                                 checked={selectedMatches.includes(match.mid)}
+                                                                 onCheckedChange={() => handleMatchToggle(match.mid)}
+                                                             />
+                                                             <Label
+                                                                 htmlFor={`match-${match.mid}`}
+                                                                 className="cursor-pointer flex-1 leading-tight"
+                                                             >
+                                                                 <div className="font-medium text-sm">
+                                                                     {match.nomImport || match.adversaire}
+                                                                 </div>
+                                                                 <div className="text-xs text-gray-500">
+                                                                     {new Date(match.date).toLocaleDateString('fr-FR')} -
+                                                                     <span className={match.win ? 'text-green-600' : 'text-red-600'}>
+                                                                         {match.win ? ' Victoire' : ' Défaite'}
+                                                                     </span>
+                                                                     {' '}({match.butsMis}-{match.butsEncaisses})
+                                                                 </div>
+                                                             </Label>
+                                                         </div>
+                                                     ))}
+                                                 </div>
+                                                 <Separator className="mt-3" />
+                                             </div>
+                                         ))}
 
-                                    {matchsList.length === 0 && (
-                                        <div className="text-center py-8 text-gray-500">
-                                            Aucun match disponible
-                                        </div>
-                                    )}
-                                </div>
-                            </ScrollArea>
-                        </div>
-
-                        <div className="bg-blue-50 border border-blue-200 rounded-md p-3">
-                            <p className="text-xs text-blue-800">
-                                <Calculator className="h-3 w-3 inline mr-1" />
-                                Calculs automatiques côté client
-                            </p>
-                        </div>
-                    </CardContent>
-                </Card>
-
+                                         {matchsList.length === 0 && (
+                                             <div className="text-center py-8 text-gray-500">
+                                                 Aucun match disponible
+                                             </div>
+                                         )}
+                                     </div>
+                                 </ScrollArea>
+                             </div>
+                        </CardContent>
+                    </Card>
+                </div>
                 <div className="lg:col-span-2">
                     {!calculatedData ? (
                         <Card className="h-full flex items-center justify-center">
