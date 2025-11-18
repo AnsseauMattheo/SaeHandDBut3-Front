@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import GrandEspace from "@/components/Grand-espace.jsx";
 import StatsTable from "@/components/StatsTable";
@@ -54,8 +54,6 @@ export default function StatsGenerales() {
             {/* Tableau Attaque */}
             {data.attaque && <StatsTable title="Attaque" data={data.attaque} showAttendusSaison colorHeader={"bg-blue-50"}/>}
 
-
-
             {/* Tableau Défense */}
             {data.defense && <StatsTable title="Défense" data={data.defense} showAttendusSaison colorHeader={"bg-red-50"}/>}
 
@@ -64,8 +62,6 @@ export default function StatsGenerales() {
 
             {/*Efficacité possession */}
             {data.efficaciteTotal && <StatsTable title="Efficacité possession" data={data.efficaciteTotal} showAttendusSaison colorHeader={"bg-orange-50"}/>}
-
-
         </div>
     );
 }
