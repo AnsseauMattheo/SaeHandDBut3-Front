@@ -333,8 +333,43 @@ export default function StatTir() {
                             </div>
                             <br/>
                             <br/>
-                            <p style={{ display: showData ? 'none' : 'block', textAlign: 'center' }}>Plus il y a de tir, plus le cercle est gros et rouge.</p>
-                            <p style={{ display: showData ? 'block' : 'none', textAlign: 'center' }}>Le % est la précision et la valeur en haut à droite est le nombre de tir par secteurs.</p>
+                            {/* Légende conditionnelle */}
+                            <div className="mt-2">
+                                {/* Légende Heatmap */}
+                                <div className={`${showData ? 'hidden' : 'flex'} justify-center items-center gap-3 flex-wrap`}>
+                                    <div className="flex items-center gap-1">
+                                        <span className="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+                                        <span className="text-sm">: Pas beaucoup de tirs</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="inline-block w-4 h-4 bg-orange-500 rounded-full"></span>
+                                        <span className="text-sm">: Un peu de tirs</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="inline-block w-5 h-5 bg-red-500 rounded-full"></span>
+                                        <span className="text-sm">: Beaucoup de tirs</span>
+                                    </div>
+                                </div>
+
+
+                                {/* Légende Data */}
+                                <div className={`${showData ? 'flex' : 'hidden'} justify-center items-center gap-4 flex-wrap`}>
+                                    <div className="flex items-center gap-1">
+                                        <span className="inline-flex items-center justify-center w-5 h-5 bg-blue-500 text-white text-xs font-bold rounded border-2 border-black">
+                                            %
+                                        </span>
+                                        <span className="text-sm">: Précision</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="inline-flex items-center justify-center w-5 h-5 bg-gray-500 rounded-full text-white text-[10px] font-bold border-2 border-black">
+
+                                        </span>
+                                        <span className="text-sm">: Nombre de tirs</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
 
 
                         </div>
