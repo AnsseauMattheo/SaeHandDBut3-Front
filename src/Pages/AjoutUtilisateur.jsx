@@ -266,7 +266,8 @@ export default function CreationCompte() {
                     <Button
                         type="submit"
                         disabled={load}
-                        className="w-full bg-gradient-to-r from-pink-700 to-blue-900 hover:from-pink-800 hover:to-blue-950 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200 border-white"
+                        className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200 border-white"
+
                     >
                         {load
                             ? "Création en cours..."
