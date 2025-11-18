@@ -261,7 +261,7 @@ export default function Enclenchements() {
             {/* Summary Cards + Camembert */}
             <Card className="mb-6">
                 <CardHeader>
-                    <CardTitle className="text-lg">Récapitulatif des enclenchements</CardTitle>
+                    <CardTitle className="text-lg text-primary">Récapitulatif des enclenchements</CardTitle>
                 </CardHeader>
                 <CardContent className="pt-1">
                     <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-3">
@@ -283,7 +283,7 @@ export default function Enclenchements() {
 
                             <Card className="shadow-sm">
                                 <CardContent className="flex flex-col items-center justify-center py-4">
-                                    <span className="text-4xl font-bold text-green-600">{summary.totalReussis}</span>
+                                    <span className="text-4xl font-bold text-green-500">{summary.totalReussis}</span>
                                     <span className="text-xs text-gray-500 mt-2">Actions réussies</span>
                                 </CardContent>
                             </Card>
@@ -291,7 +291,7 @@ export default function Enclenchements() {
                             <Card className="shadow-sm">
                                 <CardContent className="flex flex-col items-center justify-center py-4">
                                     <span
-                                        className="text-4xl font-bold text-blue-600">{summary.tauxMoyen.toFixed(1)}%</span>
+                                        className="text-4xl font-bold text-primary">{summary.tauxMoyen.toFixed(1)}%</span>
                                     <span className="text-xs text-gray-500 mt-2">Efficacité moyenne</span>
                                 </CardContent>
                             </Card>
@@ -343,7 +343,7 @@ export default function Enclenchements() {
             <Card className="mb-6">
                 <CardHeader>
                     <div className="flex justify-between">
-                        <CardTitle>Top 5 Enclenchements</CardTitle>
+                        <CardTitle className="text-primary">Top 5 Enclenchements</CardTitle>
                         <SortSelector/>
                     </div>
                 </CardHeader>
