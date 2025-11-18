@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import terrainVide from "../assets/DemiTerrainVide.jpg";
 import DonneTir from "./DonneeTir";
 import axios from "axios";
+import DonneArret from "@/components/DonneArret.jsx";
 
-const CarteTirs = ({ datas, appui, showData = true }) => {
+const CarteTirs = ({ datas, appui, showData = true, arret = false }) => {
 
     const totalCases = 150;
     const cols = 15;
@@ -90,6 +91,24 @@ const CarteTirs = ({ datas, appui, showData = true }) => {
                         });
 
                         if (infosecteur.length > 0) {
+                            if(arret){
+                                return (
+                                    <div
+                                        key={caseNum}
+                                        className={`row-start-${row} col-start-${col} col-span-1 flex items-center justify-center text-white rounded bg-transparent`}
+                                    >
+                                        <DonneArret
+                                            tirs={tirsTotal}
+                                            tirsReussi={tirsReussi}
+                                            totalTirs={totalTirs}
+                                            secteur={block.secteur}
+                                            reset={resetInfo}
+                                            updateReset={setResetInfo}
+                                            data={showData}
+                                        />
+                                    </div>
+                                );
+                            }
                             return (
                                 <div
                                     key={caseNum}

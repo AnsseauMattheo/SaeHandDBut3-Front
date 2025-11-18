@@ -96,13 +96,13 @@ export default function GrandEspace({ data }) {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {usePct ? (
                     <>
-                        <PercentBar title="Utilisation grand espace" color="#2563eb" dataset={geData} />
-                        <PercentBar title="Utilisation grand espace adversaire" color="#ef4444" dataset={advData} />
+                        <PercentBar title="Utilisation grand espace" color="#2563eb" dataset={geData.filter((x => !x.label?.toLowerCase().includes("total")))} />
+                        <PercentBar title="Utilisation grand espace adversaire" color="#ef4444" dataset={advData.filter((x => !x.label?.toLowerCase().includes("total")))} />
                     </>
                 ) : (
                     <>
-                        <NumberBar title="Utilisation grand espace" color="#2563eb" dataset={geData} />
-                        <NumberBar title="Utilisation grand espace adversaire" color="#ef4444" dataset={advData} />
+                        <NumberBar title="Utilisation grand espace" color="#2563eb" dataset={geData.filter((x => !x.label?.toLowerCase().includes("total")))} />
+                        <NumberBar title="Utilisation grand espace adversaire" color="#ef4444" dataset={advData.filter((x => !x.label?.toLowerCase().includes("total")))} />
                     </>
                 )}
             </div>
