@@ -21,13 +21,6 @@ export default function StatistiquesMatchMain() {
             to: `analyse-defensive`,
         },
         {
-            id: "attaque",
-            title: "",
-            description: "",
-            icon: Crosshair,
-            to: ``,
-        },
-        {
             id: "enclenchements",
             title: "Enclenchements",
             description: "Volume, réussite par enclenchement, par joueuse et par type.",
@@ -36,10 +29,10 @@ export default function StatistiquesMatchMain() {
         },
         {
             id: "gardiens",
-            title: "Gardien de but",
+            title: "Analyse gardien de but",
             description: "Arrêts, zones de tir, efficacité sur chaque secteur.",
             icon: Activity,
-            to: ``,
+            to: `analyse-gb`,
         },
     ];
 
