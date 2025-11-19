@@ -30,8 +30,14 @@ export default function DashBoard({ user, logout }) {
         "/DashBoard/joueuses": "Gestion des joueuses",
         "/Dashboard/match/:id/enclenchements": "Statistiques d'Enclenchements",
         "/Dashboard/match/:id/statsgenerales": "Statistiques Générales",
-        "/Dashboard/joueuse/:id" : "Statistique joueuse",
-        "/Dashboard/match/:id/statistiques" : "Statistiques du match"
+        "/Dashboard/joueuse/:id" : "Statistiques joueuse",
+        "/Dashboard/match/:id/statistiques" : "Statistiques du match",
+        "/Dashboard/match/:id/statistiques/generales": "Statistiques générales",
+        "/Dashboard/match/:id/statistiques/analyse-defensive": "Statistiques défensives",
+        "/Dashboard/match/:id/statistiques/enclenchements": "Statistiques enclenchements",
+        "/Dashboard/match/:id/statistiques/analyse-gb": "Statistiques gardien de but",
+        "/Dashboard/calendrier-resultat": "Calendrier et résultats",
+
     };
 
     const getPageTitle = (pathname) => {
@@ -63,7 +69,7 @@ export default function DashBoard({ user, logout }) {
 
                         <Separator orientation="vertical" className="lg:hidden mr-2 h-4" />
 
-                        <h1 className="text-base sm:text-lg font-semibold">{name}</h1>
+                        <h1 className="text-xl text-primary">{name}</h1>
                     </div>
                 </header>
 

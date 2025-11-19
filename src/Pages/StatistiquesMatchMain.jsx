@@ -38,14 +38,6 @@ export default function StatistiquesMatchMain() {
 
     return (
         <div className="max-w-6xl mx-auto p-6 space-y-6">
-            <header className="flex flex-col gap-1 border-b border-neutral-200 pb-3 mb-2">
-                <h1 className="text-2xl font-semibold text-primary">
-                    Statistiques match {matchId}
-                </h1>
-                <p className="text-sm text-neutral-500">
-                    Choisir la vue pour analyser le match en détail.
-                </p>
-            </header>
 
             {/* Grid de cartes de navigation */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

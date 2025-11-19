@@ -509,7 +509,7 @@ export default function AnalyseGB() {
                                         </h1>
                                     </div>
                                     <div className="flex-1 relative">
-                                        {carteTirsData && <CarteTirs datas={carteTirsData} appui={appui} showData={true} />}
+                                        {carteTirsData && <CarteTirs datas={carteTirsData} appui={appui} showData={true} arret={true} />}
                                     </div>
                                 </>
                             )}

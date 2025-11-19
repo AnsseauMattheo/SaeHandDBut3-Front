@@ -18,6 +18,7 @@ import AnalyseDefensive from "@/Pages/AnalyseDefensive.jsx";
 import StatistiquesMatchMain from "@/Pages/StatistiquesMatchMain.jsx";
 import AnalyseGB from "@/Pages/AnalyseGB.jsx";
 import StatsAvancees from './Pages/StatsAvancees.jsx';
+import Competition from "@/Pages/CalendrierResultat.jsx";
 
 
 
@@ -80,6 +81,7 @@ function App() {
         <Route path='joueuses' element={<Joueuses />} />
         <Route path='joueuse/:id' element={<ProfilJoueuse />} />
         <Route path="match/stats-avancees" element={<StatsAvancees />} />
+        <Route path="calendrier-resultat" element={<Competition />} />
           <Route path="match/:matchId/statistiques/enclenchements" element={<Enclenchements />} />
           <Route path="match/:matchId/statistiques/generales" element={<StatsGenerales />} />
           <Route path="match/:matchId/statistiques/analyse-defensive" element={<AnalyseDefensive />} />

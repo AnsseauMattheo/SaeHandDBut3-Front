@@ -8,6 +8,8 @@ import {
     FileUp,
     FileX,
     Users,
+    Calendar,
+    List
 } from "lucide-react"
 
 import {NavMain} from "@/components/nav-main"
@@ -42,12 +44,17 @@ const data = {
         {
             title: "Matchs importés",
             url: "/DashBoard/supImport",
-            icon: FileX,
+            icon: List,
         },
         {
             title: "Importer un match",
             url: "/DashBoard/import",
             icon: FileUp,
+        },
+        {
+            title: "Classements et résultats",
+            url: "/DashBoard/calendrier-resultat",
+            icon: Calendar,
         },
         {
             title: "Ajouter utilisateur",
