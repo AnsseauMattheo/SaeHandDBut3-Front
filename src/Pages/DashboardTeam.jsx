@@ -4,6 +4,7 @@ import StatCard from "../components/StatCard/StatCard.jsx";
 import LastMatchCard from "../components/StatCard/LastMatchCard.jsx";
 import InsightCard from '../components/StatCard/InsightCard.jsx';
 import PossessionPhaseChart from '../components/StatCard/PossessionPhaseChart.jsx';
+import PageTransition from '../components/PageTransition.jsx';
 
 export default function DashboardTeam() {
     const [lastMatches, setLastMatches] = useState([]);
@@ -53,39 +54,33 @@ export default function DashboardTeam() {
         setChartData({ categories, matches });
     };
 
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <div className="text-xl">Chargement...</div>
-            </div>
-        );
-    }
-
     return (
-        <div className="p-6 flex flex-col gap-6">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <PageTransition loading={loading} welcomeText="Bienvenue dans votre Dashboard d'équipe.">
+            <div className="p-6 flex flex-col gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-                <div className="lg:col-span-1">
-                    {lastMatches.length > 0 && <LastMatchCard matches={lastMatches} />}
-                </div>
+                    <div className="lg:col-span-1">
+                        {lastMatches.length > 0 && <LastMatchCard matches={lastMatches} />}
+                    </div>
 
-                <div className="lg:col-span-2">
-                    <StatCard className="h-full">
-                        <div className="p-4">
-                            <h3 className="text-sm font-semibold text-gray-700 text-center mb-4">
-                                Répartition des possessions par phase de jeu
-                            </h3>
-                            <div className="flex items-center justify-center">
-                                <PossessionPhaseChart chartData={chartData} />
+                    <div className="lg:col-span-2">
+                        <StatCard className="h-full">
+                            <div className="p-4">
+                                <h3 className="text-sm font-semibold text-gray-700 text-center mb-4">
+                                    Répartition des possessions par phase de jeu
+                                </h3>
+                                <div className="flex items-center justify-center">
+                                    <PossessionPhaseChart chartData={chartData} />
+                                </div>
                             </div>
-                        </div>
-                    </StatCard>
-                </div>
+                        </StatCard>
+                    </div>
 
-                <div className="lg:col-span-1">
-                    {insights.length > 0 && <InsightCard insights={insights} vertical={true} />}
+                    <div className="lg:col-span-1">
+                        {insights.length > 0 && <InsightCard insights={insights} vertical={true} />}
+                    </div>
                 </div>
             </div>
-        </div>
+        </PageTransition>
     );
 }
