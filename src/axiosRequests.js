@@ -35,31 +35,30 @@ export async function getLastMatch() {
     }
 }
 
-/**
- * Récupère les insights basés sur les 3 derniers matchs
- */
+// Récupère les insights basés sur les 3 derniers matchs
 export async function getInsights() {
-    console.log("🔍 [getInsights] Appel API...");
-    console.log("🔍 [getInsights] URL:", `${import.meta.env.VITE_SERVER_URL}/match/insights`);
-
     try {
         const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/match/insights`, {
             withCredentials: true
         });
 
-        console.log("✅ [getInsights] Réponse reçue:", response);
-        console.log("✅ [getInsights] Data:", response.data);
-        console.log("✅ [getInsights] Type:", typeof response.data);
-        console.log("✅ [getInsights] Longueur:", response.data?.length);
-
         return response.data;
 
     } catch (error) {
-        console.error("❌ [getInsights] Erreur:", error);
-        console.error("❌ [getInsights] Response:", error.response);
-        console.error("❌ [getInsights] Status:", error.response?.status);
-        console.error("❌ [getInsights] Data:", error.response?.data);
-
-        return [];  // Retourne un tableau vide en cas d'erreur
+        console.error("Erreur lors de la récupération des insights:", error);
+        // Retourne un tableau vide en cas d'erreur pour éviter les crashs
+        return [];
     }
 }
+
+
+// Récupère les stats de possessions par phase de jeu pour les 3 derniers matchs
+export const getPossessionsByPhase = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/match/possessionsByPhase`);
+        return response.data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des possessions par phase:", error);
+        throw error;
+    }
+};
