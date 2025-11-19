@@ -8,10 +8,12 @@ import {
     FileUp,
     FileX,
     Users,
+    SearchCode,
+    TrendingUp,
 } from "lucide-react"
 
-import {NavMain} from "@/components/nav-main"
-import {NavUser} from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main"
+import { NavUser } from "@/components/nav-user"
 import {
     Sidebar,
     SidebarContent,
@@ -25,7 +27,7 @@ const data = {
     navMain: [
         {
             title: "Accueil",
-            url : "/DashBoard",
+            url: "/DashBoard",
             icon: Home
         },
         {
@@ -54,25 +56,35 @@ const data = {
             url: "/DashBoard/ajout-utilisateur",
             icon: UserPlus,
         },
+        {
+            title: "Statistiques Avancées",
+            url: "/DashBoard/match/stats-avancees",
+            icon: TrendingUp,
+        },
+        {
+            title: "Comparateur",
+            url: "/DashBoard/comparateur", 
+            icon: SearchCode,
+        },
 
 
     ],
 }
 
-export function AppSidebar({user, logout, ...props}) {
+export function AppSidebar({ user, logout, ...props }) {
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
                 {/* Bouton trigger visible uniquement sur desktop (lg et plus) */}
-                <SidebarTrigger className="hidden lg:flex bg-sidebar-primary text-sidebar-primary-foreground aspect-square size-8 items-center justify-center rounded-lg"/>
+                <SidebarTrigger className="hidden lg:flex bg-sidebar-primary text-sidebar-primary-foreground aspect-square size-8 items-center justify-center rounded-lg" />
             </SidebarHeader>
             <SidebarContent>
-                <NavMain items={data.navMain}/>
+                <NavMain items={data.navMain} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser userinfo={user} logout={logout} />
             </SidebarFooter>
-            <SidebarRail/>
+            <SidebarRail />
         </Sidebar>
     );
 }
