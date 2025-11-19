@@ -38,6 +38,9 @@ function Connexion({reload}) {
 
             // 3. Après 800ms total, navigue vers le dashboard
             setTimeout(() => {
+                // Marque que l'utilisateur vient de se connecter
+                sessionStorage.setItem('justLoggedIn', 'true');
+
                 reload();
                 addSuccess("Connexion");
                 navigate("/DashBoard");

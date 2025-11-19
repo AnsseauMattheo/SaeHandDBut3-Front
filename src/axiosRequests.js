@@ -73,3 +73,15 @@ export const getZonesRanking = async () => {
         return [];
     }
 };
+
+// Récupère le top des joueuses
+export const getTopPlayers = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/match/topPlayers`);
+        return response.data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération du top joueuses:", error);
+        return [];
+    }
+};
+
