@@ -62,3 +62,14 @@ export const getPossessionsByPhase = async () => {
         throw error;
     }
 };
+
+// Récupère le classement complet des zones fortes
+export const getZonesRanking = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/match/zonesRanking`);
+        return response.data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération du classement des zones:", error);
+        return [];
+    }
+};
