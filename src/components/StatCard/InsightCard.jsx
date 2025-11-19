@@ -22,22 +22,23 @@ export default function InsightCard({ insights, vertical = false }) {
             <div className={`flex ${vertical ? 'flex-col' : 'flex-row'} gap-4`}>
                 {insights.map((insight, index) => {
                     // Vérifie si c'est la carte "Zone Forte"
-                    const isZoneFonte = insight.title && insight.title.toLowerCase().includes('zone forte');
+                    const isZoneForte = insight.title && insight.title.toLowerCase().includes('zone forte');
 
                     return (
                         <div
                             key={index}
                             onClick={() => {
                                 // Clique actif UNIQUEMENT sur "Zone Forte"
-                                if (isZoneFonte) {
+                                if (isZoneForte) {
                                     handleZoneForteClic();
                                 }
                             }}
                             className={`
                                 bg-gradient-to-br ${insight.type === 'success' ? 'from-green-400 to-green-600' : 'from-red-400 to-red-600'}
                                 text-white rounded-2xl p-6 shadow-lg 
-                                ${isZoneFonte ? 'cursor-pointer hover:scale-105 hover:shadow-xl' : ''}
+                                ${isZoneForte ? 'cursor-pointer hover:scale-105 hover:shadow-xl' : ''}
                                 transition-all duration-300
+                                relative
                             `}
                         >
                             <div className="flex flex-col gap-2">
@@ -45,6 +46,14 @@ export default function InsightCard({ insights, vertical = false }) {
                                 <p className="text-sm font-semibold uppercase">{insight.title}</p>
                                 <p className="text-xs opacity-90">{insight.message}</p>
                             </div>
+
+                            {/* Texte "Voir Détails" uniquement sur la carte cliquable */}
+                            {isZoneForte && (
+                                <div className="absolute bottom-3 right-3 flex items-center gap-1 text-xs opacity-80 hover:opacity-100 transition-opacity">
+                                    <span>Voir Détails</span>
+                                    <span>→</span>
+                                </div>
+                            )}
                         </div>
                     );
                 })}
