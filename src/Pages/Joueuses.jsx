@@ -112,11 +112,8 @@ export default function Joueuses() {
     setSelectedJoueuse(null);
     setSelectedAffectation('');
 
-    console.log(joueuses)
-
   };
 
-  console.log(joueuses)
   return (
     <div className="container mx-auto p-6">
       <div className="p-2 sm:p-3 lg:p-4">

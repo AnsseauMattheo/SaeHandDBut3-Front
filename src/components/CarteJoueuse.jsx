@@ -42,12 +42,10 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
             axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getTirs`, { withCredentials: true })
                 .then((res) => {
                     const joueuseData = res.data.find(j => j.joueuse === joueuse);
-                    console.log(joueuseData);
                     if (joueuseData) {
                         const tirs = joueuseData.tirs || [];
                         const totalReussisTemp = tirs.reduce((acc, t) => acc + (t.tirsReussi || 0), 0);
                         const totalTirsTemp = tirs.reduce((acc, t) => acc + (t.tirsTotal || 0), 0);
-
                         setDatas(tirs);
                         setTotalReussis(totalReussisTemp);
                         setTotalTirs(totalTirsTemp);
@@ -60,14 +58,9 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
                 .catch((err) => console.error("Erreur lors du chargement :", err));
 
 
-
-            console.log("passesD");
             axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getPassesD`, { withCredentials: true })
                 .then((res) => {
-                    console.log(res.data);
-                    console.log(joueuse);
                     const joueuseData = res.data.find(j => j.joueuse === joueuse);
-                    console.log(joueuseData);
                     if (joueuseData) {
                         const passeD = joueuseData.passeDList.reduce((acc, t) => acc + (t.passeD || 0), 0);
                         setpassesD(passeD);
@@ -77,17 +70,12 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
                 })
                 .catch((err) => console.log(err));
 
-            console.log("perteBalle");
             axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getPerteB`, { withCredentials: true })
                 .then((res) => {
-                    console.log(res.data);
-                    console.log(joueuse);
                     const joueuseData = res.data.find(j => j.joueuse === joueuse);
-                    console.log(joueuseData);
                     if (joueuseData) {
                         const perteB = joueuseData.perteBList.reduce((acc, t) => acc + (t.perteBalle || 0), 0);
                         setPerteBalle(perteB);
-                        console.log("perteB :", perteB);
                     } else {
                         setPerteBalle(0);
                     }
@@ -171,7 +159,7 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
             {/* Bloc stats */}
             <div className="mt-4 w-5/6 bg-yellow-100 rounded-xl p-3 shadow-inner">
                 <div className="flex justify-between text-sm font-semibold text-yellow-900">
-                    <span>Tirs :</span>
+                    <span>{affectation === "Gardienne" ? "Arrets" : "Tirs" } :</span>
                     <span>{totalTirs}</span>
                 </div>
                 <div className="flex justify-between text-sm font-semibold text-yellow-900">
