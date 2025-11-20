@@ -65,8 +65,6 @@ const DonneTir = ({ tirs, totalTirs = 0, tirsReussi = 0, secteur, reset, updateR
 
     const color = scale(tauxtirsecteur).hex();
 
-    console.log(tauxtirsecteur, secteur)
-
     return (
         <div
             className={`    

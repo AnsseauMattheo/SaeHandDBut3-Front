@@ -34,7 +34,7 @@ function App() {
             <Route
                 path="/DashBoard"
                 element={
-                    <ProtectedRoute>
+                    <ProtectedRoute >
                         <DashBoard user={user} logout={logout}/>
                     </ProtectedRoute>
                 }

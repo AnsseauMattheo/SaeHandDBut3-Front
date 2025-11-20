@@ -46,19 +46,9 @@ export function AppSidebar({ user, logout, ...props }) {
             icon: MapIcon,
         },
         {
-            title: "Classements et résultats",
-            url: "/DashBoard/calendrier-resultat",
-            icon: Calendar,
-        },
-        {
             title: "Matchs importés",
             url: "/DashBoard/supImport",
             icon: List,
-        },
-        {
-            title: "Importer un match",
-            url: "/DashBoard/import",
-            icon: FileUp,
         },
         {
             title: "Statistiques Avancées",
@@ -66,9 +56,20 @@ export function AppSidebar({ user, logout, ...props }) {
             icon: TrendingUp,
         },
         {
+            title: "Importer un match",
+            url: "/DashBoard/import",
+            icon: FileUp,
+        },
+
+        {
             title: "Comparateur",
             url: "/DashBoard/comparateur",
             icon: SearchCode,
+        },
+        {
+            title: "Classements et résultats",
+            url: "/DashBoard/calendrier-resultat",
+            icon: Calendar,
         },
         {
             title: "Ajouter utilisateur",

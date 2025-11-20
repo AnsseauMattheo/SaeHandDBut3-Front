@@ -37,6 +37,7 @@ export default function DashBoard({ user, logout }) {
         "/Dashboard/match/:id/statistiques/enclenchements": "Statistiques enclenchements",
         "/Dashboard/match/:id/statistiques/analyse-gb": "Statistiques gardien de but",
         "/Dashboard/calendrier-resultat": "Calendrier et résultats",
+        "/Dashboard/match/stats-avancees": "Statistiques avancées",
 
     };
 

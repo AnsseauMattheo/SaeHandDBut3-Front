@@ -26,7 +26,6 @@ const chartConfig = {
 };
 
 export default function GraphStats({ stats = [], titre = "Taux de réussite par match", isPercentage = false }) {
-    console.log("GraphStats data:", stats);
 
     return (
         <Card className="w-full">
