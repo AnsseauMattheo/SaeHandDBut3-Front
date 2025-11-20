@@ -35,16 +35,18 @@ function App() {
       .then((res) => {
         console.log(res.data);
         setUser(res.data);
+        if(location.pathname === "/"  || location.pathname === "/Connexion" || location.pathname === "/activation") {
+          navigate("/DashBoard");
+        }
       })
       .catch((err) => {
         console.log(err.response?.status);
         if (err.response?.status === 400) {
-          if (location.pathname !== "/Connexion") {
+          if (location.pathname !== "/Connexion" || location.pathname !== "/activation") {
             navigate("/Connexion");
             addError("Vous devez être connecté");
-          }
         }
-      });
+      }});
   };
 
   useEffect(() => {
