@@ -139,16 +139,9 @@ export default function Joueuses() {
                       <button
                         className="absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors"
                         onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}
-                      >
-                       
+                      >                                
+                      <Pencil className='w-4 h-4 text-gray-600' />
                       </button>
-                      <div className='absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors'>
-                                                     <button onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}>
-                                <Pencil className='w-4 h-4 text-gray-600' />
-                              </button>
-                      </div>
-
-
 
                       <div className="flex flex-col items-center gap-3 mb-3">
                         {tag.photo ? (

@@ -477,9 +477,7 @@ export default function StatsAvancees() {
                         Analysez les performances sur plusieurs matchs
                     </p>
                 </div>
-                <Button variant="outline" onClick={() => navigate(-1)}>
-                    Retour
-                </Button>
+
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
