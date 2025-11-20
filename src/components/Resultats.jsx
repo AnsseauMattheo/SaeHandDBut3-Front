@@ -14,7 +14,7 @@ export default function Resultats({ equipeId }) {
                     `${import.meta.env.VITE_SERVER_URL}/api/ffhandball/mon-equipe`,
                     { withCredentials: true }
                 );
-                setMatchs(data.data.matchsJoues.slice(-3).reverse());
+                setMatchs(data.data.matchsJoues.reverse());
             } catch (error) {
                 console.error('Erreur:', error);
             } finally {
@@ -48,8 +48,10 @@ export default function Resultats({ equipeId }) {
                         <div
                             key={index}
                             className={`flex items-center gap-4 p-4 rounded-lg ${
-                                match.resultat === 'Victoire' ? 'bg-green-100' :
-                                    match.resultat === 'Défaite' ? 'bg-red-100' :
+                                 match.exterieur === "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Victoire' ? 'bg-green-100' :
+                                     match.exterieur === "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Défaite' ? 'bg-red-100' :
+                                     match.exterieur !== "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Victoire' ? 'bg-red-100' :
+                                     match.exterieur !== "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Défaite' ? 'bg-green-100' :
                                         ' bg-orange-100'
                             }`}
                         >
