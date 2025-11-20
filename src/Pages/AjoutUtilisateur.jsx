@@ -8,11 +8,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAlerts } from "@/context/AlertProvider.jsx";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { QRCodeSVG } from "qrcode.react";
+import ImportPhoto from "@/components/ImportPhoto.jsx";
 
 export default function CreationCompte() {
     const { addSuccess, addError } = useAlerts();
@@ -30,8 +31,7 @@ export default function CreationCompte() {
     const [load, setLoad] = useState(false);
     const [activationLink, setActivationLink] = useState("");
 
-    console.log('joueuses:', joueuseSelectionnee);
-
+    const avatarRef = useRef(null);
 
     useEffect(() => {
         const fetchRolesAndJoueuses = async () => {
@@ -48,7 +48,6 @@ export default function CreationCompte() {
         fetchRolesAndJoueuses();
     }, []);
 
-
     useEffect(() => {
         if (!token) return;
 
@@ -62,24 +61,6 @@ export default function CreationCompte() {
                 setEmail(resData.data.email || "");
                 setRole(resData.data.roleId?.toString() || "");
                 setJoueuseSelectionnee(resData.data.joueuse || "");
-
-                const joueuseNom = resData.data.joueuse;
-                console.log(joueuseNom);
-                console.log(resRoles.data);
-
-                if (token) {
-                    // Mode activation : remplir les champs mais ne pas montrer le QR code
-                    const resData = await axios.get(
-                        `${import.meta.env.VITE_SERVER_URL}/ajout/activation-data?token=${token}`
-                    );
-                    setNom(resData.data.username || "");
-                    setEmail(resData.data.email || "");
-                    setRole(resData.data.roleId?.toString() || undefined);
-                    if (resData.data.affectationId) {
-                        setAffectation(resData.data.affectationId.toString());
-                    }
-                }
-
             } catch (err) {
                 addError("Impossible de charger les données d'activation");
                 console.error(err);
@@ -87,8 +68,7 @@ export default function CreationCompte() {
         };
 
         fetchActivationData();
-    }, [token, joueuses]);
-
+    }, [token]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -101,39 +81,47 @@ export default function CreationCompte() {
         }
 
         try {
-            if (!token) {
+            const formData = new FormData();
 
-                const formData = new FormData();
+            // Image en base64
+            const base64Image = avatarRef.current?.getBase64();
+            formData.append("imageProfilBase64", base64Image);
+
+            if (!token) {
                 if (role) formData.append("role", parseInt(role));
                 formData.append("nom", nom);
                 formData.append("email", email);
                 formData.append("password", password);
                 if (joueuseSelectionnee) formData.append("joueuse", joueuseSelectionnee);
 
-                const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/ajout/utilisateur`, formData, {
-                    withCredentials: true,
-                    headers: { "Content-Type": "multipart/form-data" },
-                });
+                const res = await axios.post(
+                    `${import.meta.env.VITE_SERVER_URL}/ajout/utilisateur`,
+                    formData,
+                    {
+                        withCredentials: true,
+                        headers: { "Content-Type": "multipart/form-data" },
+                    }
+                );
 
                 setLoad(false);
                 addSuccess("Utilisateur ajouté avec succès !");
                 addSuccess(res.data);
-
                 setActivationLink(res.data);
-
             } else {
-                const formData = new FormData();
                 formData.append("token", token);
                 formData.append("password", password);
-                const res = axios.post(`${import.meta.env.VITE_SERVER_URL}/ajout/activation`, formData, {
-                    withCredentials: true,
-                    headers: { "Content-Type": "multipart/form-data" },
-                });
+                const res = await axios.post(
+                    `${import.meta.env.VITE_SERVER_URL}/ajout/activation`,
+                    formData,
+                    {
+                        withCredentials: true,
+                        headers: { "Content-Type": "multipart/form-data" },
+                    }
+                );
                 setLoad(false);
                 addSuccess("Compte activé avec succès !");
                 console.log(res.data);
             }
-
         } catch (err) {
             setLoad(false);
             addError("Erreur lors de l'ajout de l'utilisateur");
@@ -143,7 +131,7 @@ export default function CreationCompte() {
 
     return (
         <div className="flex flex-col items-center justify-center w-full p-8">
-            <h2 className="text-4xl text-gray-800 mb-8">
+            <h2 className="text-4xl font-extrabold text-gray-800 mb-8">
                 {token ? "Activer mon compte" : "Créer un compte"}
             </h2>
 
@@ -154,11 +142,11 @@ export default function CreationCompte() {
                 <div className="flex flex-col md:flex-row md:space-x-4">
                     {/* Select Rôle */}
                     <div className="flex-1">
-                        <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="role">Rôle</Label>
+                        <Label htmlFor="role">Rôle</Label>
                         <Select
                             value={role}
                             onValueChange={setRole}
-                            disabled={!!token} // non modifiable si activation
+                            disabled={!!token}
                         >
                             <SelectTrigger>
                                 <SelectValue placeholder="-- Choisir un rôle --" />
@@ -175,7 +163,7 @@ export default function CreationCompte() {
 
                     {/* Nom utilisateur */}
                     <div className="flex-1">
-                        <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="Utilisateur">Utilisateur</Label>
+                        <Label htmlFor="Utilisateur">Utilisateur</Label>
                         <Input
                             id="Utilisateur"
                             type="text"
@@ -187,12 +175,18 @@ export default function CreationCompte() {
                 </div>
 
                 {/* Joueuse */}
-                {role && roles.find(r => r.id.toString() === role)?.role === "Joueuse" && (
+                {role && roles.find((r) => r.id.toString() === role)?.role === "Joueuse" && (
                     <div className="flex-1 mt-4">
-                        <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="joueuse">Joueuse</Label>
+                        <Label htmlFor="joueuse">Joueuse</Label>
                         <Select
                             value={joueuseSelectionnee || ""}
-                            onValueChange={val => setJoueuseSelectionnee(val)}
+                            onValueChange={(val) => {
+                                setJoueuseSelectionnee(val);
+                                // Mettre à jour le nom d'utilisateur avec le nom de la joueuse si vide
+                                if (nom === "" || !token) {
+                                    setNom(val);
+                                }
+                            }}
                             disabled={!!token}
                         >
                             <SelectTrigger>
@@ -200,7 +194,11 @@ export default function CreationCompte() {
                             </SelectTrigger>
                             <SelectContent>
                                 {joueuses.map((j) => (
-                                    <SelectItem key={j.id} value={j.nom} selected={(!token && joueuseSelectionnee === j.nom) }>
+                                    <SelectItem
+                                        key={j.id}
+                                        value={j.nom}
+                                        selected={!token && joueuseSelectionnee === j.nom}
+                                    >
                                         {j.nom}
                                     </SelectItem>
                                 ))}
@@ -209,17 +207,16 @@ export default function CreationCompte() {
                     </div>
                 )}
 
-
                 {/* Email */}
                 <div className="flex flex-col md:flex-row md:space-x-4">
                     <div className="flex-1">
-                        <Label  className="text-sm font-medium text-gray-700 py-2" htmlFor="email">Email</Label>
+                        <Label htmlFor="email">Email</Label>
                         <Input
                             id="email"
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            disabled={!!token} // non modifiable si activation
+                            disabled={!!token}
                         />
                     </div>
                 </div>
@@ -228,7 +225,7 @@ export default function CreationCompte() {
                 {token && (
                     <>
                         <div>
-                            <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="password">Mot de passe</Label>
+                            <Label htmlFor="password">Mot de passe</Label>
                             <Input
                                 id="password"
                                 type="password"
@@ -237,12 +234,11 @@ export default function CreationCompte() {
                                 placeholder="••••••••"
                                 required
                                 minLength={8}
-
                             />
                         </div>
 
                         <div>
-                            <Label className="text-sm font-medium text-gray-700 py-2" htmlFor="confirmPassword">Confirmer le mot de passe</Label>
+                            <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
                             <Input
                                 id="confirmPassword"
                                 type="password"
@@ -251,31 +247,29 @@ export default function CreationCompte() {
                                 placeholder="••••••••"
                                 required
                                 minLength={8}
-
                             />
                         </div>
                     </>
                 )}
 
+                <ImportPhoto ref={avatarRef} />
+
                 {/* Bouton */}
-                <Button
-                    type="submit"
-                    disabled={load}
-                    className="w-full bg-primary hover:primary-700 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200 border-white"
-                >
+                <Button type="submit" disabled={load} className="bg-primary">
                     {load
                         ? "Création en cours..."
                         : token
                             ? "Activer mon compte"
                             : "Créer le compte"}
                 </Button>
-
             </form>
 
             {/* QR Code et lien : uniquement si création */}
             {!token && activationLink && (
                 <div className="mt-8 flex flex-col items-center bg-white p-4 rounded-xl shadow-lg">
-                    <h3 className="text-xl font-semibold mb-4">Lien d’activation (QR Code)</h3>
+                    <h3 className="text-xl font-semibold mb-4">
+                        Lien d'activation (QR Code)
+                    </h3>
                     <QRCodeSVG value={activationLink} size={200} />
                     <p className="mt-2 text-gray-700 break-all">{activationLink}</p>
                     <Button

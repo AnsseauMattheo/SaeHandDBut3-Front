@@ -5,6 +5,7 @@ import {
     CreditCard,
     LogOut,
     Sparkles,
+    Settings,
 } from "lucide-react"
 
 import {
@@ -32,7 +33,6 @@ export function NavUser({userinfo, logout}) {
     const {isMobile} = useSidebar()
 
     const handleLogOut = () => {
-        console.log("logout1")
         logout();
     }
     if (!userinfo) {
@@ -80,12 +80,8 @@ export function NavUser({userinfo, logout}) {
                             <DropdownMenuSeparator/>
                             <DropdownMenuGroup>
                                 <DropdownMenuItem>
-                                    <BadgeCheck/>
-                                    Compte
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <Bell/>
-                                    Notifications
+                                    <Settings />
+                                    Paramètre
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>
                             <DropdownMenuSeparator/>
