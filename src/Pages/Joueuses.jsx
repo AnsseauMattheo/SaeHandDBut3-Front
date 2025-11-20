@@ -140,24 +140,12 @@ export default function Joueuses() {
                         className="absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors"
                         onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}
                       >
-                        <Ellipsis className="w-4 h-4 text-gray-600" />
+                       
                       </button>
                       <div className='absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors'>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger onClick={(e) => e.stopPropagation()}>
-                            <Ellipsis className="w-4 h-4 text-gray-600" />
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
-                            <DropdownMenuItem asChild>
-                              <Link to={`/dashboard/compte/${tag.id}`}>Compte</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <button onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}>
-                                Position
+                                                     <button onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}>
+                                <Pencil className='w-4 h-4 text-gray-600' />
                               </button>
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
                       </div>
 
 
