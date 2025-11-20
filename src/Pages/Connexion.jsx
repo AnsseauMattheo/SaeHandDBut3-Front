@@ -8,35 +8,74 @@ import { Input } from "../components/ui/input.jsx";
 import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert.jsx";
 import {AlertCircleIcon, Eye, EyeOff} from "lucide-react";
 import { useNavigate } from "react-router";
-import { AlertProvider, useAlerts } from "../context/AlertProvider.jsx";
-
+import { useAlerts } from "../context/AlertProvider.jsx";
+import TransitionOverlay from "../components/TransitionOverlay.jsx";
 
 function Connexion({reload}) {
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
-    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const { addSuccess, addError, addWarning, addInfo } = useAlerts();
+    // États pour gérer les transitions
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    const [showOverlay, setShowOverlay] = useState(false);
+
+    const navigate = useNavigate();
+    const { addSuccess } = useAlerts();
 
     const loginHandler = async (e) => {
-        e.preventDefault()
-        console.log("password :", password);
+        e.preventDefault();
         let response = await Login(email, password, setError);
-        console.log(response)
-        if (response === true) {
-            reload();
-            addSuccess("Connexion")
-            navigate("/DashBoard")
-        }
 
+        if (response === true) {
+            // 1. Commence la transition du formulaire
+            setIsTransitioning(true);
+
+            // 2. Après 400ms, affiche l'overlay noir
+            setTimeout(() => {
+                setShowOverlay(true);
+            }, 400);
+
+            // 3. Après 800ms total, navigue vers le dashboard
+            setTimeout(() => {
+                // Marque que l'utilisateur vient de se connecter
+                sessionStorage.setItem('justLoggedIn', 'true');
+
+                reload();
+                addSuccess("Connexion");
+                navigate("/DashBoard");
+            }, 1200);
+        }
     }
 
-        return (
-            <>
-                <div className={cn("flex flex-col gap-6 h-screen justify-center items-center ")}>
-                    <Card style={{ width: '350px' }}>
+    return (
+        <>
+            <div className="relative h-screen w-full overflow-hidden">
+                {/* Image de fond floutée */}
+                <div
+                    className={cn(
+                        "absolute inset-0 bg-cover bg-center blur-sm scale-110 transition-all duration-700",
+                        isTransitioning && "blur-md opacity-50"
+                    )}
+                    style={{
+                        backgroundImage: `url('https://sambre-avesnois-handball.fr/wp-content/uploads/2024/10/20241019-SAMBRE-AVESNOIS-vs-MERIGNAC-060.jpg')`,
+                    }}
+                />
+
+                {/* Overlay sombre */}
+                <div className="absolute inset-0 bg-black/40" />
+
+                {/* Contenu de la page avec animation */}
+                <div
+                    className={cn(
+                        "relative flex flex-col gap-6 h-screen justify-center items-center transition-all duration-700 ease-in-out",
+                        isTransitioning && "opacity-0 scale-90"
+                    )}
+                >
+                    <Card
+                        style={{ width: '350px' }}
+                        className="backdrop-blur-md bg-white/95 shadow-2xl"
+                    >
                         <CardHeader>
                             <CardTitle>Connexion à votre compte</CardTitle>
                             <CardDescription>
@@ -66,7 +105,7 @@ function Connexion({reload}) {
                                                 type={showPassword ? "text" : "password"}
                                                 onChange={(e) => setPassword(e.target.value)}
                                                 required
-                                                className="pr-10" // espace pour l’icône
+                                                className="pr-10"
                                                 placeholder="Mot de passe"
                                             />
                                             <button
@@ -85,26 +124,28 @@ function Connexion({reload}) {
                                             </a>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col gap-3 ">
-                                        <Button type="submit" onClick={loginHandler}>
+                                    <div className="flex flex-col gap-3">
+                                        <Button type="submit">
                                             Connexion
                                         </Button>
                                     </div>
-                                    {
-                                        error ?
-                                            <Alert variant="destructive">
-                                                <AlertCircleIcon />
-                                                <AlertTitle>Identifiant ou mot de passe incorrect !</AlertTitle>
-                                            </Alert> : ""
-                                    }
+                                    {error && (
+                                        <Alert variant="destructive">
+                                            <AlertCircleIcon />
+                                            <AlertTitle>Identifiant ou mot de passe incorrect !</AlertTitle>
+                                        </Alert>
+                                    )}
                                 </div>
                             </form>
                         </CardContent>
                     </Card>
                 </div>
-            </>
-        )
+            </div>
 
+            {/* Overlay de transition */}
+            <TransitionOverlay isActive={showOverlay} />
+        </>
+    );
 }
 
 export default Connexion;
