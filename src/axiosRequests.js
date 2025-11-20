@@ -2,8 +2,6 @@ import axios from 'axios';
 
 
 export async function Login(email, password, setError) {
-    console.log("Login called with:", email, password); // 🐞 Debug
-
     try {
         const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`,
             {
@@ -15,14 +13,11 @@ export async function Login(email, password, setError) {
                 withCredentials: true
             }
         );
-        
-        console.log("response : ", response.data);
-        return true; 
-        
+        return true;
+
     } catch (error) {
         console.error("Erreur lors de la requête : ", error.response);
-        
-        
+
         setError(true);
 
         return false; // Échec
