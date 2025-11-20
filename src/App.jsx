@@ -1,11 +1,8 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import ImportFile from './Pages/ImportFile.jsx'
-import axios from "axios";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
+import {useAuth} from './context/AuthContext.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Connexion from "./Pages/Connexion.jsx";
 import DashBoard from "./Pages/Base_Main.jsx";
-import { useAlerts } from './context/AlertProvider.jsx';
 import StatTir from "./Pages/StatTir.jsx";
 import DashboardTeam from "./Pages/DashboardTeam.jsx";
 import SupImport from "./Pages/SupImport.jsx";
@@ -19,83 +16,119 @@ import StatistiquesMatchMain from "@/Pages/StatistiquesMatchMain.jsx";
 import AnalyseGB from "@/Pages/AnalyseGB.jsx";
 import StatsAvancees from './Pages/StatsAvancees.jsx';
 import Competition from "@/Pages/CalendrierResultat.jsx";
-
-
+import ImportFile from './Pages/ImportFile.jsx';
+import Unauthorized from './Pages/Unauthorized.jsx';
 
 function App() {
-  const [user, setUser] = useState({})
+    const {user, logout} = useAuth();
 
-  const navigate = useNavigate();
+    return (
+        <Routes>
+            {/* Routes publiques */}
+            <Route path="/Connexion" element={<Connexion/>}/>
+            <Route path="/" element={<Connexion/>}/>
+            <Route path="/activation" element={<CreationCompte/>}/>
+            <Route path="/unauthorized" element={<Unauthorized/>}/>
 
-  const { addSuccess, addError } = useAlerts();
+            {/* Routes protégées */}
+            <Route
+                path="/DashBoard"
+                element={
+                    <ProtectedRoute>
+                        <DashBoard user={user} logout={logout}/>
+                    </ProtectedRoute>
+                }
+            >
+                <Route index element={<DashboardTeam/>}/>
+                <Route path="calendrier-resultat" element={<Competition/>}/>
+                <Route path='joueuses' element={<Joueuses/>}/>
+                <Route path='joueuse/:id' element={<ProfilJoueuse/>}/>
+                <Route
+                    path="StatTir"
+                    element={
+                        <ProtectedRoute>
+                            <StatTir/>
+                        </ProtectedRoute>
+                    }
+                />
 
-  const handleReload = () => {
-    axios
-      .get(`${import.meta.env.VITE_SERVER_URL}/auth/me`, { withCredentials: true })
-      .then((res) => {
-        console.log(res.data);
-        setUser(res.data);
-        if(location.pathname === "/"  || location.pathname === "/Connexion" || location.pathname === "/activation") {
-          navigate("/DashBoard");
-        }
-      })
-      .catch((err) => {
-        console.log(err.response?.status);
-        if (err.response?.status === 400) {
-          if (location.pathname !== "/Connexion" || location.pathname !== "/activation") {
-            navigate("/Connexion");
-            addError("Vous devez être connecté");
-        }
-      }});
-  };
+                {/* Routes COACH uniquement */}
 
-  useEffect(() => {
-    handleReload();
-  }, [])
-
-  const handleLogOut = () => {
-    axios
-      .delete(`${import.meta.env.VITE_SERVER_URL}/auth/logout`, { withCredentials: true })
-      .then(() => {
-        console.log("logout");
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        setUser(null);
-
-        if (location.pathname !== "/Connexion" || location.pathname !== "/activation") {
-          addSuccess("Deconnexion ! ")
-          navigate("/Connexion");
-        }
-      })
-      .catch((err) => {
-        console.error("Erreur logout:", err);
-      });
-  };
-
- return (
-    <Routes>
-      <Route path="/Connexion" element={<Connexion reload={handleReload} />} />
-      <Route path="/DashBoard" element={<DashBoard user={user} logout={handleLogOut} />}>
-        <Route index element={<DashboardTeam />} />
-        <Route path="StatTir" element={<StatTir />} />
-        <Route path="import" element={<ImportFile />} />
-        <Route path="supImport" element={<SupImport />} />
-        <Route path="ajout-utilisateur" element={<CreationCompte />} />
-        <Route path='joueuses' element={<Joueuses />} />
-        <Route path='joueuse/:id' element={<ProfilJoueuse />} />
-        <Route path="match/stats-avancees" element={<StatsAvancees />} />
-        <Route path="calendrier-resultat" element={<Competition />} />
-          <Route path="match/:matchId/statistiques/enclenchements" element={<Enclenchements />} />
-          <Route path="match/:matchId/statistiques/generales" element={<StatsGenerales />} />
-          <Route path="match/:matchId/statistiques/analyse-defensive" element={<AnalyseDefensive />} />
-          <Route path="match/:matchId/statistiques" element={<StatistiquesMatchMain />} />
-          <Route path="match/:matchId/statistiques/analyse-gb" element={<AnalyseGB />} />
-
-      </Route>
-
-      <Route path="/" element={<Connexion reload={handleReload} />} />
-      <Route path="/activation" element={<CreationCompte />} />
-    </Routes>
-  )
+                <Route
+                    path="import"
+                    element={
+                        <ProtectedRoute requiredRole="Coach">
+                            <ImportFile/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="supImport"
+                    element={
+                        <ProtectedRoute requiredRole="Coach">
+                            <SupImport/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="ajout-utilisateur"
+                    element={
+                        <ProtectedRoute requiredRole="Coach">
+                            <CreationCompte/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="match/stats-avancees"
+                    element={
+                        <ProtectedRoute requiredRole="Coach">
+                            <StatsAvancees/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="match/:matchId/statistiques/enclenchements"
+                    element={
+                        <ProtectedRoute requiredRole="Coach">
+                            <Enclenchements/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="match/:matchId/statistiques/generales"
+                    element={
+                        <ProtectedRoute requiredRole="Coach">
+                            <StatsGenerales/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="match/:matchId/statistiques/analyse-defensive"
+                    element={
+                        <ProtectedRoute requiredRole="Coach">
+                            <AnalyseDefensive/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="match/:matchId/statistiques"
+                    element={
+                        <ProtectedRoute requiredRole="Coach">
+                            <StatistiquesMatchMain/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="match/:matchId/statistiques/analyse-gb"
+                    element={
+                        <ProtectedRoute requiredRole="Coach">
+                            <AnalyseGB/>
+                        </ProtectedRoute>
+                    }
+                />
+            </Route>
+        </Routes>
+    );
 }
 
-export default App
+export default App;

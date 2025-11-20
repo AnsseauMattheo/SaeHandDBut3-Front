@@ -6,12 +6,12 @@ import {
     MapIcon,
     UserPlus,
     FileUp,
-    FileX,
     Users,
     Calendar,
     List,
     SearchCode,
     TrendingUp,
+    UserCircle,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -24,9 +24,12 @@ import {
     SidebarRail,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { useAuth } from "@/context/AuthContext"
 
-const data = {
-    navMain: [
+export function AppSidebar({ user, logout, ...props }) {
+    const { isCoach, isJoueuse } = useAuth();
+
+    const coachItems = [
         {
             title: "Accueil",
             url: "/DashBoard",
@@ -41,7 +44,11 @@ const data = {
             title: "Carte des tirs",
             url: "/DashBoard/StatTir",
             icon: MapIcon,
-            isActive: true,
+        },
+        {
+            title: "Classements et résultats",
+            url: "/DashBoard/calendrier-resultat",
+            icon: Calendar,
         },
         {
             title: "Matchs importés",
@@ -54,39 +61,66 @@ const data = {
             icon: FileUp,
         },
         {
-            title: "Classements et résultats",
-            url: "/DashBoard/calendrier-resultat",
-            icon: Calendar,
-        },
-        {
-            title: "Ajouter utilisateur",
-            url: "/DashBoard/ajout-utilisateur",
-            icon: UserPlus,
-        },
-        {
             title: "Statistiques Avancées",
             url: "/DashBoard/match/stats-avancees",
             icon: TrendingUp,
         },
         {
             title: "Comparateur",
-            url: "/DashBoard/comparateur", 
+            url: "/DashBoard/comparateur",
             icon: SearchCode,
         },
+        {
+            title: "Ajouter utilisateur",
+            url: "/DashBoard/ajout-utilisateur",
+            icon: UserPlus,
+        },
+    ];
 
+    const joueuseItems = user?.joueuse?.id ? [
+        {
+            title: "Mon Profil",
+            url: `/DashBoard/joueuse/${user.joueuse.id}`,
+            icon: UserCircle,
+        },
+        {
+            title: "Carte des tirs",
+            url: "/DashBoard/StatTir",
+            icon: MapIcon,
+        },
+        {
+            title: "Classements et résultats",
+            url: "/DashBoard/calendrier-resultat",
+            icon: Calendar,
+        },
+    ] : [
+        {
+            title: "Carte des tirs",
+            url: "/DashBoard/StatTir",
+            icon: MapIcon,
+        },
+        {
+            title: "Classements et résultats",
+            url: "/DashBoard/calendrier-resultat",
+            icon: Calendar,
+        },
+    ];
 
-    ],
-}
+    let navItems = [];
 
-export function AppSidebar({ user, logout, ...props }) {
+    if (isCoach()) {
+        navItems = coachItems;
+    } else if (isJoueuse()) {
+        navItems = joueuseItems;
+    }
+
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
-                {/* Bouton trigger visible uniquement sur desktop (lg et plus) */}
                 <SidebarTrigger className="hidden lg:flex bg-sidebar-primary text-sidebar-primary-foreground aspect-square size-8 items-center justify-center rounded-lg" />
             </SidebarHeader>
             <SidebarContent>
-                <NavMain items={data.navMain} />
+                <NavMain items={navItems} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser userinfo={user} logout={logout} />
