@@ -117,7 +117,9 @@ function Connexion({reload}) {
                                             </button>
                                         </div>
                                         <div className="flex items-center">
-                                            <a href="#" className="text-sm hover:underline">
+                                            <a
+                                                href="/ForgotPassword"
+                                            >
                                                 Mot de passe oublié ?
                                             </a>
                                         </div>

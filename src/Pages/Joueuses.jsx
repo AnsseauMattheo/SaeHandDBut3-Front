@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { Link, useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -15,8 +16,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Edit2 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Edit2, Ellipsis, Pen, Pencil } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion.jsx';
 import axios from 'axios';
 
 export default function Joueuses() {
@@ -25,13 +35,14 @@ export default function Joueuses() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedJoueuse, setSelectedJoueuse] = useState(null);
   const [selectedAffectation, setSelectedAffectation] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(selectedAffectation);
   }, [selectedAffectation]);
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/getJoueuses`, {
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/JoueusesParAffectation `, {
       withCredentials: true
     })
       .then(response => {
@@ -62,96 +73,130 @@ export default function Joueuses() {
   const handleSave = () => {
     if (!selectedJoueuse || !selectedAffectation) return;
 
-    // Mettre à jour localement
-    const updatedJoueuses = joueuses.map(j => 
-      j.id === selectedJoueuse.id 
-        ? { 
-            ...j, 
-            affectation: affectations.find(a => a.id.toString() === selectedAffectation) 
-          }
-        : j
-    );
+    if (!selectedJoueuse || !selectedAffectation) return;
+
+    const nouvelleAffectation = affectations.find(a => a.id.toString() === selectedAffectation);
+    if (!nouvelleAffectation) return;
+
+    const updatedJoueuses = { ...joueuses };
+
+    Object.keys(updatedJoueuses).forEach(affectName => {
+      updatedJoueuses[affectName] = updatedJoueuses[affectName].filter(
+        j => j.id !== selectedJoueuse.id
+      );
+    });
+
+    const joueuseModifiee = {
+      ...selectedJoueuse,
+      affectation: nouvelleAffectation
+    };
+
+    if (updatedJoueuses[nouvelleAffectation.affectation]) {
+      updatedJoueuses[nouvelleAffectation.affectation].push(joueuseModifiee);
+    } else {
+      updatedJoueuses[nouvelleAffectation.affectation] = [joueuseModifiee];
+    }
+
     setJoueuses(updatedJoueuses);
 
     axios.put(`${import.meta.env.VITE_SERVER_URL}/joueuses/${selectedJoueuse.id}/affectation`, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true,
-        affectationId: parseInt(selectedAffectation)
-      
+      affectationId: parseInt(selectedAffectation)
+    }, {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true
     })
-      .then(() => {
-        console.log('Affectation mise à jour avec succès');
-      })
-      .catch(error => {
-        console.error("Erreur lors de la mise à jour :", error);
-      });
+      .then(() => console.log('Affectation mise à jour avec succès'))
+      .catch(error => console.error("Erreur lors de la mise à jour :", error));
 
     setIsDialogOpen(false);
     setSelectedJoueuse(null);
     setSelectedAffectation('');
+
+    console.log(joueuses)
+
   };
 
+  console.log(joueuses)
   return (
     <div className="container mx-auto p-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold">Liste des Joueuses</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            {joueuses.length > 0 ? (
-              joueuses.map((joueuse) => (
-                <div
-                  key={joueuse.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-violet-100 transition-colors"
-                >
-                  <div className="flex items-center gap-4 flex-1">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => handleEdit(joueuse)}
-                      className="shrink-0"
+      <div className="p-2 sm:p-3 lg:p-4">
+        <Accordion
+          type="multiple"
+          className="w-full"
+        >
+          {Object.keys(joueuses).map((key, index) => (
+            <AccordionItem value={key} key={index}>
+              <AccordionTrigger className="text-xs sm:text-sm">{key} ({joueuses[key]?.length})</AccordionTrigger>
+              <AccordionContent className="pt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+                  {joueuses[key].map((tag) => (
+                    <div
+                      key={tag.id}
+                      onClick={() => navigate(`/dashboard/joueuse/${tag.id}`)}
+                      className="relative border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:bg-gray-50"
                     >
-                      <Edit2 className="h-4 w-4" />
-                    </Button>
-                    <div className="flex-1">
-                      <span className="font-semibold text-lg">{joueuse.nom}</span>
-                    </div>
-                    <div className="min-w-[120px] text-right">
-                      {joueuse.affectation ? (
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                          {joueuse.affectation.affectation}
-                        </span>
-                      ) : (
-                        <span className="text-gray-400 text-sm">Non affectée</span>
+
+                      <button
+                        className="absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors"
+                        onClick={(e) => { e.stopPropagation(); handleEdit(tag); }}
+                      >                                
+                      <Pencil className='w-4 h-4 text-gray-600' />
+                      </button>
+
+                      <div className="flex flex-col items-center gap-3 mb-3">
+                        {tag.photo ? (
+                          <img
+                            src={tag.photo}
+                            alt={tag.nom}
+                            className="w-20 h-20 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-2xl font-semibold">
+                            {tag.nom
+                              .split(' ')
+                              .map(n => n[0])
+                              .slice(0, 2)
+                              .join('')
+                              .toUpperCase()}
+                          </div>
+                        )}
+                      </div>
+
+
+                      <div className="text-center mb-2">
+                        <h3 className="font-semibold text-sm sm:text-base truncate">
+                          {tag.nom}
+                        </h3>
+                      </div>
+
+                      {tag.affectation && (
+                        <div className="text-center">
+                          <span className="text-xs sm:text-sm text-gray-600 line-clamp-2">
+                            {tag.affectation.affectation}
+                          </span>
+                        </div>
                       )}
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                Aucune joueuse trouvée.
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Modifier l'affectation</DialogTitle>
+            <DialogTitle>Modifier la position</DialogTitle>
             <DialogDescription>
-              Choisissez une affectation pour {selectedJoueuse?.nom}
+              Choisissez une position pour {selectedJoueuse?.nom}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
             <Select value={selectedAffectation} onValueChange={setSelectedAffectation}>
               <SelectTrigger>
-                <SelectValue placeholder="Sélectionner une affectation" />
+                <SelectValue placeholder="Sélectionner une position" />
               </SelectTrigger>
               <SelectContent>
                 {affectations.map((affectation) => (
@@ -174,4 +219,5 @@ export default function Joueuses() {
       </Dialog>
     </div>
   );
+
 }

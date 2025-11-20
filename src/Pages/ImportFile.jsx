@@ -106,7 +106,7 @@ const ImportFile = () => {
 
     return (
         <>
-            <h1 className="text-2xl font-bold mb-6 text-center text-[var(--color-primary)]">
+            <h1 className="text-4xl mb-6 text-center">
                 Importer un fichier
             </h1>
 
@@ -116,7 +116,7 @@ const ImportFile = () => {
                 bg-[var(--color-card)] shadow-lg rounded-2xl"
             >
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-[var(--color-primary)] mb-1">
+                    <label className="text-sm font-medium mb-1">
                         Nom de l'import
                     </label>
                     <input
@@ -124,7 +124,6 @@ const ImportFile = () => {
                         type="text"
                         value={nomMatch}
                         onChange={handleMatchName}
-                        value={nomMatch}
                         className="border border-[var(--color-border)]
                         bg-[var(--color-input)] text-[var(--color-foreground)] rounded-lg px-3 py-2
                         focus:outline-none focus:ring-2 focus:ring-[var(--color-ring)]"
@@ -132,7 +131,7 @@ const ImportFile = () => {
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-[var(--color-primary)] mb-1">
+                    <label className="text-sm font-medium mb-1">
                         Nom Adversaire
                     </label>
                     <input
@@ -147,7 +146,7 @@ const ImportFile = () => {
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-[var(--color-primary)] mb-1">
+                    <label className="text-sm font-medium  mb-1">
                         Date du match
                     </label>
                     <input
@@ -162,7 +161,7 @@ const ImportFile = () => {
                 </div>
 
                 <div>
-                    <label className="text-sm font-medium text-[var(--color-primary)] mb-1">
+                    <label className="text-sm font-medium mb-1">
                         Saison
                     </label>
                     <select
@@ -182,13 +181,13 @@ const ImportFile = () => {
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-[var(--color-primary)] mb-1">
+                    <label className="text-sm font-medium mb-1">
                         Fichier Excel
                     </label>
                     <input
                         required
                         type="file"
-                        accept=".xlsx,.xls"
+                        accept=".xlsx,.xls,.csv"
                         onChange={handleChangeFile}
                         className="border border-[var(--color-border)]
                         bg-[var(--color-input)] text-[var(--color-foreground)] rounded-lg px-3 py-2

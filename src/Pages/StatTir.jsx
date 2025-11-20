@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import CarteTirs from "../components/CarteTirs.jsx";
 import DonneeTir from "../components/DonneeTir.jsx";
 import axios from "axios";
 import ListComponent from "../components/ListComponent.jsx";
-import { Label } from "../components/ui/label.jsx";
-import { Switch } from "../components/ui/switch.jsx";
-import { Card, CardContent } from "../components/ui/card.jsx";
+import {Label} from "../components/ui/label.jsx";
+import {Switch} from "../components/ui/switch.jsx";
+import {Card, CardContent} from "../components/ui/card.jsx";
 import CarteJoueuse from "@/components/CarteJoueuse.jsx";
-import { Button } from "@/components/ui/button.jsx";
+import {Button} from "@/components/ui/button.jsx";
 
 
 export default function StatTir() {
@@ -53,14 +53,14 @@ export default function StatTir() {
     }
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/JoueusesParAffectation`, { withCredentials: true }).then((res) => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/JoueusesParAffectation`, {withCredentials: true}).then((res) => {
             setJoueuses(res.data)
             handleInitJoueusesSelectect(res.data)
         })
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getTirs`, { withCredentials: true }).then((res) => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getTirs`, {withCredentials: true}).then((res) => {
             setDatas(res.data)
         })
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getMathchParSaisons`, { withCredentials: true }).then((res) => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getMatchParSaisons`, {withCredentials: true}).then((res) => {
             setMatchs(res.data);
             handleInitMatchsSelectect(res.data)
         })
@@ -139,7 +139,7 @@ export default function StatTir() {
     };
 
     const handleSelectectJoueuse = (id) => {
-        const newJoueuses = { ...joueuses };
+        const newJoueuses = {...joueuses};
 
         Object.keys(newJoueuses).forEach((key) => {
             newJoueuses[key] = newJoueuses[key].map((item) => {
@@ -159,7 +159,7 @@ export default function StatTir() {
     };
 
     const handleSelectectMatch = (id) => {
-        const newMatchs = { ...matchs };
+        const newMatchs = {...matchs};
 
         Object.keys(newMatchs).forEach((key) => {
             newMatchs[key] = newMatchs[key].map((item) => {
@@ -180,7 +180,7 @@ export default function StatTir() {
 
     const handleSelectAll = (key, isJoueuse = true) => {
         if (isJoueuse) {
-            const newJoueuses = { ...joueuses };
+            const newJoueuses = {...joueuses};
             newJoueuses[key] = newJoueuses[key].map((item) => {
                 return {
                     ...item,
@@ -188,7 +188,7 @@ export default function StatTir() {
                 };
             });
 
-            const newjoueuseCategorie = { ...joueuseCategorie };
+            const newjoueuseCategorie = {...joueuseCategorie};
             newjoueuseCategorie[key] = !joueuseCategorie[key];
             setjoueuseCategorie(newjoueuseCategorie);
 
@@ -196,7 +196,7 @@ export default function StatTir() {
             const filteredData = filterDatas(newJoueuses, matchs);
             setSelectedDatas(filteredData);
         } else {
-            const newMatchs = { ...matchs };
+            const newMatchs = {...matchs};
             newMatchs[key] = newMatchs[key].map((item) => {
                 return {
                     ...item,
@@ -204,7 +204,7 @@ export default function StatTir() {
                 };
             });
 
-            const newMatchCategorie = { ...matchCategorie };
+            const newMatchCategorie = {...matchCategorie};
             newMatchCategorie[key] = !matchCategorie[key];
             setMatchCategorie(newMatchCategorie);
 
@@ -215,7 +215,7 @@ export default function StatTir() {
     }
 
     const handleClearJoueuses = () => {
-        const newJoueuses = { ...joueuses };
+        const newJoueuses = {...joueuses};
 
         Object.keys(newJoueuses).forEach((key) => {
             newJoueuses[key] = newJoueuses[key].map((item) => {
@@ -226,7 +226,7 @@ export default function StatTir() {
             });
         });
 
-        const newjoueuseCategorie = { ...joueuseCategorie };
+        const newjoueuseCategorie = {...joueuseCategorie};
         Object.keys(newjoueuseCategorie).forEach((key) => {
             newjoueuseCategorie[key] = false;
         });
@@ -238,7 +238,7 @@ export default function StatTir() {
     }
 
     const handleClearMatchs = () => {
-        const newMatchs = { ...matchs };
+        const newMatchs = {...matchs};
 
         Object.keys(newMatchs).forEach((key) => {
             newMatchs[key] = newMatchs[key].map((item) => {
@@ -249,7 +249,7 @@ export default function StatTir() {
             });
         });
 
-        const newMatchCategorie = { ...matchCategorie };
+        const newMatchCategorie = {...matchCategorie};
         Object.keys(newMatchCategorie).forEach((key) => {
             newMatchCategorie[key] = false;
         });
@@ -261,7 +261,7 @@ export default function StatTir() {
     }
 
     return (
-        <div className="flex justify-center px-2 sm:px-4 lg:px-6" >
+        <div className="flex justify-center px-2 sm:px-4 lg:px-6">
             <Card className="w-full max-w-7xl">
                 <CardContent className="p-3 sm:p-4 lg:p-6 mb-4 sm:mb-7">
                     <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6 min-h-[400px] lg:h-[600px]">
@@ -278,45 +278,100 @@ export default function StatTir() {
                                     selectAll={(key) => handleSelectAll(key, true)}
                                 />
                             </div>
-                            <Button className="mt-2 sm:mt-3 text-xs sm:text-sm w-full" onClick={handleClearJoueuses}>Clear</Button>
+                            <Button className="mt-2 sm:mt-3 text-xs sm:text-sm w-full"
+                                    onClick={handleClearJoueuses}>Clear</Button>
                         </div>
 
                         {/* Carte des tirs */}
                         <div className="flex-1 flex flex-col min-h-[400px] lg:max-w-[900px] lg:max-h-[500px]">
-                            {selectedDatas.length !== 0 && (
-                                <h1 className="text-center text-sm sm:text-base mb-2">
+                            {selectedDatas.length !== 0 ? (
+                                <h1 className="text-center text-sm sm:text-base ">
                                     {selectedDatas.length === 1
                                         ? `Joueuse : ${selectedDatas[0].joueuse}`
                                         : `${selectedDatas.length} joueuses sélectionnées`
                                     }
                                 </h1>
+                            ) : (
+                                <h1 className="text-center text-sm sm:text-base ">
+                                    Aucune joueuse sélectionnée
+                                </h1>
                             )}
                             <div className="flex-1 relative">
-                                <CarteTirs datas={selectedDatas} appui={appui} showData={showData} />
+                                <CarteTirs datas={selectedDatas} appui={appui} showData={showData}/>
                             </div>
 
-                            <div className="flex-shrink-0 mt-3 sm:mt-4 flex flex-row items-center justify-around gap-4 sm:gap-6">
-                                <div className="flex flex-col items-center space-y-2 sm:space-y-3">
+
+                            <div
+                                className="flex-shrink-0 mt-3 sm:mt-4 flex flex-row items-center justify-around gap-4 sm:gap-6">
+                                <div className="flex items-center space-x-2">
+                                    <Label htmlFor="switchAppui" className="text-xs sm:text-sm">
+                                        Suspension
+                                    </Label>
                                     <Switch
                                         id="switchAppui"
                                         checked={appui}
                                         onCheckedChange={handleAppui}
                                     />
-                                    <Label htmlFor={"switchAppui"} className="text-xs sm:text-sm">
-                                        {appui ? "Appui" : "Suspension"}
+                                    <Label htmlFor="switchAppui" className="text-xs sm:text-sm">
+                                        Appui
                                     </Label>
                                 </div>
-                                <div className="flex flex-col items-center space-y-2 sm:space-y-3">
+
+                                <div className="flex items-center space-x-2">
+                                    <Label htmlFor="switchData" className="text-xs sm:text-sm">
+                                        Heatmap
+                                    </Label>
                                     <Switch
                                         id="switchData"
                                         checked={showData}
                                         onCheckedChange={handleShowData}
                                     />
                                     <Label htmlFor={"switchData"} className="text-xs sm:text-sm">
-                                        {showData ? "Data" : "Heatmap"}
+                                        Data
                                     </Label>
                                 </div>
                             </div>
+                            <br/>
+                            <br/>
+                            {/* Légende conditionnelle */}
+                            <div className="mt-2">
+                                {/* Légende Heatmap */}
+                                <div className={`${showData ? 'hidden' : 'flex'} justify-center items-center gap-3 flex-wrap`}>
+                                    <div className="flex items-center gap-1">
+                                        <span className="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+                                        <span className="text-sm">: Pas beaucoup de tirs</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="inline-block w-4 h-4 bg-orange-500 rounded-full"></span>
+                                        <span className="text-sm">: Un peu de tirs</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="inline-block w-5 h-5 bg-red-500 rounded-full"></span>
+                                        <span className="text-sm">: Beaucoup de tirs</span>
+                                    </div>
+                                </div>
+
+
+                                {/* Légende Data */}
+                                <div className={`${showData ? 'flex' : 'hidden'} justify-center items-center gap-4 flex-wrap`}>
+                                    <div className="flex items-center gap-1">
+                                        <span className="inline-flex items-center justify-center w-5 h-5 bg-blue-500 text-white text-xs font-bold rounded border-2 border-black">
+                                            %
+                                        </span>
+                                        <span className="text-sm">: Précision</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="inline-flex items-center justify-center w-5 h-5 bg-gray-500 rounded-full text-white text-[10px] font-bold border-2 border-black">
+
+                                        </span>
+                                        <span className="text-sm">: Nombre de tirs</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
                         </div>
 
                         {/* Liste des matchs */}
@@ -332,14 +387,16 @@ export default function StatTir() {
                                     selectAll={(key) => handleSelectAll(key, false)}
                                 />
                             </div>
-                            <Button className="mt-2 sm:mt-3 text-xs sm:text-sm w-full" onClick={handleClearMatchs}>Clear</Button>
+                            <Button className="mt-2 sm:mt-3 text-xs sm:text-sm w-full"
+                                    onClick={handleClearMatchs}>Clear</Button>
                         </div>
                     </div>
                 </CardContent>
             </Card>
+            {/*}
             <div className="flex flex-col items-center w-full sm:w-40 md:w-48 relative h-full">
-                <CarteJoueuse datasJ={selectedDatas?[0]:[]} />
-            </div>
+                <CarteJoueuse joueuse={selectedDatas[0]?.joueuse} />
+            </div> */}
         </div>
     );
 }

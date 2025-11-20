@@ -11,6 +11,15 @@ import DashboardTeam from "./Pages/DashboardTeam.jsx";
 import SupImport from "./Pages/SupImport.jsx";
 import CreationCompte from './Pages/AjoutUtilisateur.jsx';
 import Joueuses from './Pages/Joueuses.jsx';
+import ProfilJoueuse from './Pages/ProfilJoueuse.jsx';
+import Enclenchements from './Pages/Enclenchements';
+import StatsGenerales from './Pages/Stats-generales.jsx';
+import AnalyseDefensive from "@/Pages/AnalyseDefensive.jsx";
+import StatistiquesMatchMain from "@/Pages/StatistiquesMatchMain.jsx";
+import AnalyseGB from "@/Pages/AnalyseGB.jsx";
+import StatsAvancees from './Pages/StatsAvancees.jsx';
+import Competition from "@/Pages/CalendrierResultat.jsx";
+
 
 
 function App() {
@@ -70,6 +79,15 @@ function App() {
         <Route path="supImport" element={<SupImport />} />
         <Route path="ajout-utilisateur" element={<CreationCompte />} />
         <Route path='joueuses' element={<Joueuses />} />
+        <Route path='joueuse/:id' element={<ProfilJoueuse />} />
+        <Route path="match/stats-avancees" element={<StatsAvancees />} />
+        <Route path="calendrier-resultat" element={<Competition />} />
+          <Route path="match/:matchId/statistiques/enclenchements" element={<Enclenchements />} />
+          <Route path="match/:matchId/statistiques/generales" element={<StatsGenerales />} />
+          <Route path="match/:matchId/statistiques/analyse-defensive" element={<AnalyseDefensive />} />
+          <Route path="match/:matchId/statistiques" element={<StatistiquesMatchMain />} />
+          <Route path="match/:matchId/statistiques/analyse-gb" element={<AnalyseGB />} />
+
       </Route>
 
       <Route path="/" element={<Connexion reload={handleReload} />} />

@@ -5,6 +5,7 @@ import {
     CreditCard,
     LogOut,
     Sparkles,
+    Settings,
 } from "lucide-react"
 
 import {
@@ -31,15 +32,14 @@ import {
 export function NavUser({userinfo, logout}) {
     const {isMobile} = useSidebar()
 
-    console.log(userinfo ? "oui" : "non")
-
     const handleLogOut = () => {
-        console.log("logout1")
         logout();
     }
-
+    if (!userinfo) {
+        return null
+    }
     const avatarFallback = userinfo.username?.split(" ").map((n) => n[0]).join("") || "U";
- 
+
     if (userinfo) {
         return (
             <SidebarMenu>
@@ -80,12 +80,8 @@ export function NavUser({userinfo, logout}) {
                             <DropdownMenuSeparator/>
                             <DropdownMenuGroup>
                                 <DropdownMenuItem>
-                                    <BadgeCheck/>
-                                    Compte
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <Bell/>
-                                    Notifications
+                                    <Settings />
+                                    Paramètre
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>
                             <DropdownMenuSeparator/>
