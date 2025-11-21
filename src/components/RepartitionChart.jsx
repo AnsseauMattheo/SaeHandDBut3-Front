@@ -130,7 +130,7 @@ export default function PhaseRepartitionChart({ data }) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle className="text-center text-xl font-bold">
+                <CardTitle className="text-center text-xl">
                     Répartition possessions par phase de jeu
                 </CardTitle>
             </CardHeader>

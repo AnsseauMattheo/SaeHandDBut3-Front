@@ -1,16 +1,15 @@
 import React, {useEffect, useState} from "react";
 import CarteTirs from "../components/CarteTirs.jsx";
-import DonneeTir from "../components/DonneeTir.jsx";
 import axios from "axios";
 import ListComponent from "../components/ListComponent.jsx";
 import {Label} from "../components/ui/label.jsx";
 import {Switch} from "../components/ui/switch.jsx";
 import {Card, CardContent} from "../components/ui/card.jsx";
-import CarteJoueuse from "@/components/CarteJoueuse.jsx";
-import {Button} from "@/components/ui/button.jsx";
-
+import {Button} from "../components/ui/button.jsx";
+import { useAuth } from "@/context/AuthContext.jsx";
 
 export default function StatTir() {
+    const { isCoach, user } = useAuth();
 
     const [datas, setDatas] = useState([]);
     const [joueuses, setJoueuses] = useState([]);
@@ -54,17 +53,43 @@ export default function StatTir() {
 
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/JoueusesParAffectation`, {withCredentials: true}).then((res) => {
-            setJoueuses(res.data)
-            handleInitJoueusesSelectect(res.data)
-        })
+            let filteredJoueuses = res.data;
+
+            if (!isCoach() && user?.joueuse) {
+                const currentJoueuseNom = user.joueuse.nom;
+                filteredJoueuses = {};
+
+                Object.keys(res.data).forEach((key) => {
+                    const joueusesDansCategorie = res.data[key].filter(
+                        j => j.nom === currentJoueuseNom
+                    );
+                    if (joueusesDansCategorie.length > 0) {
+                        filteredJoueuses[key] = joueusesDansCategorie;
+                    }
+                });
+            }
+
+            setJoueuses(filteredJoueuses);
+            handleInitJoueusesSelectect(filteredJoueuses);
+        });
+
         axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getTirs`, {withCredentials: true}).then((res) => {
-            setDatas(res.data)
-        })
+            let filteredDatas = res.data;
+
+            if (!isCoach() && user?.joueuse) {
+                filteredDatas = res.data.filter(
+                    d => d.joueuse === user.joueuse.nom
+                );
+            }
+
+            setDatas(filteredDatas);
+        });
+
         axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getMatchParSaisons`, {withCredentials: true}).then((res) => {
             setMatchs(res.data);
-            handleInitMatchsSelectect(res.data)
-        })
-    }, [])
+            handleInitMatchsSelectect(res.data);
+        });
+    }, [isCoach, user]);
 
     const getSelectedJoueuses = (joueusesObj) => {
         const selected = [];
@@ -267,7 +292,9 @@ export default function StatTir() {
                     <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6 min-h-[400px] lg:h-[600px]">
                         {/* Liste des joueuses */}
                         <div className="flex flex-col items-center w-full lg:w-40 xl:w-48 h-[300px] lg:h-full">
-                            <h1 className="mb-3 sm:mb-4 text-xs sm:text-sm leading-none font-medium text-center">Joueuses</h1>
+                            <h1 className="mb-3 sm:mb-4 text-xs sm:text-sm leading-none font-medium text-center">
+                                {isCoach() ? 'Joueuses' : 'Ma carte'}
+                            </h1>
                             <div className="flex-1 w-full overflow-y-auto">
                                 <ListComponent
                                     liste={joueuses}
@@ -293,16 +320,14 @@ export default function StatTir() {
                                 </h1>
                             ) : (
                                 <h1 className="text-center text-sm sm:text-base ">
-                                    Aucune joueuse sélectionnée
+                                    {isCoach() ? 'Aucune joueuse sélectionnée' : 'Sélectionnez votre carte'}
                                 </h1>
                             )}
                             <div className="flex-1 relative">
                                 <CarteTirs datas={selectedDatas} appui={appui} showData={showData}/>
                             </div>
 
-
-                            <div
-                                className="flex-shrink-0 mt-3 sm:mt-4 flex flex-row items-center justify-around gap-4 sm:gap-6">
+                            <div className="flex-shrink-0 mt-3 sm:mt-4 flex flex-row items-center justify-around gap-4 sm:gap-6">
                                 <div className="flex items-center space-x-2">
                                     <Label htmlFor="switchAppui" className="text-xs sm:text-sm">
                                         Suspension
@@ -333,9 +358,8 @@ export default function StatTir() {
                             </div>
                             <br/>
                             <br/>
-                            {/* Légende conditionnelle */}
+
                             <div className="mt-2">
-                                {/* Légende Heatmap */}
                                 <div className={`${showData ? 'hidden' : 'flex'} justify-center items-center gap-3 flex-wrap`}>
                                     <div className="flex items-center gap-1">
                                         <span className="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
@@ -351,8 +375,6 @@ export default function StatTir() {
                                     </div>
                                 </div>
 
-
-                                {/* Légende Data */}
                                 <div className={`${showData ? 'flex' : 'hidden'} justify-center items-center gap-4 flex-wrap`}>
                                     <div className="flex items-center gap-1">
                                         <span className="inline-flex items-center justify-center w-5 h-5 bg-blue-500 text-white text-xs font-bold rounded border-2 border-black">
@@ -362,16 +384,11 @@ export default function StatTir() {
                                     </div>
                                     <div className="flex items-center gap-1">
                                         <span className="inline-flex items-center justify-center w-5 h-5 bg-gray-500 rounded-full text-white text-[10px] font-bold border-2 border-black">
-
                                         </span>
                                         <span className="text-sm">: Nombre de tirs</span>
                                     </div>
                                 </div>
-
                             </div>
-
-
-
                         </div>
 
                         {/* Liste des matchs */}
@@ -393,10 +410,6 @@ export default function StatTir() {
                     </div>
                 </CardContent>
             </Card>
-            {/*}
-            <div className="flex flex-col items-center w-full sm:w-40 md:w-48 relative h-full">
-                <CarteJoueuse joueuse={selectedDatas[0]?.joueuse} />
-            </div> */}
         </div>
     );
 }

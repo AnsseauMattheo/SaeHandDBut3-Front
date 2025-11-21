@@ -8,24 +8,14 @@ const COLOR_ADV = "#f4e78d";
 
 const EfficaciteChart = ({ title, data, color }) => {
 
-/* <<<<<<<<<<<<<<  ✨ Windsurf Command ⭐ >>>>>>>>>>>>>>>> */
-    /**
-     * Formatter pour afficher les pourcentages.
-     * @param {number} value Valeur à formatter.
-     * @returns {string} Pourcentage formaté ou une chaîne vide si la valeur est nulle ou négative.
-     */
-/* <<<<<<<<<<  ab775173-356a-4f90-9065-44ed986821c1  >>>>>>>>>>> */
     const formatLabel = (value) => {
         return value > 0 ? `${(value * 100).toFixed(0)}%` : "";
     };
 
-    console.log(data)
-
-
     return (
         <Card>
             <CardHeader>
-                <CardTitle className="text-center text-xl font-bold">{title}</CardTitle>
+                <CardTitle className="text-center text-xl">{title}</CardTitle>
             </CardHeader>
             <CardContent>
                 <ResponsiveContainer width="100%" height={400}>
@@ -68,11 +58,9 @@ const EfficaciteChart = ({ title, data, color }) => {
 };
 
 export default function EfficacitePhases({ data }) {
-    // Données pour SAMBRE - GRAND ESPACE (notre attaque)
     const sambreData = useMemo(() => {
         if (!data) return [];
 
-        console.log("2", data)
 
         const totalAttaques = data.attaque?.find(x =>
             x.type?.toLowerCase().includes("total attaques")
@@ -103,7 +91,6 @@ export default function EfficacitePhases({ data }) {
         ];
     }, [data]);
 
-    // Données pour ADVERSAIRE - GRAND ESPACE (leur attaque)
     const advData = useMemo(() => {
         if (!data) return [];
 

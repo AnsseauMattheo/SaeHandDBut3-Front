@@ -38,7 +38,6 @@ export default function Joueuses() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(selectedAffectation);
   }, [selectedAffectation]);
 
   useEffect(() => {
@@ -105,7 +104,6 @@ export default function Joueuses() {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true
     })
-      .then(() => console.log('Affectation mise à jour avec succès'))
       .catch(error => console.error("Erreur lors de la mise à jour :", error));
 
     setIsDialogOpen(false);

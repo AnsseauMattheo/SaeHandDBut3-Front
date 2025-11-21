@@ -120,7 +120,6 @@ export default function CreationCompte() {
                 );
                 setLoad(false);
                 addSuccess("Compte activé avec succès !");
-                console.log(res.data);
             }
         } catch (err) {
             setLoad(false);
@@ -131,7 +130,7 @@ export default function CreationCompte() {
 
     return (
         <div className="flex flex-col items-center justify-center w-full p-8">
-            <h2 className="text-4xl font-extrabold text-gray-800 mb-8">
+            <h2 className="text-4xl text-gray-800 mb-8">
                 {token ? "Activer mon compte" : "Créer un compte"}
             </h2>
 

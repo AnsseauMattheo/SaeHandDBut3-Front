@@ -23,7 +23,6 @@ const ImportFile = () => {
             if (res.data.length > 0) {
                 setSaisonId(res.data[0].id);
             }
-            console.log(res.data);
         }).catch(err => {
             addError("Erreur lors du chargement des saisons");
         })
@@ -76,32 +75,27 @@ const ImportFile = () => {
             setNomMatch(nameWithoutExt);
         }
         setFile(importFile)
-        console.log("change file")
 
     }
 
     const handleMatchName = (e) => {
         const matchName = e.target.value;
         setNomMatch(matchName);
-        console.log("change name");
     }
 
     const handleAdversaireName = (e) => {
         const adversaireName = e.target.value;
         setAdversaireName(adversaireName);
-        console.log("change adversaire");
     }
 
     const handleMatchDate = (e) => {
         const matchDate = e.target.value;
         setDateMatch(matchDate);
-        console.log("change date");
     }
 
     const handleSaisonId = (e) => {
         const saisonId = e.target.value;
         setSaisonId(saisonId);
-        console.log("change saison");
     }
 
     return (

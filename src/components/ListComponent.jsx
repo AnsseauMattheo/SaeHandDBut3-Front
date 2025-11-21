@@ -9,7 +9,6 @@ const ListComponent = ({ liste = {}, nom, id, categorie, onClick, selectAll }) =
     const [hoveredId, setHoveredId] = useState(null);
 
     useEffect(() => {
-        console.log("liste", liste);
     }, [liste]);
 
     const shouldScroll = (text) => text && text.length > 15;

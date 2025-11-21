@@ -1,12 +1,95 @@
-# React + Vite
+# Application Statistiques Handball
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application web full-stack pour l'analyse statistique de matchs de handball. Permet l'import de données Excel/CSV, le calcul automatique de statistiques offensives/défensives, et la visualisation via graphiques etc.
 
-Currently, two official plugins are available:
+## Technologies
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Backend**
+- Java 21 + Spring Boot 3.5
+- PostgreSQL 16
+- Spring Security + JWT
 
-## Expanding the ESLint configuration
+**Frontend**
+- React 18 + Vite
+- TailwindCSS
+- Axios
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Installation
+
+### Prérequis
+- Java JDK 21
+- Node.js 20+
+- PostgreSQL 16+
+- Maven 3.9+
+
+### Backend
+
+Configurer src/main/resources/application.properties en indiquant les identifiants de connexion à la base de données, ex avec Exemple.properties
+
+mvn clean install
+
+run Sae501BackendApplication.java
+
+Backend : http://localhost:8080
+
+### Frontend
+
+npm install
+
+dans le .env du front -> VITE_SERVER_URL=http://localhost:8080
+
+Frontend : http://localhost:5173
+
+## Architecture
+
+
+│ React  │ Interface │ Vite 
+
+
+│ REST/JSON │ Spring Boot │ API + logique métier
+
+
+│ JPA/Hibernate
+│ PostgreSQL │ Données matchs/stats
+
+
+## Fonctionnalités
+
+- Import fichiers Excel/CSV
+- Authentification/Création de comptes pour les joueueses
+- Stats générales (grand espace...)
+- Stats sur les enclenchements
+- Stats défensives
+- Dashboard
+- Carte de tirs/arrêts
+- Page personnelle aux joueuses
+  
+## Choix techniques
+
+**Pourquoi Spring Boot ?**
+- Architecture REST robuste
+- Sécurité intégrée
+- JPA simplifie requêtes SQL
+
+**Pourquoi React + Vite ?**
+- Hot reload ultra-rapide
+- Composants modulaires réutilisables
+- Écosystème graphiques
+
+**Pourquoi PostgreSQL ?**
+- Relations complexes
+- Requêtes agrégées performantes
+- Transactions ACID pour imports massifs
+
+## Auteurs
+
+KRAJEWSKI Trystan 
+SAUTIERE Adam
+BENNADJI Rémi
+HECQUET Bastien
+DEGUELDRE DUPONT Noah
+ANSSEAU Matthéo
+LECONTE Rémy
+
+
+

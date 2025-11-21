@@ -37,7 +37,6 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
 
 
     useEffect(() => {
-        // Si aucune donnée n'est passée en props, on récupère depuis l'API
         if (datasJ === null) {
             axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getTirs`, { withCredentials: true })
                 .then((res) => {
