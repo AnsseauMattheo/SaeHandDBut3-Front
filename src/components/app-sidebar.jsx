@@ -68,7 +68,7 @@ export function AppSidebar({ user, logout, ...props }) {
             icon: GitCompare,
         },
         {
-            title: "Classements et résultats",
+            title: "Calendrier et résultats",
             url: "/DashBoard/calendrier-resultat",
             icon: Calendar,
         },
@@ -91,7 +91,7 @@ export function AppSidebar({ user, logout, ...props }) {
             icon: MapIcon,
         },
         {
-            title: "Classements et résultats",
+            title: "Calendrier et résultats",
             url: "/DashBoard/calendrier-resultat",
             icon: Calendar,
         },
@@ -102,7 +102,7 @@ export function AppSidebar({ user, logout, ...props }) {
             icon: MapIcon,
         },
         {
-            title: "Classements et résultats",
+            title: "Calendrier et résultats",
             url: "/DashBoard/calendrier-resultat",
             icon: Calendar,
         },
