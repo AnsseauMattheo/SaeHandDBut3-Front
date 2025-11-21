@@ -27,6 +27,7 @@ Application web full-stack pour l'analyse statistique de matchs de handball. Per
 Configurer src/main/resources/application.properties en indiquant les identifiants de connexion à la base de données, ex avec Exemple.properties
 
 mvn clean install
+
 run Sae501BackendApplication.java
 
 Backend : http://localhost:8080
@@ -35,24 +36,22 @@ Backend : http://localhost:8080
 
 npm install
 
-VITE_SERVER_URL=http://localhost:8080
+dans le .env du front -> VITE_SERVER_URL=http://localhost:8080
+
 Frontend : http://localhost:5173
 
 ## Architecture
 
-┌──────────────────────────────────┐
-│ React  │ Interface
-│ (Vite) │
-└───────────────┬──────────────────┘
-│ REST/JSON
-┌────────────────────────────────────┐
-│ Spring Boot │ API + logique métier
-│ + JWT │
-└────────────────┬───────────────────┘
+
+│ React  │ Interface │ Vite 
+
+
+│ REST/JSON │ Spring Boot │ API + logique métier
+
+
 │ JPA/Hibernate
-┌────────────────────────────────────┐
 │ PostgreSQL │ Données matchs/stats
-└────────────────────────────────────┘
+
 
 ## Fonctionnalités
 
