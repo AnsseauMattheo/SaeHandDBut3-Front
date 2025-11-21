@@ -1,50 +1,67 @@
 import React, {useState} from "react";
+import { useAuth } from "../context/AuthContext.jsx";
 import { Login } from '../axiosRequests.js';
 import { Button } from "../components/ui/button.jsx";
 import { cn } from "../lib/utils.js";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card.jsx";
 import { Label } from "../components/ui/label.jsx";
 import { Input } from "../components/ui/input.jsx";
-import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert.jsx";
+import { Alert, AlertTitle } from "../components/ui/alert.jsx";
 import {AlertCircleIcon, Eye, EyeOff} from "lucide-react";
 import { useNavigate } from "react-router";
 import { useAlerts } from "../context/AlertProvider.jsx";
 import TransitionOverlay from "../components/TransitionOverlay.jsx";
 
-function Connexion({reload}) {
+function Connexion() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    // États pour gérer les transitions
+
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
 
     const navigate = useNavigate();
-    const { addSuccess } = useAlerts();
+    const { addSuccess, addError } = useAlerts();
+    const { fetchUserInfo } = useAuth();
 
     const loginHandler = async (e) => {
         e.preventDefault();
-        let response = await Login(email, password, setError);
+        setError(false);
+        setLoading(true);
 
-        if (response === true) {
-            // 1. Commence la transition du formulaire
-            setIsTransitioning(true);
+        try {
+            const success = await Login(email, password, setError);
 
-            // 2. Après 400ms, affiche l'overlay noir
-            setTimeout(() => {
-                setShowOverlay(true);
-            }, 400);
+            if (success) {
+                const userData = await fetchUserInfo();
 
-            // 3. Après 800ms total, navigue vers le dashboard
-            setTimeout(() => {
-                // Marque que l'utilisateur vient de se connecter
-                sessionStorage.setItem('justLoggedIn', 'true');
+                setIsTransitioning(true);
 
-                reload();
-                addSuccess("Connexion");
-                navigate("/DashBoard");
-            }, 1200);
+                setTimeout(() => {
+                    setShowOverlay(true);
+                }, 0);
+
+                setTimeout(() => {
+                    sessionStorage.setItem('justLoggedIn', 'true');
+                    addSuccess("Connexion réussie");
+
+                    if (userData?.role?.role === 'Joueuse' && userData?.joueuse?.id) {
+                        navigate(`/DashBoard/joueuse/${userData.joueuse.id}`);
+                    } else {
+                        navigate("/DashBoard");
+                    }
+                }, 0);
+            } else {
+                setError(true);
+                setLoading(false);
+            }
+        } catch (err) {
+            console.error(err);
+            setError(true);
+            addError("Erreur lors de la connexion");
+            setLoading(false);
         }
     }
 
@@ -54,8 +71,8 @@ function Connexion({reload}) {
                 {/* Image de fond floutée */}
                 <div
                     className={cn(
-                        "absolute inset-0 bg-cover bg-center blur-sm scale-110 transition-all duration-700",
-                        isTransitioning && "blur-md opacity-50"
+                        "absolute inset-0 bg-cover bg-center blur-xs scale-110 transition-all duration-700",
+                        isTransitioning && "blur-md opacity-20"
                     )}
                     style={{
                         backgroundImage: `url('https://sambre-avesnois-handball.fr/wp-content/uploads/2024/10/20241019-SAMBRE-AVESNOIS-vs-MERIGNAC-060.jpg')`,
@@ -92,7 +109,9 @@ function Connexion({reload}) {
                                             type="email"
                                             placeholder="mail@example.com"
                                             required
+                                            value={email}
                                             onChange={(e) => setEmail(e.target.value)}
+                                            disabled={loading}
                                         />
                                     </div>
                                     <div className="grid gap-3">
@@ -104,29 +123,30 @@ function Connexion({reload}) {
                                                 id="password"
                                                 type={showPassword ? "text" : "password"}
                                                 onChange={(e) => setPassword(e.target.value)}
+                                                value={password}
                                                 required
                                                 className="pr-10"
                                                 placeholder="Mot de passe"
+                                                disabled={loading}
                                             />
                                             <button
                                                 type="button"
                                                 onClick={() => setShowPassword(!showPassword)}
                                                 className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
+                                                disabled={loading}
                                             >
                                                 {showPassword ? <EyeOff className="h-5 w-5 text-gray-500" /> : <Eye className="h-5 w-5 text-gray-500" />}
                                             </button>
                                         </div>
                                         <div className="flex items-center">
-                                            <a
-                                                href="/ForgotPassword"
-                                            >
+                                            <a href="/ForgotPassword">
                                                 Mot de passe oublié ?
                                             </a>
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-3">
-                                        <Button type="submit">
-                                            Connexion
+                                        <Button type="submit" disabled={loading}>
+                                            {loading ? "Connexion..." : "Connexion"}
                                         </Button>
                                     </div>
                                     {error && (

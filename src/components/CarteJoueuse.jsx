@@ -37,12 +37,10 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
 
 
     useEffect(() => {
-        // Si aucune donnée n'est passée en props, on récupère depuis l'API
         if (datasJ === null) {
             axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getTirs`, { withCredentials: true })
                 .then((res) => {
                     const joueuseData = res.data.find(j => j.joueuse === joueuse);
-                    console.log(joueuseData);
                     if (joueuseData) {
                         const tirs = joueuseData.tirs || [];
                         const totalReussisTemp = tirs.reduce((acc, t) => acc + (t.tirsReussi || 0), 0);
@@ -59,15 +57,9 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
                 })
                 .catch((err) => console.error("Erreur lors du chargement :", err));
 
-
-
-            console.log("passesD");
             axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getPassesD`, { withCredentials: true })
                 .then((res) => {
-                    console.log(res.data);
-                    console.log(joueuse);
                     const joueuseData = res.data.find(j => j.joueuse === joueuse);
-                    console.log(joueuseData);
                     if (joueuseData) {
                         const passeD = joueuseData.passeDList.reduce((acc, t) => acc + (t.passeD || 0), 0);
                         setpassesD(passeD);
@@ -77,17 +69,12 @@ const CarteJoueuse = ({ datasJ = null, joueuse = null, affectation = null }) => 
                 })
                 .catch((err) => console.log(err));
 
-            console.log("perteBalle");
             axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getPerteB`, { withCredentials: true })
                 .then((res) => {
-                    console.log(res.data);
-                    console.log(joueuse);
                     const joueuseData = res.data.find(j => j.joueuse === joueuse);
-                    console.log(joueuseData);
                     if (joueuseData) {
                         const perteB = joueuseData.perteBList.reduce((acc, t) => acc + (t.perteBalle || 0), 0);
                         setPerteBalle(perteB);
-                        console.log("perteB :", perteB);
                     } else {
                         setPerteBalle(0);
                     }

@@ -38,7 +38,6 @@ export default function Joueuses() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(selectedAffectation);
   }, [selectedAffectation]);
 
   useEffect(() => {
@@ -105,18 +104,13 @@ export default function Joueuses() {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true
     })
-      .then(() => console.log('Affectation mise à jour avec succès'))
       .catch(error => console.error("Erreur lors de la mise à jour :", error));
 
     setIsDialogOpen(false);
     setSelectedJoueuse(null);
     setSelectedAffectation('');
-
-    console.log(joueuses)
-
   };
 
-  console.log(joueuses)
   return (
     <div className="container mx-auto p-6">
       <div className="p-2 sm:p-3 lg:p-4">

@@ -18,7 +18,6 @@ const ProfilJoueuse = () => {
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/joueuse/${id}`, { withCredentials: true })
       .then((res) => {
-        console.log(res.data);
         setJoueuse(res.data);
       })
       .catch((err) => {
@@ -27,7 +26,6 @@ const ProfilJoueuse = () => {
 
     axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getJoueuse/${id}`, { withCredentials: true })
       .then((res) => {
-        console.log("datas", res.data);
         setDatas(res.data);
       })
       .catch((err) => {
@@ -36,7 +34,6 @@ const ProfilJoueuse = () => {
 
     axios.get(`${import.meta.env.VITE_SERVER_URL}/joueuses/dataParAffectation`, { withCredentials: true })
       .then((res) => {
-        console.log("evalueData", res.data);
         setEvalueData(res.data);
       })
       .catch((err) => {
@@ -45,7 +42,6 @@ const ProfilJoueuse = () => {
 
     axios.get(`${import.meta.env.VITE_SERVER_URL}/data/getJoueuseDef/${id}`, { withCredentials: true })
       .then((res) => {
-        console.log("defStats", res.data);
         setDefStats(res.data);
       })
       .catch((err) => {
@@ -53,8 +49,6 @@ const ProfilJoueuse = () => {
       });
 
   }, [id]);
-
-  console.log("Profil de la joueuse avec l'ID :", id);
 
 
   return (

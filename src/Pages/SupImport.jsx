@@ -21,14 +21,11 @@ const SupImport = () => {
     const [selectedMatch, setSelectedMatch] = useState(null);
 
     useEffect(() => {
-        // Appel de la nouvelle route backend qui retourne les matchs groupés par saison
         axios.get(`${import.meta.env.VITE_SERVER_URL}/match/getMatchParSaisons`, {
             withCredentials: true
         }).then((res) => {
-            console.log("Matchs par saison:", res.data);
             setMatchsParSaison(res.data);
         }).catch(err => {
-            console.error("Erreur lors du chargement des matchs:", err);
             addError("Erreur lors du chargement des matchs");
         });
     }, []);
@@ -81,14 +78,7 @@ const SupImport = () => {
     return (
         <div className="flex-1 w-full overflow-y-auto p-4 sm:p-6">
             <div className="max-w-7xl mx-auto">
-                <div className="mb-6">
-                    <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900">
-                        Matchs importés
-                    </h2>
-                    <p className="text-sm text-gray-500 mt-1">
-                        {totalMatches} match{totalMatches > 1 ? 's' : ''} au total
-                    </p>
-                </div>
+
 
                 {totalMatches > 0 ? (
                     <Accordion

@@ -66,7 +66,6 @@ export function ParametreDialog({ isOpen, onClose }) {
             }
         )
             .then((response) => {
-                console.log("Saison ajoutée:", response.data);
                 addSuccess('Saison ajoutée avec succès');
                 setNomSaison('');
                 onClose();

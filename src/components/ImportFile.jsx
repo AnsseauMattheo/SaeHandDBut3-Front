@@ -16,14 +16,12 @@ const ImportFile = () => {
             withCredentials: true,
             headers: { "Content-Type": "multipart/form-data" }
         }).then((res) => {
-            console.log(res)
         })
     }
 
     const handleChangeFile = (e) => {
         const importFile = e.target.files[0];
         setFile(importFile)
-        console.log("change")
     }
 
     return (

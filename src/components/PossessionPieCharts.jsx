@@ -1,14 +1,12 @@
-// PossessionPieCharts.jsx
 import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 
 const COLORS = {
-    ap: "#4A90E2",    // Bleu
-    ge: "#F5A623",    // Orange
+    ap: "#4A90E2",
+    ge: "#F5A623",
 };
 
-// Fonction pour afficher les pourcentages sur les segments
 const renderLabel = ({ percent }) => {
     return `${(percent * 100).toFixed(1)}%`;
 };
@@ -53,7 +51,6 @@ const PieChartCard = ({ title, data, colors }) => {
 };
 
 export default function PossessionPieCharts({ data }) {
-    // Données SAMBRE
     const sambreData = useMemo(() => {
         if (!data) return [];
 
@@ -71,7 +68,6 @@ export default function PossessionPieCharts({ data }) {
         ];
     }, [data]);
 
-    // Données ADVERSAIRE
     const advData = useMemo(() => {
         if (!data) return [];
 
@@ -101,12 +97,12 @@ export default function PossessionPieCharts({ data }) {
         <div className="space-y-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <PieChartCard
-                    title="UTILISATION DU BALLON"
+                    title="Utilisation du ballon"
                     data={sambreData}
                     colors={[COLORS.ap, COLORS.ge]}
                 />
                 <PieChartCard
-                    title="UTILISATION DU BALLON DE L'ADVERSAIRE"
+                    title="Utilisation du ballon de l'adversaire"
                     data={advData}
                     colors={[COLORS.ap, COLORS.ge]}
                 />

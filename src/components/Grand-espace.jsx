@@ -87,7 +87,6 @@ export default function GrandEspace({ data }) {
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold">Grand Espace</h2>
                 <div className="flex items-center gap-2 text-sm">
                     <button className={`px-2 py-1 rounded ${!usePct ? "bg-blue-600 text-white" : "bg-gray-100"}`} onClick={() => setMode("nb")}>Ballons</button>
                     <button className={`px-2 py-1 rounded ${usePct ? "bg-blue-600 text-white" : "bg-gray-100"}`} onClick={() => setMode("pct")}>% Phases</button>

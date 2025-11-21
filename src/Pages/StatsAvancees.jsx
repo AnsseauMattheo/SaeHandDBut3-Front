@@ -35,7 +35,6 @@ export default function StatsAvancees() {
                 return r.json();
             })
             .then(data => {
-                console.log("Données reçues:", data);
                 setMatchsData(data);
                 setError(null);
             })
@@ -467,20 +466,6 @@ export default function StatsAvancees() {
 
     return (
         <div className="p-4 space-y-6">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold flex items-center gap-2">
-                        <TrendingUp className="h-8 w-8" />
-                        Statistiques Avancées
-                    </h1>
-                    <p className="text-gray-500 mt-1">
-                        Analysez les performances sur plusieurs matchs
-                    </p>
-                </div>
-                <Button variant="outline" onClick={() => navigate(-1)}>
-                    Retour
-                </Button>
-            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-1 lg:sticky lg:top-24 self-start">

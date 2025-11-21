@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-export async function Login(email, password, setError) {
-    console.log("Login called with:", email, password);
 
+export async function Login(email, password, setError) {
     try {
         const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`,
             {
@@ -14,28 +13,27 @@ export async function Login(email, password, setError) {
                 withCredentials: true
             }
         );
-
-        console.log("response : ", response.data);
         return true;
 
     } catch (error) {
         console.error("Erreur lors de la requête : ", error.response);
+
         setError(true);
-        return false;
+
+        return false; // Échec
     }
 }
 
 export async function getLastMatch() {
-    try {
+    try{
         const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/match/lastMatch`);
         return response.data;
-    } catch (error) {
+    }catch(error){
         console.error("Erreur lors de la requête : ", error.response);
         return false;
     }
 }
 
-// Récupère les insights basés sur les 3 derniers matchs
 export async function getInsights() {
     try {
         const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/match/insights`, {
@@ -52,7 +50,6 @@ export async function getInsights() {
 }
 
 
-// Récupère les stats de possessions par phase de jeu pour les 3 derniers matchs
 export const getPossessionsByPhase = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/match/possessionsByPhase`);
@@ -63,7 +60,6 @@ export const getPossessionsByPhase = async () => {
     }
 };
 
-// Récupère le classement complet des zones fortes
 export const getZonesRanking = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/match/zonesRanking`);
@@ -74,7 +70,6 @@ export const getZonesRanking = async () => {
     }
 };
 
-// Récupère le top des joueuses
 export const getTopPlayers = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/match/topPlayers`);
@@ -84,4 +79,3 @@ export const getTopPlayers = async () => {
         return [];
     }
 };
-

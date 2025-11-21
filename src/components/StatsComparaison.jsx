@@ -31,8 +31,8 @@ export default function StatsComparaison({ statsEquipe, statsAdversaire }) {
     <Card className="rounded-2xl shadow p-0 overflow-hidden">
       <table className="w-full text-center border-collapse">
         <thead>
-          <tr className="bg-gray-100 font-bold text-lg">
-            <th className="border p-2"></th>
+          <tr className="bg-gray-100 text-lg">
+            <th className="border p-2">Comparaisons des stats clés</th>
             <th className="border p-2">Sambre</th>
             <th className="border p-2">ADV</th>
           </tr>
@@ -48,9 +48,9 @@ export default function StatsComparaison({ statsEquipe, statsAdversaire }) {
 
             return (
               <tr key={row.key} className="text-md">
-                <td className="border p-2 font-semibold bg-gray-50 text-left pl-4">{row.label}</td>
+                <td className="border p-2 bg-gray-50 text-left pl-4">{row.label}</td>
 
-                <td className={`border p-2 font-bold ${bgEq}`}>
+                <td className={`border p-2  ${bgEq}`}>
                   {isPercent ? `${eq}%` : eq}
                   {eq > adv ? (
                     <ArrowUp className="w-4 h-4 text-green-600 inline ml-2" />
@@ -59,7 +59,7 @@ export default function StatsComparaison({ statsEquipe, statsAdversaire }) {
                   ) : null}
                 </td>
 
-                <td className={`border p-2 font-bold ${bgAdv}`}>
+                <td className={`border p-2  ${bgAdv}`}>
                   {isPercent ? `${adv}%` : adv}
                   {adv > eq ? (
                     <ArrowUp className="w-4 h-4 text-green-600 inline ml-2" />
