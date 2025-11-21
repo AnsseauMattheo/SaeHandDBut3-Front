@@ -17,10 +17,35 @@ export function ParametreDialog({ isOpen, onClose }) {
     const { addSuccess, addError } = useAlerts();
     const [nomSaison, setNomSaison] = useState('');
     const [loading, setLoading] = useState(false);
+    const validateSaison = (value) => {
+        const regex = /^(\d{4})-(\d{4})$/;
+        const match = value.match(regex);
+
+        if (!match) {
+            return { valid: false, message: "Format invalide. Utilisez YYYY-YYYY (ex: 2026-2027)" };
+        }
+
+        const annee1 = parseInt(match[1]);
+        const annee2 = parseInt(match[2]);
+
+        if (annee2 !== annee1 + 1) {
+            return { valid: false, message: "La différence doit être exactement d'1 an (ex: 2026-2027)" };
+        }
+
+        return { valid: true };
+    };
+
 
     const handleSave = () => {
         if (!nomSaison) {
             addError("Veuillez entrer un nom de saison");
+            return;
+        }
+
+        // Valider le format (APRÈS la vérification que nomSaison n'est pas vide)
+        const validation = validateSaison(nomSaison);
+        if (!validation.valid) {
+            addError(validation.message);
             return;
         }
 
@@ -56,6 +81,7 @@ export function ParametreDialog({ isOpen, onClose }) {
             });
     };
 
+
     const handleClose = () => {
         setNomSaison('');
         onClose();
@@ -67,7 +93,7 @@ export function ParametreDialog({ isOpen, onClose }) {
                 <DialogHeader>
                     <DialogTitle>Ajouter une nouvelle saison</DialogTitle>
                     <DialogDescription>
-                        Entrez le nom de la saison au format YYYY-YYYY+1 (ex: 2027-2028)
+                        Entrez le nom de la saison au format YYYY-YYYY avec une différence d'exactement 1 an (ex: 2026-2027)
                     </DialogDescription>
                 </DialogHeader>
                 <div className="py-4">
