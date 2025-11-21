@@ -12,6 +12,7 @@ import {
     SearchCode,
     TrendingUp,
     UserCircle,
+    GitCompare,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -64,7 +65,7 @@ export function AppSidebar({ user, logout, ...props }) {
         {
             title: "Comparateur",
             url: "/DashBoard/comparateur",
-            icon: SearchCode,
+            icon: GitCompare,
         },
         {
             title: "Classements et résultats",

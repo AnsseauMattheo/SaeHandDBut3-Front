@@ -18,6 +18,7 @@ import StatsAvancees from './Pages/StatsAvancees.jsx';
 import Competition from "@/Pages/CalendrierResultat.jsx";
 import ImportFile from './Pages/ImportFile.jsx';
 import Unauthorized from './Pages/Unauthorized.jsx';
+import ComparaisonMatchs from "./Pages/ComparaisonMatchs.jsx";
 
 function App() {
     const {user, logout} = useAuth();
@@ -85,6 +86,12 @@ function App() {
                             <StatsAvancees/>
                         </ProtectedRoute>
                     }
+                />
+                <Route path="comparateur"
+                    element={
+                        <ProtectedRoute requiredRole="Coach">
+                            <ComparaisonMatchs/>
+                        </ProtectedRoute>}
                 />
                 <Route
                     path="match/:matchId/statistiques/enclenchements"
