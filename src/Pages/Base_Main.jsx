@@ -23,11 +23,11 @@ export default function DashBoard({ user, logout }) {
 
     const pageTitles = {
         "/DashBoard": "Tableau de bord",
-        "/DashBoard/StatTir": "Statistiques de tir",
-        "/DashBoard/import": "Import de fichiers",
+        "/DashBoard/StatTir": "Carte des tirs",
+        "/DashBoard/import": "Importer un match",
         "/DashBoard/supImport": "Matchs importés",
-        "/DashBoard/ajout-utilisateur": "Création de compte",
-        "/DashBoard/joueuses": "Gestion des joueuses",
+        "/DashBoard/ajout-utilisateur": "Ajouter utilisateur",
+        "/DashBoard/joueuses": "Joueuses",
         "/Dashboard/match/:id/enclenchements": "Statistiques d'Enclenchements",
         "/Dashboard/match/:id/statsgenerales": "Statistiques Générales",
         "/Dashboard/joueuse/:id" : "Statistiques joueuse",

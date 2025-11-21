@@ -41,19 +41,19 @@ export default function Classement() {
                     Classement
                 </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-0 sm:p-6">
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead>
                         <tr className="border-b-2 border-neutral-200">
-                            <th className="text-center p-3 text-sm font-semibold text-neutral-700 w-16">Pos</th>
-                            <th className="text-left p-3 text-sm font-semibold text-neutral-700 min-w-[200px]">Équipe</th>
-                            <th className="text-center p-3 text-sm font-semibold text-neutral-700 w-16">Pts</th>
-                            <th className="text-center p-3 text-sm font-semibold text-neutral-700 w-12">J</th>
-                            <th className="text-center p-3 text-sm font-semibold text-neutral-700 w-12">G</th>
-                            <th className="text-center p-3 text-sm font-semibold text-neutral-700 w-12">N</th>
-                            <th className="text-center p-3 text-sm font-semibold text-neutral-700 w-12">P</th>
-                            <th className="text-center p-3 text-sm font-semibold text-neutral-700 w-20">+/-</th>
+                            <th className="text-center p-2 sm:p-3 text-xs sm:text-sm font-semibold text-neutral-700">Pos</th>
+                            <th className="text-left p-2 sm:p-3 text-xs sm:text-sm font-semibold text-neutral-700 min-w-[120px] sm:min-w-[200px]">Équipe</th>
+                            <th className="text-center p-2 sm:p-3 text-xs sm:text-sm font-semibold text-neutral-700">Pts</th>
+                            <th className="text-center p-2 sm:p-3 text-xs sm:text-sm font-semibold text-neutral-700 hidden sm:table-cell">J</th>
+                            <th className="text-center p-2 sm:p-3 text-xs sm:text-sm font-semibold text-neutral-700 hidden md:table-cell">G</th>
+                            <th className="text-center p-2 sm:p-3 text-xs sm:text-sm font-semibold text-neutral-700 hidden md:table-cell">N</th>
+                            <th className="text-center p-2 sm:p-3 text-xs sm:text-sm font-semibold text-neutral-700 hidden md:table-cell">P</th>
+                            <th className="text-center p-2 sm:p-3 text-xs sm:text-sm font-semibold text-neutral-700">+/-</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -63,8 +63,8 @@ export default function Classement() {
                                 className="border-b border-neutral-100 hover:bg-neutral-50 transition-colors"
                             >
                                 {/* Position */}
-                                <td className="p-3 text-center">
-                                    <div className={`inline-flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm ${
+                                <td className="p-2 sm:p-3 text-center">
+                                    <div className={`inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full font-bold text-xs sm:text-sm ${
                                         equipe.position <= 3 ? 'bg-green-100 text-green-800' :
                                             equipe.position >= 12 ? 'bg-red-100 text-red-800' :
                                                 'bg-neutral-100 text-neutral-800'
@@ -74,56 +74,53 @@ export default function Classement() {
                                 </td>
 
                                 {/* Logo + Nom équipe */}
-                                <td className="p-3">
-                                    <div className="flex items-center gap-3">
+                                <td className="p-2 sm:p-3">
+                                    <div className="flex items-center gap-2 sm:gap-3">
                                         {equipe.logo && (
                                             <img
                                                 src={equipe.logo}
                                                 alt={equipe.equipe}
-                                                className="w-8 h-8 object-contain shrink-0"
+                                                className="w-6 h-6 sm:w-8 sm:h-8 object-contain shrink-0"
                                             />
                                         )}
-                                        <span className="font-semibold text-sm">{equipe.equipe}</span>
-
+                                        <span className="font-semibold text-xs sm:text-sm truncate">{equipe.equipe}</span>
                                     </div>
                                 </td>
 
                                 {/* Points */}
-                                <td className="p-3 text-center">
-                                    <span className="font-bold text-primary text-base">{equipe.points}</span>
+                                <td className="p-2 sm:p-3 text-center">
+                                    <span className="font-bold text-primary text-sm sm:text-base">{equipe.points}</span>
                                 </td>
 
                                 {/* Joués */}
-                                <td className="p-3 text-center text-neutral-700">
+                                <td className="p-2 sm:p-3 text-center text-neutral-700 text-xs sm:text-sm hidden sm:table-cell">
                                     {equipe.joues}
                                 </td>
 
                                 {/* Gagnés */}
-                                <td className="p-3 text-center">
-                                    <span className="text-green-600 font-semibold">{equipe.gagnes}</span>
+                                <td className="p-2 sm:p-3 text-center hidden md:table-cell">
+                                    <span className="text-green-600 font-semibold text-xs sm:text-sm">{equipe.gagnes}</span>
                                 </td>
 
                                 {/* Nuls */}
-                                <td className="p-3 text-center">
-                                    <span className="text-orange-500">{equipe.nuls}</span>
+                                <td className="p-2 sm:p-3 text-center hidden md:table-cell">
+                                    <span className="text-orange-500 text-xs sm:text-sm">{equipe.nuls}</span>
                                 </td>
 
                                 {/* Perdus */}
-                                <td className="p-3 text-center">
-                                    <span className="text-red-600">{equipe.perdus}</span>
+                                <td className="p-2 sm:p-3 text-center hidden md:table-cell">
+                                    <span className="text-red-600 text-xs sm:text-sm">{equipe.perdus}</span>
                                 </td>
 
                                 {/* Différence */}
-                                <td className="p-3 text-center">
-                                    <div className="flex items-center justify-center gap-1">
-                                        <span className={`font-semibold ${
-                                            equipe.diff > 0 ? 'text-green-600' :
-                                                equipe.diff < 0 ? 'text-red-600' :
-                                                    'text-neutral-600'
-                                        }`}>
-                                                {equipe.diff > 0 ? '+' : ''}{equipe.diff}
-                                            </span>
-                                    </div>
+                                <td className="p-2 sm:p-3 text-center">
+                        <span className={`font-semibold text-xs sm:text-sm ${
+                            equipe.diff > 0 ? 'text-green-600' :
+                                equipe.diff < 0 ? 'text-red-600' :
+                                    'text-neutral-600'
+                        }`}>
+                            {equipe.diff > 0 ? '+' : ''}{equipe.diff}
+                        </span>
                                 </td>
                             </tr>
                         ))}
@@ -131,6 +128,7 @@ export default function Classement() {
                     </table>
                 </div>
             </CardContent>
+
         </Card>
     );
 }

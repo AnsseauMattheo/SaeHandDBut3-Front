@@ -47,29 +47,28 @@ export default function Resultats({ equipeId }) {
                     matchs.map((match, index) => (
                         <div
                             key={index}
-                            className={`flex items-center gap-4 p-4 rounded-lg ${
-                                 match.exterieur === "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Victoire' ? 'bg-green-100' :
-                                     match.exterieur === "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Défaite' ? 'bg-red-100' :
-                                     match.exterieur !== "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Victoire' ? 'bg-red-100' :
-                                     match.exterieur !== "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Défaite' ? 'bg-green-100' :
-                                        ' bg-orange-100'
+                            className={`flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-4 rounded-lg ${
+                                match.exterieur === "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Victoire' ? 'bg-green-100' :
+                                    match.exterieur === "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Défaite' ? 'bg-red-100' :
+                                        match.exterieur !== "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Victoire' ? 'bg-red-100' :
+                                            match.exterieur !== "SAMBRE AVESNOIS HANDBALL" && match.resultat === 'Défaite' ? 'bg-green-100' :
+                                                'bg-orange-100'
                             }`}
                         >
-
                             {/* Match au centre */}
-                            <div className="flex items-center gap-3 flex-1">
-                                <p className="font-semibold text-sm flex-1 text-right truncate">{match.domicile}</p>
-                                <div className="flex items-center gap-2 px-3 py-1 bg-white rounded-lg shadow-sm">
-                                    <span className="text-xl font-bold">{match.scoreDomicile}</span>
+                            <div className="flex items-center gap-2 sm:gap-3 flex-1 w-full">
+                                <p className="font-semibold text-xs sm:text-sm flex-1 text-right truncate">{match.domicile}</p>
+                                <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 bg-white rounded-lg shadow-sm">
+                                    <span className="text-lg sm:text-xl font-bold">{match.scoreDomicile}</span>
                                     <span className="text-neutral-400">-</span>
-                                    <span className="text-xl font-bold">{match.scoreExterieur}</span>
+                                    <span className="text-lg sm:text-xl font-bold">{match.scoreExterieur}</span>
                                 </div>
-                                <p className="font-semibold text-sm flex-1 text-left truncate">{match.exterieur}</p>
+                                <p className="font-semibold text-xs sm:text-sm flex-1 text-left truncate">{match.exterieur}</p>
                             </div>
 
                             {/* Date à droite */}
                             {match.dateSimple && (
-                                <div className="flex items-center gap-1 text-xs text-neutral-500 min-w-[80px] justify-end">
+                                <div className="flex items-center gap-1 text-xs text-neutral-500 sm:min-w-[80px] sm:justify-end w-full sm:w-auto justify-start">
                                     <Calendar className="w-3 h-3" />
                                     {new Date(match.dateSimple).toLocaleDateString('fr-FR', {
                                         day: 'numeric',
@@ -78,6 +77,7 @@ export default function Resultats({ equipeId }) {
                                 </div>
                             )}
                         </div>
+
                     ))
                 )}
             </CardContent>
