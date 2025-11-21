@@ -1,14 +1,13 @@
 import axios from "axios";
-import { Car } from "lucide-react";
-import { use, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import {Car} from "lucide-react";
+import {use, useEffect, useState} from "react";
+import {useParams} from "react-router";
 import CarteJoueuse from "../components/CarteJoueuse";
 import GraphStats from "../components/GraphStats";
 import RadarStats from "@/components/RadarStats.jsx";
 import GraphStatsDef from "../components/GraphStatsDef";
 
 const ProfilJoueuse = () => {
-
   const { id } = useParams();
   const [joueuse, setJoueuse] = useState(null);
   const [datas, setDatas] = useState(null);
@@ -69,41 +68,46 @@ const ProfilJoueuse = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <GraphStats
-              stats={datas.tauxTirsReussis}
-              titre="Taux de tirs réussis"
-            />
 
-            <GraphStats
-              stats={datas.tirsReussis}
-              titre="Tirs réussis"
-            />
+                        <GraphStats
+                            stats={datas.tirsTotal}
+                            titre={joueuse.affectation.affectation.affectation === "Gardienne" ? "Taux de tirs réussis" : "Taux de arrets réussis"}
+                        />
 
-            <GraphStats
-              stats={datas.tirsTotal}
-              titre="Tirs total"
-            />
+                        <GraphStats
+                            stats={datas.tirsTotal}
+                            titre={joueuse.affectation.affectation.affectation === "Gardienne" ? "Tirs réussis" : "Arrets réussis"}
+                        />
 
-            <GraphStats
-              stats={datas.passeD}
-              titre="Passes décisives"
-            />
-            <GraphStats
-              stats={datas.perteBalle}
-              titre="Pertes de balle"
-            />
+                        <GraphStats
+                            stats={datas.tirsTotal}
+                            titre={joueuse.affectation.affectation.affectation === "Gardienne" ? "Tirs total" : "Arrets total"}
+                        />
 
-            <GraphStatsDef
-              defStats={defStats.defPlus}
-              titre="Statistiques Défensives Plus"
-            />
+                        <GraphStats
+                            stats={datas.passeD}
+                            titre="Passes décisives"
+                        />
+                        <GraphStats
+                            stats={datas.perteBalle}
+                            titre="Pertes de balle"
+                        />
 
-            <GraphStatsDef
-              defStats={defStats.defMoins}
-              titre="Statistiques Défensives Moins"
-            />
+                        {joueuse.affectation.affectation.affectation === "Gardienne" ?
+                            <GraphStatsDef
+                                defStats={defStats.defPlus}
+                                titre="Statistiques Défensives Plus"
+                            />
+                            : ""}
 
-          </div>
+                        {joueuse.affectation.affectation.affectation === "Gardienne" ?
+                            <GraphStatsDef
+                                defStats={defStats.defMoins}
+                                titre="Statistiques Défensives Moins"
+                            />
+                            : ""}
+
+                    </div>
         </>
       )}
     </div>

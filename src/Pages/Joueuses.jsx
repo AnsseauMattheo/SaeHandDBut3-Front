@@ -109,6 +109,7 @@ export default function Joueuses() {
     setIsDialogOpen(false);
     setSelectedJoueuse(null);
     setSelectedAffectation('');
+
   };
 
   return (
